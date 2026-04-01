@@ -148,12 +148,6 @@ function my_template_acf_mataboxes(){
                 'return_format' => 'id',  // 'id' || 'url'
                 'preview_size' => 'full',
             ),
-            array(
-                'key' => 'logo_info',
-                'label' => 'Описание логотипа',
-                'name' => 'logo_info',
-                'type' => 'text',
-            ),
             // ------------------------------- tab_header_scripts
             array (
                 'key' => 'tab_header_scripts',
@@ -199,24 +193,11 @@ function my_template_acf_mataboxes(){
                 'return_format' => 'id',  // 'id' || 'url'
                 'preview_size' => 'full',
             ),
-            array(
-                'key' => 'footer_info',
-                'label' => 'Описание логотипа',
-                'name' => 'footer_info',
-                'type' => 'text',
-            ),
             // ------------------------------- tab_footer_scripts
             array (
                 'key' => 'tab_footer_scripts',
                 'label' => 'Скрипты', 
                 'type' => 'tab',
-            ),
-            array(
-                'key' => 'footer_scripts',
-                'label' => 'Скрипты перед закрывающим тегом <b>/BODY</b>',
-                'name' => 'footer_scripts',
-                'type' => 'textarea',
-                'rows'  => 20,
             ),
         ),
         'location' => array(
@@ -309,6 +290,78 @@ function my_template_acf_mataboxes(){
     ));
     // END GLOBAL CONTENT
     // ---------------------------------------------------------
+
+    // BEGIN firstscreen section
+    acf_add_local_field_group(array(
+        'key' => 'acf_firstscreen_settings',
+        'title' => 'Настройки главного слайдера',
+        'fields' => array(
+            array(
+                'key' => 'firstscreen_boolean',
+                'label' => 'Отображать блок?',
+                'name' => 'firstscreen_boolean',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+                'ui_on_text' => 'Да',
+                'ui_off_text' => 'Нет',
+            ),
+            array(
+                'key' => 'list_firstscreen',
+                'label' => 'Слайды',
+                'name' => 'list_firstscreen',
+                'type' => 'repeater',
+                'layout' => 'row',  // 'block' || 'row' || 'table'
+                'button_label' => 'Добавить',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'firstscreen_title',
+                        'label' => 'Заголовок',
+                        'name' => 'firstscreen_title',
+                        'type' => 'text',
+                        'placeholder' => 'Добавьте тег <br> для переноса строки',
+                    ),
+                    array(
+                        'key' => 'firstscreen_desc',
+                        'label' => 'Описание',
+                        'name' => 'firstscreen_desc',
+                        'type' => 'textarea',
+                        'rows' => 1,
+                    ),
+                    array(
+                        'key' => 'firstscreen_link',
+                        'label' => 'Ссылка',
+                        'name' => 'firstscreen_link',
+                        'type' => 'link',
+                        'return_format' => 'array',  // 'array' || 'url'
+                    ),
+                    array(
+                        'key' => 'firstscreen_img_id',
+                        'label' => 'Изображение',
+                        'name' => 'firstscreen_img_id',
+                        'type' => 'image',
+                        'return_format' => 'id',  // 'id' || 'url' || 'array'
+                        'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                        'instructions' => 'Рекомендуемое разрешение изображения не более 1440/640px.',
+                        'required' => 1,
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'template-homepage.php',
+                )
+            ),
+        ),
+        'menu_order' => 1,
+    ));
+    // END firstscreen section
+    // ---------------------------------------------------------
+
     // BEGIN test section
     acf_add_local_field_group(array(
         'key' => 'acf_test_settings',
@@ -357,6 +410,13 @@ function my_template_acf_mataboxes(){
                 'instructions' => 'Рекомендуемое разрешение изображения не более 230/350px.',
             ),
             array(
+                'key' => 'test_link',
+                'label' => 'Ссылка',
+                'name' => 'test_link',
+                'type' => 'link',
+                'return_format' => 'array',  // 'array' || 'url'
+            ),
+            array(
                 'key' => 'list_test',
                 'label' => 'Список',
                 'name' => 'list_test',
@@ -383,15 +443,15 @@ function my_template_acf_mataboxes(){
                     'value' => 'template-homepage.php',
                 )
             ),
-            array(
-                array(
-                    'param' => 'page_template',
-                    'operator' => '==',
-                    'value' => 'template-contacts.php',
-                ),
-            ),
+            // array(
+            //     array(
+            //         'param' => 'page_template',
+            //         'operator' => '==',
+            //         'value' => 'template-contacts.php',
+            //     ),
+            // ),
         ),
-        'menu_order' => 1,
+        'menu_order' => 100,
     ));
     // END test section
     // ---------------------------------------------------------

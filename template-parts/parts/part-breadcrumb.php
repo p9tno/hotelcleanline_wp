@@ -6,10 +6,16 @@
     !is_page_template(['template-quiz.php'])
 
     ) { ?>
-    <!-- begin breadcrumbs-->
-    <div class="breadcrumbs">
-        <?php kama_breadcrumbs(''); ?>
-    </div>
-    <!-- end breadcrumbs -->
+
+        <!-- begin breadcrumbs -->
+        <section id="breadcrumbs" class="breadcrumbs section">
+            <div class="container_center">
+                <div class="breadcrumbs__content">
+                    <?php kama_breadcrumbs(''); ?>
+                </div>
+            </div>
+        </section>
+        <!-- end breadcrumbs -->
+
     <?php } ?>
     

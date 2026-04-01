@@ -50,7 +50,7 @@ body {
 	}
 
 	&:first-child {
-		padding-top: 3.25em;
+		padding-top: 4em;
 		@media (min-width: 768px) {
 			padding-top: 7.25em;
 		}
@@ -141,9 +141,75 @@ body {
 			&:last-child {
 				margin-bottom: 0;
 			}
-
-		
 		}
+
+		a {
+			position: relative;
+			text-decoration: none;
+			color: $color_primary;
+
+			&:after {
+				content: '';
+				position: absolute;
+				display: inline-block;
+				width: 100%;
+				left: 0;
+				bottom: -0.0625em;
+				border-bottom: 1px solid;
+				border-color: inherit;
+
+				@media (min-width: 768px) {
+					transition: width 0.3s;
+				}
+			}
+
+			@media (min-width: 768px) {
+				&:hover {
+					&:after {
+						width: 65%;
+					}
+				}
+			}
+			
+		}
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			font-family: $main_font_family;
+			font-size: 1.25em;
+			font-weight: 400;
+			letter-spacing: 0.03334em;
+			@media (min-width: 768px) {
+				font-size: 1.5em;
+			}
+
+		}
+
+		ol,ul {
+			padding-left: 1.5em;
+		}
+
+		.wp-block-quote {
+			background: $color_white;
+			padding: 1em;
+			border-left: 0.125em solid $color_primary;
+			border-radius: 0.625em;
+			box-shadow: 0 2px 4px -2px rgba($color_primary, 0.125);
+
+			> * {
+				&:first-child {
+					margin-top: 0;
+				}
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+
 	}
 }
 

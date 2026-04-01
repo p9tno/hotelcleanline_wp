@@ -10,6 +10,8 @@
 
 <?php // echo get_template_directory_uri() . '/assets.' ?>
 
+<?php // echo wp_get_attachment_image(the_field('test'), 'full'); ?>
+
 
 
 <?php if (get_field('test')) { ?>
@@ -63,7 +65,7 @@ if( $rows ) { ?>
 
 <?php
 
-// get_template_part( 'template-parts/sections/section', 'firstscreen' );
+get_template_part( 'template-parts/sections/section', 'firstscreen' );
 // get_template_part( 'template-parts/sections/section', 'topCategories' );
 // get_template_part( 'template-parts/sections/section', 'partners' );
 // get_template_part( 'template-parts/sections/section', 'homeProducts' );

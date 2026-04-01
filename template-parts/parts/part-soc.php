@@ -1,19 +1,5 @@
-<ul class="soc list">
-    <?php if (get_field('instagram', 'option')) { ?>  
-        <li class="soc__item">
-            <a class="soc__link" href="<?php echo esc_attr( get_field('instagram', 'option') ); ?>" target="_blank"><i class="soc__icon icon_instagram"></i></a>
-        </li>
-    <?php } ?>
-
-    <?php if (get_field('youtube', 'option')) { ?>  
-        <li class="soc__item">
-            <a class="soc__link" href="<?php echo esc_attr( get_field('youtube', 'option') ); ?>" target="_blank"><i class="soc__icon icon_youtube"></i></a>
-        </li>
-    <?php } ?>
-
-    <?php if (get_field('twitter', 'option')) { ?>  
-        <li class="soc__item">
-            <a class="soc__link" href="<?php echo esc_attr( get_field('twitter', 'option') ); ?>" target="_blank"><i class="soc__icon icon_twitter"></i></a>
-        </li>
-    <?php } ?>
-</ul>
+<div class="soc">
+    <div class="soc__link"><i class="soc__icon icon_facebook"></i><a class="soc__label facebook" href="#">facebook</a></div>
+    <div class="soc__link"><i class="soc__icon icon_instagram"></i><a class="soc__label instagram" href="#">instagram</a></div>
+    <div class="soc__link"><i class="soc__icon icon_youtube"></i><a class="soc__label youtube" href="#">youtube</a></div>
+</div>

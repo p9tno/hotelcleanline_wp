@@ -2,21 +2,21 @@
 	padding-bottom: 0;
 
 	.kama_breadcrumbs {
+		font-size: 0.75em;
+		@media (min-width: 768px) {
+		  font-size: 1em;
+		}
+		
 		a {
 			text-decoration: none;
 		}
 
 		a,
 		span {
-			color: #B3B3B3;
+			color: $color_primary;
 		}
 
 		span {
-			// font-size: 0.6em;
-			@media (min-width: 768px) {
-				// font-size: 0.875em;
-			}
-
 			> a {
 				> span {
 					font-size: 1em;
@@ -31,18 +31,17 @@
 
 			width: 0.3125em;
 			height: 0.3125em;
-			background-color: $color_warning;
+			background-color: $color_primary;
+			border-radius: 100%;
 			font-size: 0.6em;
 			@media (min-width: 768px) {
 				font-size: 1em;
-
 			}
 
 		}
 
 		.kb_title {
 			color: $main_color;
-			font-weight: 600;
 		}
 
 	}

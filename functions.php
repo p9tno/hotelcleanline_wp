@@ -113,7 +113,7 @@ function remove_menus() {
 require get_template_directory() . '/inc/disable-verification.php';
 require get_template_directory() . '/inc/utilities.php';
 require get_template_directory() . '/inc/acf-options.php';
-// require get_template_directory() . '/inc/breadcrumb.php';
+require get_template_directory() . '/inc/breadcrumb.php';
 // require get_template_directory() . '/inc/post-type.php';
 // require get_template_directory() . '/inc/filter.php';
 
