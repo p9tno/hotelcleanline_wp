@@ -1,176 +1,199 @@
 $(document).ready(function() {
-
+    
+    // Функция для безопасного получения элемента
+    function safeGetElement(selector, context = document) {
+        if (!context) return null;
+        return context.querySelector(selector);
+    }
+    
+    // Функция для безопасной инициализации Swiper
+    function initSwiper(containerSelector, config) {
+        const container = document.querySelector(containerSelector);
+        if (!container) {
+            console.warn(`Swiper container "${containerSelector}" not found on the page`);
+            return null;
+        }
+        
+        try {
+            return new Swiper(containerSelector, config);
+        } catch (error) {
+            console.error(`Error initializing Swiper "${containerSelector}":`, error);
+            return null;
+        }
+    }
+    
+    // 1. Firstscreen Swiper
     const firstscreenContainer = document.querySelector('.firstscreen');
-    const firstscreen = new Swiper('.firstscreen_swiper_js', {
-        slidesPerView: 1,
-        spaceBetween: 0,
-        speed: 1500,
-        loop: true,
-        effect: "fade",
-        fadeEffect: {
-            crossFade: true,
-        },
-        autoplay: {
-          delay: 6000,
-        },
-        simulateTouch: false,
-
-        navigation: {
-            nextEl: firstscreenContainer.querySelector('.icon_arrow_right_sm'),
-            prevEl: firstscreenContainer.querySelector('.icon_arrow_left_sm'),
-        },
-        pagination: {
-            el: firstscreenContainer.querySelector('.swiper-pagination'),
-            clickable: true,
-        },
-    });
-
+    if (firstscreenContainer) {
+        initSwiper('.firstscreen_swiper_js', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            speed: 1500,
+            loop: true,
+            effect: "fade",
+            fadeEffect: {
+                crossFade: true,
+            },
+            autoplay: {
+                delay: 6000,
+            },
+            simulateTouch: false,
+            navigation: {
+                nextEl: safeGetElement('.icon_arrow_right_sm', firstscreenContainer),
+                prevEl: safeGetElement('.icon_arrow_left_sm', firstscreenContainer),
+            },
+            pagination: {
+                el: safeGetElement('.swiper-pagination', firstscreenContainer),
+                clickable: true,
+            },
+        });
+    } else {
+        console.warn('Firstscreen container not found');
+    }
+    
+    // 2. Media Swiper
     let speed = 3000;
     let delay = 8000;
-
+    
     const mediaContainer = document.querySelector('.media');
-    const media = new Swiper('.media_swiper_js', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        speed: speed,
-        loop: false,
-        autoplay: {
-            delay: delay,
-        },
-        
-        navigation: {
-            nextEl: mediaContainer.querySelector('.icon_arrow_right_sm'),
-            prevEl: '.icon_arrow_left_sm',
-        },
-        pagination: {
-            el: mediaContainer.querySelector('.swiper-pagination'),
-            clickable: true,
-        },
-        
-        breakpoints: {
-            768: {
-                spaceBetween: 24,
-                slidesPerView: 2,
-                simulateTouch: false,
+    if (mediaContainer) {
+        initSwiper('.media_swiper_js', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            speed: speed,
+            loop: false,
+            autoplay: {
+                delay: delay,
             },
-
-        }
-    });
-
+            navigation: {
+                nextEl: safeGetElement('.icon_arrow_right_sm', mediaContainer),
+                prevEl: '.icon_arrow_left_sm',
+            },
+            pagination: {
+                el: safeGetElement('.swiper-pagination', mediaContainer),
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    spaceBetween: 24,
+                    slidesPerView: 2,
+                    simulateTouch: false,
+                },
+            }
+        });
+    } else {
+        console.warn('Media container not found');
+    }
+    
+    // 3. Partners Swiper
     const partnersContainer = document.querySelector('.partners');
-    const partners = new Swiper('.partners_swiper_js', {
-        slidesPerView: 2,
-        spaceBetween: 6,
-        speed: speed,
-        loop: false,
-        autoplay: {
-            delay: delay,
-        },
-        
-        navigation: {
-            nextEl: partnersContainer.querySelector('.icon_arrow_right_sm'),
-            prevEl: partnersContainer.querySelector('.icon_arrow_left_sm'),
-        },
-
-        pagination: {
-            el: partnersContainer.querySelector('.swiper-pagination'),
-            clickable: true,
-        },
-        
-        breakpoints: {
-            768: {
-                spaceBetween: 40,
-                slidesPerView: 4,
-                simulateTouch: false,
+    if (partnersContainer) {
+        initSwiper('.partners_swiper_js', {
+            slidesPerView: 2,
+            spaceBetween: 6,
+            speed: speed,
+            loop: false,
+            autoplay: {
+                delay: delay,
             },
-
-        }
-    });
-
+            navigation: {
+                nextEl: safeGetElement('.icon_arrow_right_sm', partnersContainer),
+                prevEl: safeGetElement('.icon_arrow_left_sm', partnersContainer),
+            },
+            pagination: {
+                el: safeGetElement('.swiper-pagination', partnersContainer),
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    spaceBetween: 40,
+                    slidesPerView: 4,
+                    simulateTouch: false,
+                },
+            }
+        });
+    } else {
+        console.warn('Partners container not found');
+    }
+    
+    // 4. Banner Swiper
     const bannerContainer = document.querySelector('.banner');
-    const banner = new Swiper('.banner_swiper_js', {
-        slidesPerView: 1,
-        spaceBetween: 0,
-        speed: speed,
-        loop: false,
-        autoplay: {
-            delay: delay,
-        },
-
-        effect: "creative",
-        creativeEffect: {
-            prev: {
-                shadow: true,
-                translate: [0, 0, -400],
+    if (bannerContainer) {
+        initSwiper('.banner_swiper_js', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            speed: speed,
+            loop: false,
+            autoplay: {
+                delay: delay,
             },
-            next: {
-                translate: ["100%", 0, 0],
+            effect: "creative",
+            creativeEffect: {
+                prev: {
+                    shadow: true,
+                    translate: [0, 0, -400],
+                },
+                next: {
+                    translate: ["100%", 0, 0],
+                },
             },
-        },
-        
-        navigation: {
-            nextEl: bannerContainer.querySelector('.icon_arrow_right_sm'),
-            prevEl: bannerContainer.querySelector('.icon_arrow_left_sm'),
-        },
-
-        pagination: {
-            el: bannerContainer.querySelector('.swiper-pagination'),
-            clickable: true,
-        },
-        
-        breakpoints: {
-            768: {
-                simulateTouch: false,
+            navigation: {
+                nextEl: safeGetElement('.icon_arrow_right_sm', bannerContainer),
+                prevEl: safeGetElement('.icon_arrow_left_sm', bannerContainer),
             },
-
-        }
-    });
-
-    const hscroll = new Swiper('.hscroll_swiper_js', {
-        slidesPerView: 1,
-        spaceBetween: 6,
-        speed: 40000,
-        loop: true,
-        autoplay: {
-            delay: 0,
-            disableOnInteraction: false,
-            waitForTransition: false,
-        },
-        allowTouchMove: false,
-        simulateTouch: false,
-        watchSlidesProgress: true,
-        updateOnWindowResize: true,
-        observer: true,
-        observeParents: true,
-
-        breakpoints: {
-            768: {
-                spaceBetween: 16,
-                slidesPerView: 1,
+            pagination: {
+                el: safeGetElement('.swiper-pagination', bannerContainer),
+                clickable: true,
             },
-
-        },
-        
-        on: {
-            init: function() {
-                // console.log('Swiper initialized');
-                this.autoplay.start();
+            breakpoints: {
+                768: {
+                    simulateTouch: false,
+                },
+            }
+        });
+    } else {
+        console.warn('Banner container not found');
+    }
+    
+    // 5. Hscroll Swiper (без родительского контейнера)
+    const hscrollContainer = document.querySelector('.hscroll_swiper_js');
+    if (hscrollContainer) {
+        initSwiper('.hscroll_swiper_js', {
+            slidesPerView: 1,
+            spaceBetween: 6,
+            speed: 40000,
+            loop: true,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false,
+                waitForTransition: false,
             },
-            transitionStart: function() {
-                // console.log('Transition STARTED');
+            allowTouchMove: false,
+            simulateTouch: false,
+            watchSlidesProgress: true,
+            updateOnWindowResize: true,
+            observer: true,
+            observeParents: true,
+            breakpoints: {
+                768: {
+                    spaceBetween: 16,
+                    slidesPerView: 1,
+                },
             },
-            transitionEnd: function() {
-                // console.log('Transition ENDED - restarting autoplay');
-                // КРИТИЧЕСКИ ВАЖНО: принудительно перезапускаем
-                this.autoplay.stop();
-                this.autoplay.start();
-            },
-            // autoplayStop: function() {
-            //     console.log('Autoplay STOPPED - restarting');
-            //     setTimeout(() => {
-            //         this.autoplay.start();
-            //     }, 100);
-            // }
-        }
-    });
+            on: {
+                init: function() {
+                    console.log('Hscroll Swiper initialized');
+                    this.autoplay.start();
+                },
+                transitionEnd: function() {
+                    // Перезапускаем автоплей после завершения перехода
+                    this.autoplay.stop();
+                    this.autoplay.start();
+                },
+            }
+        });
+    } else {
+        console.warn('Hscroll Swiper container not found');
+    }
+    
 });

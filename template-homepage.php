@@ -63,12 +63,14 @@ if( $rows ) { ?>
 
 <?php
 
-// get_template_part( 'template-parts/homepage/section', 'firstscreen' );
-// get_template_part( 'template-parts/homepage/section', 'digitalLab' );
-// get_template_part( 'template-parts/homepage/section', 'neuro' );
-// get_template_part( 'template-parts/homepage/section', 'practical' );
-// get_template_part( 'template-parts/homepage/section', 'robotics' );
-// get_template_part( 'template-parts/homepage/section', 'footerScroll' );
+// get_template_part( 'template-parts/sections/section', 'firstscreen' );
+// get_template_part( 'template-parts/sections/section', 'topCategories' );
+// get_template_part( 'template-parts/sections/section', 'partners' );
+// get_template_part( 'template-parts/sections/section', 'homeProducts' );
+// get_template_part( 'template-parts/sections/section', 'media' );
+// get_template_part( 'template-parts/sections/section', 'hscroll' );
+// get_template_part( 'template-parts/sections/section', 'banner' );
+
 
 ?>
 
