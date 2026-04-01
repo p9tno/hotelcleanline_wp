@@ -1,0 +1,334 @@
+<?php
+/**
+ * Вспомогательные функции темы
+ * 
+ * @package MyTheme
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+if (!function_exists('get_pr')) {
+    /**
+     * Debug функция для красивого вывода переменных через print_r
+     * 
+     * Удобный инструмент для отладки, который форматирует вывод переменных
+     * в читаемом виде с тегами <pre> для браузера
+     */
+    function get_pr($var, $die = false) {
+        // Открываем pre-тег для форматированного вывода
+        echo '<pre style="
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #333;
+            overflow: auto;
+            max-height: 100vh;
+        ">';
+        
+        // Выводим содержимое переменной
+        print_r($var);
+        
+        echo '</pre>';
+        
+        // Останавливаем выполнение если требуется
+        if ($die) {
+            die('<div style="color: #d00; padding: 10px; background: #fee; border: 1px solid #d00; margin: 10px 0;">Script terminated by get_pr()</div>');
+        }
+    }
+}
+
+
+/**
+ * Убираем префиксы у архивных заголовков
+ */
+add_filter('get_the_archive_title', 'my_theme_archive_title_filter');
+function my_theme_archive_title_filter($title) {
+    if (is_category()) {
+        $title = single_cat_title('', false);
+    } elseif (is_tag()) {
+        $title = single_tag_title('', false);
+    } elseif (is_author()) {
+        $title = '<span class="vcard">' . get_the_author() . '</span>';
+    } elseif (is_tax()) {
+        $title = single_term_title('', false);
+    } elseif (is_post_type_archive()) {
+        $title = post_type_archive_title('', false);
+    }
+    return $title;
+}
+
+/**
+ * Обрезает строку (excerpt или title) до определенного количества символов
+ * с умным разбиением по словам
+ * 
+ * @param int $charlength Максимальное количество символов для вывода
+ *                        (значение будет уменьшено на 5 символов для добавления многоточия)
+ * 
+ * @param string $source Источник данных для обрезки:
+ *                       - 'excerpt' - используется get_the_excerpt() (по умолчанию)
+ *                       - 'title'   - используется get_the_title()
+ * 
+ * @return void Функция выводит результат напрямую, ничего не возвращает
+ * 
+ * @example 
+ * // Обрезать excerpt до 140 символов
+ * the_max_charlength(140);
+ * the_max_charlength(140, 'excerpt');
+ * 
+ * // Обрезать title до 70 символов
+ * the_max_charlength(70, 'title');
+ * 
+ * @example В шаблоне WordPress:
+ * <h2>
+ *     <?php the_max_charlength(70, 'title'); ?>
+ * </h2>
+ * 
+ * <div class="excerpt">
+ *     <?php the_max_charlength(140); ?>
+ * </div>
+ * 
+ * @logic Алгоритм работы:
+ * 1. Получает контент (excerpt или title)
+ * 2. Проверяет длину контента
+ * 3. Если длина превышает $charlength:
+ *    - Обрезает до ($charlength - 5) символов
+ *    - Разбивает на слова
+ *    - Удаляет последнее неполное слово
+ *    - Добавляет многоточие "..."
+ * 4. Если длина не превышает $charlength - выводит полный текст
+ * 
+ * @note Использует multibyte-функции (mb_*) для корректной работы с Unicode
+ * @note Если контент пустой - функция ничего не выводит
+ */
+function the_max_charlength($charlength, $source = 'excerpt') {
+    if ($source === 'title') {
+        $content = get_the_title();
+    } else {
+        $content = get_the_excerpt();
+    }
+    
+    if (empty($content)) {
+        return;
+    }
+    
+    $charlength++;
+    
+    if (mb_strlen($content) > $charlength) {
+        $subex = mb_substr($content, 0, $charlength - 5);
+        $exwords = explode(' ', $subex);
+        $excut = -(mb_strlen($exwords[count($exwords) - 1]));
+        
+        if ($excut < 0) {
+            echo mb_substr($subex, 0, $excut);
+        } else {
+            echo $subex;
+        }
+        echo '...';
+    } else {
+        echo $content;
+    }
+}
+
+/**
+ * Выводит пагинацию
+ * 
+ * @param WP_Query|null $query Объект WP_Query (по умолчанию глобальный $wp_query)
+ */
+function the_paginate($query = null) {
+    // Если запрос не передан, используем глобальный
+    if (!$query) {
+        global $wp_query;
+        $query = $wp_query;
+    }
+    
+    if ($query->max_num_pages <= 1) {
+        return;
+    }
+    
+    $paged = get_query_var('paged') ? intval(get_query_var('paged')) : 1;
+    
+    echo '<nav class="pagination">';
+    echo paginate_links(array(
+        'base'      => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))),
+        'format'    => '?paged=%#%',
+        'current'   => max(1, $paged),
+        'total'     => $query->max_num_pages,
+        'prev_text' => '<i class="icon_arrow_left"></i>',
+        'next_text' => '<i class="icon_arrow_right"></i>',
+        'mid_size'  => 1,
+        'end_size'  => 1
+    ));
+    echo '</nav>';
+}
+
+if ( ! function_exists( 'get_num_ending' ) ) {
+	/**
+	 * Склонения числительных
+	 *
+	 * @param $number
+	 * @param $ending_array
+	 *
+	 * @return mixed
+	 */
+	function get_num_ending( $number, $ending_array ) {
+		$number = $number % 100;
+		if ( $number >= 11 && $number <= 19 ) {
+			$ending = $ending_array[2];
+		} else {
+			$i = $number % 10;
+			switch ( $i ) {
+				case ( 1 ):
+					$ending = $ending_array[0];
+					break;
+				case ( 2 ):
+				case ( 3 ):
+				case ( 4 ):
+					$ending = $ending_array[1];
+					break;
+				default:
+					$ending = $ending_array[2];
+			}
+		}
+		
+		return $ending;
+	}
+}
+
+/**
+ * Отображает или возвращает ссылку из поля ACF
+ * 
+ * @param string $field_name Имя поля ACF
+ * @param string $class Дополнительные классы
+ * @param bool $echo Выводить сразу или возвращать
+ * @return string void HTML код ссылки
+ * Пример:
+ * render_acf_link('test_first_btn'); 
+ * render_acf_link('test_second_btn', 'btn_secondary');
+ */
+function render_acf_link($field_name, $class = '', $echo = true) {
+    $link = get_field($field_name);
+    
+    if (empty($link) || !is_array($link) || empty($link['url'])) {
+        if ($echo) {
+            return; // Просто выходим, ничего не выводим
+        }
+        return ''; // Возвращаем пустую строку
+    }
+    
+    $title = isset($link['title']) && !empty($link['title']) 
+        ? esc_html($link['title']) 
+        : esc_html($link['url']);
+    
+    $url = esc_url($link['url']);
+    $target = isset($link['target']) && $link['target'] === '_blank' ? '_blank' : '_self';
+    
+    $classes = 'btn' . (!empty($class) ? ' ' . esc_attr($class) : '');
+    
+    $html = sprintf(
+        '<a class="%s" href="%s" target="%s">%s</a>',
+        $classes,
+        $url,
+        $target,
+        $title
+    );
+    
+    if ($echo) {
+        echo $html;
+    } else {
+        return $html;
+    }
+}
+
+/**
+ * Выводит блок с двумя кнопками
+ * Пример:
+ * render_section_buttons('test_first_btn','test_second_btn');
+ */
+function render_section_buttons($first_field = '', $second_field = '') {
+    // Получаем HTML кнопок без вывода (третий параметр false)
+    $first_btn = render_acf_link($first_field, '', false);
+    $second_btn = render_acf_link($second_field, 'btn_secondary', false);
+    
+    if (!$first_btn && !$second_btn) {
+        return;
+    }
+    
+    echo '<div class="section__btns">';
+    if ($first_btn) echo $first_btn;
+    if ($second_btn) echo $second_btn;
+    echo '</div>';
+}
+
+function my_cat_list_filter ( $post_type = 'post' , $taxonomy = '', $posts_per_page = '1') { ?>
+	<?php 
+    	$post_count_obj = wp_count_posts( $post_type );
+	    $total_posts = 0;
+        $total_posts = isset($post_count_obj->publish) ? $post_count_obj->publish : 0;
+    ?>
+
+	<div class="category filter filter-list-js user_select_none">
+		<div class="category__item filter-cat-js">
+			<input 
+				type="radio" 
+				name="cat_name" 
+				id="term_all" 
+				checked="checked" 
+				value="all"  
+				data-taxonomy=<?php echo $taxonomy; ?>
+				data-post-type=<?php echo $post_type; ?>
+				data-posts_per_page = <?php echo $posts_per_page; ?>
+				/>
+			<label for="term_all">
+                <span>All</span>
+                <span>(<?php echo $total_posts; ?>)</span>
+            </label>
+		</div>
+		<?php
+		$categories = get_terms(
+			$taxonomy,
+			array (
+				// 'meta_key'                 => 'video_lab_number',
+				// 'orderby'                  => 'meta_value_num',
+				// 'order'                    => 'ASC',
+				'hierarchical' => true,
+				'hide_empty' => 1,
+				'parent' => 0
+			) 
+		);
+		foreach($categories as $cat) { //get_pr($cat); ?>   
+			<div class="category__item filter-cat-js">
+				<input 
+					type="radio" 
+					name="cat_name"
+					id="term_<?php echo $cat->term_id; ?>" 
+					value="<?php echo $cat->term_id; ?>" 
+					data-taxonomy=<?php echo $taxonomy; ?> 
+					data-post-type=<?php echo $post_type; ?>
+					data-posts_per_page = <?php echo $posts_per_page; ?>
+					/>
+				<label for="term_<?php echo $cat->term_id; ?>"><span><?php echo $cat->name; ?></span><span>(<?php echo $cat->count; ?>)</span></label>
+			</div>
+		<?php } ?>
+	</div>
+	
+
+
+	<?php
+}
+
+// add_filter('wpforms_frontend_container_class', 'simple_remove_wpforms_class');
+// function simple_remove_wpforms_class($classes) {
+//     if (is_array($classes)) {
+//         // Удаляем класс из массива
+//         $classes = array_diff($classes, ['wpforms-container-full']);
+//         // Можно добавить свой класс
+//         // $classes[] = 'my-custom-container';
+//     }
+//     return $classes;
+// }

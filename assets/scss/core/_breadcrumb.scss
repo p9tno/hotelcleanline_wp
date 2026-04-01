@@ -1,0 +1,50 @@
+.breadcrumbs {
+	padding-bottom: 0;
+
+	.kama_breadcrumbs {
+		a {
+			text-decoration: none;
+		}
+
+		a,
+		span {
+			color: #B3B3B3;
+		}
+
+		span {
+			// font-size: 0.6em;
+			@media (min-width: 768px) {
+				// font-size: 0.875em;
+			}
+
+			> a {
+				> span {
+					font-size: 1em;
+				}
+			}
+		}
+
+		.kb_sep {
+			transform: translateY(-0.15em);
+			display: inline-block;
+			margin: 0 0.75em;
+
+			width: 0.3125em;
+			height: 0.3125em;
+			background-color: $color_warning;
+			font-size: 0.6em;
+			@media (min-width: 768px) {
+				font-size: 1em;
+
+			}
+
+		}
+
+		.kb_title {
+			color: $main_color;
+			font-weight: 600;
+		}
+
+	}
+
+}

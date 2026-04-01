@@ -1,0 +1,139 @@
+@use "variables" as *;
+
+@font-face {
+  font-family: '#{$icomoon-font-family}';
+  src:
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?79h6k5') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?79h6k5') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?79h6k5##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon_"], [class*=" icon_"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon_loupe {
+  &:before {
+    content: $icon_loupe; 
+  }
+}
+.icon_cart {
+  &:before {
+    content: $icon_cart; 
+  }
+}
+.icon_arrow_right_sm {
+  &:before {
+    content: $icon_arrow_right_sm; 
+  }
+}
+.icon_arrow_left_sm {
+  &:before {
+    content: $icon_arrow_left_sm; 
+  }
+}
+.icon_arrow_top_sm {
+  &:before {
+    content: $icon_arrow_top_sm; 
+  }
+}
+.icon_arrow_bottom_sm {
+  &:before {
+    content: $icon_arrow_bottom_sm; 
+  }
+}
+.icon_arrow_right {
+  &:before {
+    content: $icon_arrow_right; 
+  }
+}
+.icon_arrow_left {
+  &:before {
+    content: $icon_arrow_left; 
+  }
+}
+.icon_arrow_top {
+  &:before {
+    content: $icon_arrow_top; 
+  }
+}
+.icon_arrow_bottom {
+  &:before {
+    content: $icon_arrow_bottom; 
+  }
+}
+.icon_heart {
+  &:before {
+    content: $icon_heart; 
+  }
+}
+.icon_location {
+  &:before {
+    content: $icon_location; 
+  }
+}
+.icon_clock {
+  &:before {
+    content: $icon_clock; 
+  }
+}
+.icon_comment {
+  &:before {
+    content: $icon_comment; 
+  }
+}
+.icon_calendar {
+  &:before {
+    content: $icon_calendar; 
+  }
+}
+.icon_mail {
+  &:before {
+    content: $icon_mail; 
+  }
+}
+.icon_man {
+  &:before {
+    content: $icon_man; 
+  }
+}
+.icon_phone {
+  &:before {
+    content: $icon_phone; 
+  }
+}
+.icon_instagram {
+  &:before {
+    content: $icon_instagram; 
+  }
+}
+.icon_facebook {
+  &:before {
+    content: $icon_facebook; 
+  }
+}
+.icon_youtube {
+  &:before {
+    content: $icon_youtube; 
+  }
+}
+.icon_yelp {
+  &:before {
+    content: $icon_yelp; 
+  }
+}
+

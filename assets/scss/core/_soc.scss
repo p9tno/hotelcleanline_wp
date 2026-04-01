@@ -1,0 +1,56 @@
+.soc {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2.125em;
+    font-size: 0.875em;
+    @media (min-width: 768px) {
+      font-size: 1em;
+    }
+
+    &__link {
+        position: relative;
+        padding-top: 1.5em;
+
+        @media (min-width: 768px) {
+            &:hover {
+                .soc__icon {
+                    transform: translateX(-50%)scale(1.2);
+                    color: rgba($color_warning, 0.2);
+                }
+
+                .soc__label {
+                    color: $color_warning;
+                }
+            }
+        }
+    }
+
+    &__label {
+        position: relative;
+        z-index: 1;
+        text-decoration: none;
+        color: $main_color;
+        font-size: 1.375em;
+        font-weight: 500;
+    }
+
+    &__icon {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%)scale(1);
+
+        display: block;
+
+        font-size: 3em;
+
+        color: rgba($main_color, 0.1);
+
+        @media (min-width: 768px) {
+          transition: 0.5s;
+        }
+    }
+}

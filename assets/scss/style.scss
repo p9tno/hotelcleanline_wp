@@ -1,0 +1,43 @@
+@import 'mixins/mixin'; // Fonts
+// Import files
+@import 'variables/variables';
+@import 'core/fonts';
+@import "../fonts/icon/style.css";
+@import 'core/reset';
+@import 'core/template';
+@import 'core/preloader';
+@import 'core/toTop';
+@import 'core/soc';
+
+@import 'core/header';
+
+@import 'sections/firstscreen';
+@import 'sections/topCategories';
+@import 'sections/hscroll';
+@import 'sections/media';
+@import 'sections/partners';
+@import 'sections/banner';
+
+
+
+
+// @import 'sections/homeProducts';
+@import 'sections/product';
+
+@import 'core/footer';
+
+@import 'core/form';
+
+@import 'core/breadcrumb';
+
+@import 'core/pagination';
+
+@import 'core/buttons';
+
+@import 'core/video';
+@import 'core/collapse';
+@import 'core/tabs';
+@import 'core/drop';
+
+@import 'vendor/modal';
+@import 'vendor/swiper';

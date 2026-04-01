@@ -1,0 +1,148 @@
+.swiper-arrow {
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 3em;
+  height: 3em;
+  border-radius: 100%;
+
+  background-color: $color_white;
+  color: $color_warning;
+
+  opacity: 1;
+
+  cursor: pointer;
+  outline: none;
+  
+  font-size: 0.875em;  
+  @media (min-width: 768px) {
+    font-size: 1em;
+    transition: 0.5s;
+
+    &:hover:not(.swiper-button-disabled) {
+      background-color: $color_warning;
+      color: $color_white;
+    }
+  }
+
+  
+
+  &:before {
+    display: block;
+    font-size: 0.875em;
+  }
+
+  &.swiper-button-disabled {
+    opacity: 0;
+    cursor: auto;
+  }
+
+  &.icon_arrow_left_sm {
+    left: 0.75em;
+    @media (min-width: 768px) {
+      left: 1em;
+    }
+    &:before {
+      transform: translateX(-0.125em);
+    }
+  }
+
+  &.icon_arrow_right_sm {
+    right: 0.75em;
+    @media (min-width: 768px) {
+      right: 1em;
+    }
+    &:before {
+      transform: translateX(0.05em);
+    }
+  }
+
+}
+
+
+.swiper-pagination {
+  @media (max-width: 767px) {
+      position: static;
+      margin-top: 1.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 1.25em;
+  }
+  
+}
+
+.swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+  // position: absolute;
+  // bottom: 2em;
+  // right: 1em;
+  // width: auto;
+
+}
+
+.swiper-pagination {
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // gap: 1em;
+  // height: 1em;
+}
+
+.swiper-pagination-bullet {
+  position: relative;
+  width: 0.6875em;
+  height: 0.6875em;
+  border-radius: 100%;
+  background: rgba($color_warning, 0.75);
+  margin: 0 0.625em!important;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(1);
+    border: 0.0625em solid;
+    border-color: $color_warning;
+
+    width: 1.25em;
+    height: 1.25em;
+    border-radius: 100%;
+    opacity: 0;
+
+  }
+  
+  &-active {
+    background: $color_warning;
+    &:before {
+      opacity: 1;
+      animation: 2s pulse infinite;
+    }
+
+  }
+
+}
+
+
+@keyframes pulse {
+    0% {
+      transform: translate(-50%,-50%) scale(1);
+    }
+
+    60% {
+      opacity: 0.3;
+    }
+
+    to {
+      opacity: 0;
+      transform: translate(-50%,-50%) scale(1.2);
+    }
+}

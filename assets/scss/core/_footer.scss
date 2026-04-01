@@ -1,0 +1,66 @@
+/* Footer
+ ----------------------------------------------------------------------------- */
+.footer {
+	position: relative;
+	padding: 2.5em 0;
+	background-color: $color_light;
+	@media (min-width: 768px) {
+		padding: 4.75em 0;
+	  
+	}
+
+	&__content {
+		@extend .container_center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 3.75em
+	}
+
+	&__row {
+
+	}
+
+	&__logo {
+		display: block;
+		width: 17.1875em;
+		font-size: 0.625em;
+		@media (min-width: 768px) {
+			font-size: 1em;
+		}
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+			object-fit: contain;
+		}
+	}
+
+	&__links {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1em;
+		@media (min-width: 768px) {
+			flex-direction: row;
+			gap: 4.375em;
+		  
+		}
+
+		a {
+			text-decoration: none;
+			font-size: 0.875em;
+			color: $main_color;
+
+			@media (min-width: 768px) {
+			  &:hover {
+				color: $color_warning;
+			  }
+			}
+		}
+	}
+
+	&__soc {
+		margin-top: 2em;
+	}
+}

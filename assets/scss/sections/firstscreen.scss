@@ -1,0 +1,199 @@
+$animation-duration: 1.5s;
+
+.firstscreen {
+    padding: 0;
+
+    &__swiper {
+        width: 100%;
+        height: 100vh;
+
+        @media (min-width: 768px) {
+            width: 90em;
+            height: 40em;
+          	margin-left: auto;
+	        margin-right: auto;
+        }
+
+        .swiper {
+            height: 100%;
+        }
+
+        .swiper-pagination {
+            bottom: 1.5em;
+        }
+
+        .swiper-pagination-bullet {
+            background: $color_white;
+            &:before {
+                border-color: $color_white;
+            }
+      
+        }
+    }
+
+    &__slide {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 5em 1em;
+        @media (min-width: 768px) {
+            align-items: flex-end;
+            padding: 7.5em;
+        }
+        @media (min-width: 1441px) {
+          border-radius: 0.625em;
+          overflow: hidden;
+        }
+    }
+
+    &__img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        &:before {
+          content: '';
+          display: block;
+          width: 100%;
+          height: 100%;
+          position: absolute;   
+          top: 0;
+          left: 0;
+          background-color: rgba($color_black, 0.3);
+        }
+    }
+
+    &__content {
+        position: relative;
+        width: 18.75em;
+        padding: 1.5em 1.25em;
+
+        @media (min-width: 768px) {
+          width: 40em;
+          padding: 0;
+        }
+
+    }
+
+    &__title {
+		margin: 0;
+		font-family: $second_font_family;
+		color: $color_white;
+		line-height: 1.1;
+		font-weight: 300;
+		font-size: 1.75em;
+		@media (min-width: 768px) {
+			font-size: 3.25em;
+		}
+
+        opacity: 0;
+        .swiper-slide-active & {
+            animation: fadeInRight;
+            animation-duration: $animation-duration;
+            animation-fill-mode: forwards;
+            animation-timing-function: ease-out;
+        }
+	}
+
+    &__desc {
+        margin-top: 1.125em;
+        opacity: 0;
+        color: $color_white;
+
+        > * {
+            &:first-child {
+                margin-top: 0;
+            }
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+        }
+        p {
+            font-size: 1.125em;
+        }
+
+        .swiper-slide-active & {
+      
+            animation: fadeInRight;
+            animation-duration: $animation-duration;
+            animation-fill-mode: forwards;
+            animation-timing-function: ease-out;
+            animation-delay: 0.5s;
+        }
+    }
+
+    &__btn {
+        margin-top: 1.5em;
+        opacity: 0;
+        
+        @media (min-width: 768px) {
+            margin-top: 2.5em;
+          
+        }
+
+        .swiper-slide-active & {
+            animation: fadeInRight;
+            animation-duration: $animation-duration;
+            animation-fill-mode: forwards;
+            animation-timing-function: ease-out;
+            animation-delay: 0.75s;
+        }
+    }
+
+}
+
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 50px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-50px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(50px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -50px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}

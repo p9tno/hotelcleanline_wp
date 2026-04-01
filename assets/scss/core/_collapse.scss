@@ -1,0 +1,32 @@
+.collapse {
+    &__title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        line-height: 1;
+
+        span {
+            cursor: pointer;
+        }
+
+        &:after {
+            content: '\ea36';
+            font-family: 'icomoon';
+            transition: 0.5s;
+            cursor: pointer;
+        }
+
+        &.open {
+            &:after {
+                color: red;
+            }
+        }
+    }
+
+    &__body {
+        display: none;
+        &.open {
+            display: block;
+        }
+    }
+}

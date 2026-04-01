@@ -1,0 +1,58 @@
+.tabs__wrapper {}
+
+.tabs__content{}
+
+.tabs {
+    display: flex;
+    // justify-content: space-between;
+    // margin-bottom: 0.75em;
+
+    @media (max-width: 767px) {
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 0.75em;
+        margin-left: -1.25em;
+        margin-right: -1.25em;
+    }
+
+    @media (min-width: 768px) {
+        margin-bottom: 4.375em;
+    }
+
+
+}
+
+
+
+.tab {
+    position: relative;
+    width: fit-content;
+    flex: none;
+    margin-right: 2em;
+    cursor: pointer;
+
+    &:first-child {
+        margin-left: 1em;
+    }
+
+    &:last-child {
+        margin-right: 2em;
+    }
+
+    @media (min-width: 768px) {
+        margin-right: 6.5em;
+
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+
+
+    &.active {
+        color: red;
+    }
+
+    &:hover {
+        color: red;
+    }
+}

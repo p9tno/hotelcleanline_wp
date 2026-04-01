@@ -1,0 +1,77 @@
+// Style for button and pseudo button for input and link
+
+.btn {
+	display: inline-block;
+	padding: 0.875em 2.25em;
+	border-radius: 0.625em;
+	border: 1px solid;
+	outline: none;
+	max-width: 100%;
+
+	font-family: $main_font_family;
+	font-size: 0.75em;
+	font-weight: 400;
+	line-height: 1;
+	text-decoration: none;
+	text-align: center;
+	
+	color: $color_white;
+	border-color: $color_warning;
+	background-color: $color_warning;
+	
+	cursor: pointer;
+	transition: 0.5s;
+	
+	@media (min-width: 768px) {
+		font-size: 1em;
+	}
+
+	&:hover {
+		@media (min-width: 768px) {
+			color: $color_warning;
+			border-color: $color_warning;
+			background-color: $color_white;
+		}
+	}
+	
+	&:active {
+		@media (min-width: 768px) {
+			color: $color_white;
+			border-color: $color_warning;
+			background-color: $color_warning;
+		}
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.4;
+	}
+
+	&_border {
+		color: $color_warning;
+		border-color: $color_warning;
+		background-color: transparent;
+
+		&:hover {
+			@media (min-width: 768px) {
+				color: $color_white;
+				border-color: $color_warning;
+				background-color: $color_warning;
+			}
+		}
+		
+		&:active {
+			@media (min-width: 768px) {
+				color: $color_warning;
+				border-color: $color_warning;
+				background-color: transparent;
+			}
+		}
+	}
+
+
+}
+
+
+
+

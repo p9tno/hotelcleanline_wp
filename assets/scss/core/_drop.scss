@@ -1,0 +1,64 @@
+.drop {
+    position: relative;
+    margin: 0.625em 0;
+    width: 12.5em;    /* 200/16 */
+    display: inline-block;
+
+    &__toggle {
+        border: 0.0625em solid $main_color;
+        padding: 0.3125em 1em; 
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 1em;
+        width: 100%;
+        background-color: $color_primary;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:after {
+            content: '>';
+            transform: rotate(90deg);
+            transition: 0.3s;
+        }
+
+        &.active {
+            border-radius: 1em 1em 0 0; 
+            &:after {
+                transform: rotate(-90deg);
+            }
+        }
+    }
+
+    &__list {
+        // display: none;
+        position: absolute;
+        width: 100%;
+        box-shadow: 0 0 0.25em rgba($main_color, .3);
+        border-radius: 0 0 0.3125em 0.3125em; 
+        height: 0;
+        overflow: hidden;
+        opacity: 0;
+        top: 130%;
+        transition: 0.5s;
+
+        &.open {
+            height: auto;
+            opacity: 1;
+            top: 100%;
+        }
+    }
+
+    &__item {
+        background: $color_white;
+        border-bottom: 0.0625em solid $main_color;
+        padding: 0.3125em 1em; 
+
+        &:hover {
+            background: darken($color_white, 10%);
+        }
+    }
+
+}

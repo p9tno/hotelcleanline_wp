@@ -1,0 +1,36 @@
+.toTop {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    bottom: 2em;
+    right: 1em;
+    @media (min-width: 768px) {
+        bottom: 5em;
+        right: 2em;
+    }
+
+    a {
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 3.75em;
+        height: 3.75em;
+        border-radius: 0.625em;
+        background-color: $color_warning;
+        color: $color_white;
+        font-size: 0.625em;
+
+        @media (min-width: 768px) {
+            font-size: 0.75em;
+        }
+
+    }
+
+    i {
+        font-size: 1.25em;
+    }
+
+}
+
+

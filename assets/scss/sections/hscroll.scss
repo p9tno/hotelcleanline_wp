@@ -1,0 +1,118 @@
+.hscroll {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+
+    .swiper {
+        overflow: visible;
+    }
+
+    .swiper-wrapper {
+        transition-timing-function: linear !important;
+    }
+
+    .swiper-slide {
+        position: relative;
+        overflow: hidden;
+        height: 45em;
+    }
+    
+    &__content {
+        margin-top: 2em;
+        position: relative;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 112.5em;
+        font-size: 0.275em;
+        @media (min-width: 768px) {
+            font-size: 1em;
+            margin-top: 3.25em;
+        }
+    }
+
+
+    &__img {
+        position: absolute;
+        overflow: hidden;
+        border-radius: 0.625em;
+
+        &:nth-child(1) {
+            top: 0;
+            left: 0;
+
+            width: 17.125em;
+            height: 23.875em;
+        }
+
+        &:nth-child(2) {
+            top: 4.375em;
+            left: 18.125em;
+
+            width: 28.1875em;
+            height: 19.5em;
+        }
+
+        &:nth-child(3) {
+            top: 9.75em;
+            left: 47.3125em;
+
+            width: 18.2em;
+            height: 24.5em;
+            @media (min-width: 768px) {
+                width: 18.4375em;
+              
+            }
+        }
+
+        &:nth-child(4) {
+            top: 6.1875em;
+            right: 27.5625em;
+
+            width: 18.125em;
+            height: 21.75em;
+        }
+
+        &:nth-child(5) {
+            top: 0.3125em;
+            right: 0;
+
+            width: 26.5625em;
+            height: 27.6875em;
+        }
+
+        &:nth-child(6) {
+            bottom: 0;
+            left: 0;
+
+            width: 23.8125em;
+            height: 20.1875em;
+        }
+
+        &:nth-child(7) {
+            bottom: 5.0625em;
+            left: 24.8125em;
+
+            width: 21.5em;
+            height: 15.125em;
+        }
+
+        &:nth-child(8) {
+            bottom: 1em;
+            right: 34.5625em;
+
+            width: 11.125em;
+            height: 15.125em;
+        }
+
+        &:nth-child(9) {
+            bottom: 3.875em;
+            right: 17.4375em;
+
+            width: 16.125em;
+            height: 12.25em;
+        }
+
+    }
+
+}
