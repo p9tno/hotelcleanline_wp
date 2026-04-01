@@ -641,6 +641,7 @@ body {
   margin-top: 1.5em;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1em;
 }
 @media (min-width: 768px) {
@@ -648,9 +649,13 @@ body {
     margin-top: 2em;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
     gap: 2.5em;
   }
+}
+.section__btns .btn {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .section__content {
   margin-top: 1.5em;
@@ -1587,8 +1592,8 @@ body {
     height: 36.375em;
   }
 }
-.media .section__content {
-  font-weight: 500;
+.media .section__btns {
+  justify-content: flex-start;
 }
 @media (min-width: 768px) {
   .media__pagination {

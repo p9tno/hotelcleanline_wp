@@ -14,7 +14,9 @@
 
 <?php // render_section_title('section_title'); ?>
 <?php // render_section_description('section_description'); ?>
+<?php // render_section_content('section_content'); ?>
 <?php // render_section_buttons('test_first_btn','test_second_btn'); ?>
+<?php // ender_acf_link('test_first_btn'); ?>
 
 
 
@@ -30,7 +32,7 @@
 $rows = get_field('repeater_field_name');
 if( $rows ) { ?>
     <?php foreach( $rows as $row ) { ?>
-        <?php echo  $row['caption']; ?>
+        <?php echo $row['caption']; ?>
     <?php } ?>
 <?php } ?>
 
@@ -73,7 +75,7 @@ get_template_part( 'template-parts/sections/section', 'firstscreen' );
 // get_template_part( 'template-parts/sections/section', 'topCategories' );
 get_template_part( 'template-parts/sections/section', 'partners' );
 // get_template_part( 'template-parts/sections/section', 'homeProducts' );
-// get_template_part( 'template-parts/sections/section', 'media' );
+get_template_part( 'template-parts/sections/section', 'media' );
 // get_template_part( 'template-parts/sections/section', 'hscroll' );
 // get_template_part( 'template-parts/sections/section', 'banner' );
 

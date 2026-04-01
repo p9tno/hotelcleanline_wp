@@ -448,6 +448,97 @@ function my_template_acf_mataboxes(){
     // END partners section
     // ---------------------------------------------------------
 
+    // BEGIN media_swiper section
+    acf_add_local_field_group(array(
+        'key' => 'acf_media_swiper_settings',
+        'title' => 'Настройки контнет(слева) - слайдер(справа)',
+        'fields' => array(
+            array(
+                'key' => 'media_swiper_boolean',
+                'label' => 'Отображать блок?',
+                'name' => 'media_swiper_boolean',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+                'ui_on_text' => 'Да',
+                'ui_off_text' => 'Нет',
+            ),
+            array(
+                'key' => 'media_swiper_title',
+                'label' => 'Заголовок',
+                'name' => 'media_swiper_title',
+                'type' => 'text',
+            ),
+            array(
+                'key' => 'media_swiper_content',
+                'label' => 'Описание',
+                'name' => 'media_swiper_content',
+                'type' => 'wysiwyg',
+                'tabs' => 'all',  // 'visual' || 'text' || 'all'
+                'toolbar' => 'basic',  // 'basic' \\ 'full'
+                'media_upload' => 0,
+                'delay' => 0,
+            ),
+            array(
+                'key' => 'media_swiper_first_btn',
+                'label' => 'Кнопка',
+                'name' => 'media_swiper_first_btn',
+                'type' => 'link',
+                'return_format' => 'array',
+                'wrapper' => array (
+                    'width' => '100',
+                ),
+            ),
+            array(
+                'key' => 'media_swiper_slides',
+                'label' => 'Слайды',
+                'name' => 'media_swiper_slides',
+                'type' => 'repeater',
+                'layout' => 'row',  // 'block' || 'row' || 'table'
+                'button_label' => 'Добавить',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'media_swiper_slide_img_id',
+                        'label' => 'Изображение',
+                        'name' => 'media_swiper_slide_img_id',
+                        'type' => 'image',
+                        'return_format' => 'id',  // 'id' || 'url' || 'array'
+                        'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                        'instructions' => 'Рекомендуемое разрешение изображения не более 400/600px.',
+                        'required' => 1,
+                    ),
+                    array(
+                        'key' => 'media_swiper_label',
+                        'label' => 'Этикетка',
+                        'name' => 'media_swiper_label',
+                        'type' => 'textarea',
+                        'rows' => 1,
+                        'required' => 1,
+                    ),
+                    array(
+                        'key' => 'media_swiper_subtite',
+                        'label' => 'Заголовок',
+                        'name' => 'media_swiper_subtite',
+                        'type' => 'text',
+                        'required' => 1,
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'template-homepage.php',
+                )
+            ),
+        ),
+        'menu_order' => 20,
+    ));
+    // END media_swiper section
+    // ---------------------------------------------------------
+
     // BEGIN test section
     acf_add_local_field_group(array(
         'key' => 'acf_test_settings',
@@ -522,7 +613,7 @@ function my_template_acf_mataboxes(){
             ),
             array(
                 'key' => 'test_first_btn',
-                'label' => 'First button',
+                'label' => 'Первая кнопка',
                 'name' => 'test_first_btn',
                 'type' => 'link',
                 'return_format' => 'array',
@@ -532,7 +623,7 @@ function my_template_acf_mataboxes(){
             ),
             array(
                 'key' => 'test_second_btn',
-                'label' => 'Second button',
+                'label' => 'Вторая кнопка',
                 'name' => 'test_second_btn',
                 'type' => 'link',
                 'return_format' => 'array',

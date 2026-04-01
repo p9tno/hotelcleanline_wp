@@ -319,6 +319,33 @@ function render_section_description($field_name = '', $additional_class = '') {
     echo '<div class="' . esc_attr($classes) . '">' . wp_kses_post($description) . '</div>';
 }
 
+/**
+ * Выводит контент секции из поля ACF
+ * Пример:
+ * render_section_content('section_content');
+ * render_section_content('section_content', 'content--large');
+ * 
+ * @param string $field_name Имя поля ACF с контентом
+ * @param string $additional_class Дополнительный класс для контента (опционально)
+ */
+function render_section_content($field_name = '', $additional_class = '') {
+    // Получаем значение из ACF
+    $content = get_field($field_name);
+    
+    // Если контент пустой - ничего не выводим
+    if (empty($content)) {
+        return;
+    }
+    
+    // Формируем классы
+    $classes = 'section__content';
+    if (!empty($additional_class)) {
+        $classes .= ' ' . $additional_class;
+    }
+    
+    echo '<div class="' . esc_attr($classes) . '">' . wp_kses_post($content) . '</div>';
+}
+
 function my_cat_list_filter ( $post_type = 'post' , $taxonomy = '', $posts_per_page = '1') { ?>
 	<?php 
     	$post_count_obj = wp_count_posts( $post_type );

@@ -1,76 +1,41 @@
-<!-- begin media-->
+<?php if (get_field('media_swiper_boolean')) { ?>
+<!-- begin media -->
 <section class="media media_swiper section" id="mediaSlider">
     <div class="container_center">
         <div class="media__layout">
-            <div class="swiper media_swiper_js">
-                <div class="swiper-wrapper counter-wrap">
-                    <div class="swiper-slide counter-item">
-                        <div class="media__thumbnail">
-                            <div class="media__img img"><img src="../../../img/firstscreen_1.webp" alt=""
-                                    loading="lazy" /></div>
-                            <div class="media__label"><span class="counter-el"> &mdash; Спальня</span>
-                                <p>Внутренний мир</p>
+            <?php 
+            $slides = get_field('media_swiper_slides');
+            if( $slides ) { ?>
+                <div class="swiper media_swiper_js">
+                    <div class="swiper-wrapper counter-wrap">
+                        <?php foreach( $slides as $slide ) { ?>
+                            <div class="swiper-slide counter-item">
+                                <div class="media__thumbnail">
+                                    <div class="media__img img"><?php echo wp_get_attachment_image($slide['media_swiper_slide_img_id'], 'full'); ?></div>
+                                    <div class="media__label">
+                                        <span class="counter-el"> &mdash; <?php echo $slide['media_swiper_label']; ?></span>
+                                        <p><?php echo $slide['media_swiper_subtite']; ?></p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        <?php } ?>
                     </div>
-                    <div class="swiper-slide counter-item">
-                        <div class="media__thumbnail">
-                            <div class="media__img img"><img src="../../../img/firstscreen_2.webp" alt=""
-                                    loading="lazy" /></div>
-                            <div class="media__label"><span class="counter-el"> &mdash; Спальня</span>
-                                <p>Внутренний мир</p>
-                            </div>
-                        </div>
+                    <div class="swiper-nav media__nav desktop">
+                        <i class="swiper-arrow icon_arrow_left_sm"></i>
+                        <i class="swiper-arrow icon_arrow_right_sm"></i>
                     </div>
-                    <div class="swiper-slide counter-item">
-                        <div class="media__thumbnail">
-                            <div class="media__img img"><img src="../../../img/firstscreen_3.webp" alt=""
-                                    loading="lazy" /></div>
-                            <div class="media__label"><span class="counter-el"> &mdash; Спальня</span>
-                                <p>Внутренний мир</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide counter-item">
-                        <div class="media__thumbnail">
-                            <div class="media__img img"><img src="../../../img/firstscreen_1.webp" alt=""
-                                    loading="lazy" /></div>
-                            <div class="media__label"><span class="counter-el"> &mdash; Спальня</span>
-                                <p>Внутренний мир</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide counter-item">
-                        <div class="media__thumbnail">
-                            <div class="media__img img"><img src="../../../img/firstscreen_2.webp" alt=""
-                                    loading="lazy" /></div>
-                            <div class="media__label"><span class="counter-el"> &mdash; Спальня</span>
-                                <p>Внутренний мир</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide counter-item">
-                        <div class="media__thumbnail">
-                            <div class="media__img img"><img src="../../../img/firstscreen_3.webp" alt=""
-                                    loading="lazy" /></div>
-                            <div class="media__label"><span class="counter-el"> &mdash; Спальня</span>
-                                <p>Внутренний мир</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="swiper-pagination media__pagination"></div>
                 </div>
-                <div class="swiper-nav media__nav desktop"><i class="swiper-arrow icon_arrow_left_sm"></i><i
-                        class="swiper-arrow icon_arrow_right_sm"></i></div>
-                <div class="swiper-pagination media__pagination"></div>
-            </div>
+            <?php } ?>
+
             <div class="media__content">
-                <h2 class="section__title ta_l">Красивые номеров для вдохновения</h2>
-                <div class="section__content ta_l">
-                    <p>Наш дизайнер уже сделал множество красивых прототипов комнат, которые вас вдохновляют.</p>
-                </div>
-                <div class="section__btn ta_l"><a class="btn" href="#">кнопка</a></div>
+                <?php render_section_title('media_swiper_title', 'ta_l'); ?>
+                <?php render_section_content('media_swiper_content', 'ta_l'); ?>
+                <?php render_section_buttons('media_swiper_first_btn'); ?>
             </div>
+
         </div>
     </div>
 </section>
-<!-- end media-->
+<!-- end media -->
+<?php } ?>
