@@ -1,42 +1,33 @@
-<!-- begin partners-->
+<?php 
+$slides = get_field('partners_slides');
+// get_pr($slides);
+?>
+<?php if (get_field('partners_boolean') && $slides) { ?>
+<!-- begin partners -->
 <section class="partners section" id="partners">
     <div class="container_center">
         <div class="partners__content">
-            <h2 class="section__title">Заголовок</h2>
-            <div class="section__desc">Описание секции </div>
+            <?php render_section_title('partners_title'); ?>
+            <?php render_section_description('partners_desc'); ?>
             <div class="partners__swiper">
                 <div class="swiper partners_swiper_js">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide partners__slide">
-                            <div class="partners__title">Гостиница 1</div>
-                            <div class="partners__desc">короткое описание</div>
-                        </div>
-                        <div class="swiper-slide partners__slide">
-                            <div class="partners__title">Гостиница 2</div>
-                            <div class="partners__desc">короткое описание</div>
-                        </div>
-                        <div class="swiper-slide partners__slide">
-                            <div class="partners__title">Гостиница 3</div>
-                            <div class="partners__desc">короткое описание</div>
-                        </div>
-                        <div class="swiper-slide partners__slide">
-                            <div class="partners__title">Гостиница 4</div>
-                            <div class="partners__desc">короткое описание</div>
-                        </div>
-                        <div class="swiper-slide partners__slide">
-                            <div class="partners__title">Гостиница 5</div>
-                            <div class="partners__desc">короткое описание</div>
-                        </div>
-                        <div class="swiper-slide partners__slide">
-                            <div class="partners__title">Гостиница 6</div>
-                            <div class="partners__desc">короткое описание</div>
-                        </div>
+                        <?php foreach( $slides as $slide ) { ?>
+                            <div class="swiper-slide partners__slide">
+                                <div class="partners__title"><?php echo  $slide['partners_slide_title']; ?></div>
+                                <div class="partners__desc"><?php echo  $slide['partners_slide_desc']; ?></div>
+                            </div>
+                        <?php } ?>
+
                     </div>
+
                     <div class="swiper-pagination partners__pagination"></div>
                 </div>
             </div>
-            <div class="section__btn"><a class="btn" href="#">кнопка</a></div>
+            <?php render_section_buttons('partners_first_btn','partners_second_btn'); ?>
         </div>
     </div>
 </section>
-<!-- end partners-->
+<!-- end partners -->
+    
+<?php } ?>

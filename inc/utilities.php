@@ -253,7 +253,7 @@ function render_acf_link($field_name, $class = '', $echo = true) {
 function render_section_buttons($first_field = '', $second_field = '') {
     // Получаем HTML кнопок без вывода (третий параметр false)
     $first_btn = render_acf_link($first_field, '', false);
-    $second_btn = render_acf_link($second_field, 'btn_secondary', false);
+    $second_btn = render_acf_link($second_field, 'btn_border', false);
     
     if (!$first_btn && !$second_btn) {
         return;
@@ -263,6 +263,60 @@ function render_section_buttons($first_field = '', $second_field = '') {
     if ($first_btn) echo $first_btn;
     if ($second_btn) echo $second_btn;
     echo '</div>';
+}
+
+/**
+ * Выводит заголовок секции из поля ACF
+ * Пример:
+ * render_section_title('section_title');
+ * render_section_title('section_title', 'title--large');
+ * 
+ * @param string $field_name Имя поля ACF с заголовком
+ * @param string $additional_class Дополнительный класс для заголовка (опционально)
+ */
+function render_section_title($field_name = '', $additional_class = '') {
+    // Получаем значение из ACF
+    $title = get_field($field_name);
+    
+    // Если заголовок пустой - ничего не выводим
+    if (empty($title)) {
+        return;
+    }
+    
+    // Формируем классы
+    $classes = 'section__title';
+    if (!empty($additional_class)) {
+        $classes .= ' ' . $additional_class;
+    }
+    
+    echo '<h2 class="' . esc_attr($classes) . '">' . esc_html($title) . '</h2>';
+}
+
+/**
+ * Выводит описание секции из поля ACF
+ * Пример:
+ * render_section_description('section_description');
+ * render_section_description('section_description', 'desc--highlight');
+ * 
+ * @param string $field_name Имя поля ACF с описанием
+ * @param string $additional_class Дополнительный класс для описания (опционально)
+ */
+function render_section_description($field_name = '', $additional_class = '') {
+    // Получаем значение из ACF
+    $description = get_field($field_name);
+    
+    // Если описание пустое - ничего не выводим
+    if (empty($description)) {
+        return;
+    }
+    
+    // Формируем классы
+    $classes = 'section__desc';
+    if (!empty($additional_class)) {
+        $classes .= ' ' . $additional_class;
+    }
+    
+    echo '<div class="' . esc_attr($classes) . '">' . wp_kses_post($description) . '</div>';
 }
 
 function my_cat_list_filter ( $post_type = 'post' , $taxonomy = '', $posts_per_page = '1') { ?>

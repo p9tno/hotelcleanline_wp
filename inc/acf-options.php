@@ -362,6 +362,92 @@ function my_template_acf_mataboxes(){
     // END firstscreen section
     // ---------------------------------------------------------
 
+    // BEGIN partners section
+    acf_add_local_field_group(array(
+        'key' => 'acf_partners_settings',
+        'title' => 'Настройки партнеров',
+        'fields' => array(
+            array(
+                'key' => 'partners_boolean',
+                'label' => 'Отображать блок?',
+                'name' => 'partners_boolean',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+                'ui_on_text' => 'Да',
+                'ui_off_text' => 'Нет',
+            ),
+            array(
+                'key' => 'partners_title',
+                'label' => 'Заголовок',
+                'name' => 'partners_title',
+                'type' => 'text',
+            ),
+            array(
+                'key' => 'partners_desc',
+                'label' => 'Описание',
+                'name' => 'partners_desc',
+                'type' => 'textarea',
+                'rows' => 1,
+            ),
+            array(
+                'key' => 'partners_slides',
+                'label' => 'Слайды',
+                'name' => 'partners_slides',
+                'type' => 'repeater',
+                'layout' => 'row',  // 'block' || 'row' || 'table'
+                'button_label' => 'Добавить',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'partners_slide_title',
+                        'label' => 'Заголовок',
+                        'name' => 'partners_slide_title',
+                        'type' => 'text',
+                    ),
+                    array(
+                        'key' => 'partners_slide_desc',
+                        'label' => 'Описание',
+                        'name' => 'partners_slide_desc',
+                        'type' => 'textarea',
+                        'rows' => 1,
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'partners_first_btn',
+                'label' => 'Первая кнопка',
+                'name' => 'partners_first_btn',
+                'type' => 'link',
+                'return_format' => 'array',
+                'wrapper' => array (
+                    'width' => '50',
+                ),
+            ),
+            array(
+                'key' => 'partners_second_btn',
+                'label' => 'Вторая кнопка',
+                'name' => 'partners_second_btn',
+                'type' => 'link',
+                'return_format' => 'array',
+                'wrapper' => array (
+                    'width' => '50',
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'template-homepage.php',
+                )
+            ),
+        ),
+        'menu_order' => 10,
+    ));
+    // END partners section
+    // ---------------------------------------------------------
+
     // BEGIN test section
     acf_add_local_field_group(array(
         'key' => 'acf_test_settings',
@@ -432,6 +518,26 @@ function my_template_acf_mataboxes(){
                         'name' => 'list_item',
                         'type' => 'text',
                     ),
+                ),
+            ),
+            array(
+                'key' => 'test_first_btn',
+                'label' => 'First button',
+                'name' => 'test_first_btn',
+                'type' => 'link',
+                'return_format' => 'array',
+                'wrapper' => array (
+                    'width' => '50',
+                ),
+            ),
+            array(
+                'key' => 'test_second_btn',
+                'label' => 'Second button',
+                'name' => 'test_second_btn',
+                'type' => 'link',
+                'return_format' => 'array',
+                'wrapper' => array (
+                    'width' => '50',
                 ),
             ),
         ),

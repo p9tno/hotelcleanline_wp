@@ -12,6 +12,10 @@
 
 <?php // echo wp_get_attachment_image(the_field('test'), 'full'); ?>
 
+<?php // render_section_title('section_title'); ?>
+<?php // render_section_description('section_description'); ?>
+<?php // render_section_buttons('test_first_btn','test_second_btn'); ?>
+
 
 
 <?php if (get_field('test')) { ?>
@@ -67,7 +71,7 @@ if( $rows ) { ?>
 
 get_template_part( 'template-parts/sections/section', 'firstscreen' );
 // get_template_part( 'template-parts/sections/section', 'topCategories' );
-// get_template_part( 'template-parts/sections/section', 'partners' );
+get_template_part( 'template-parts/sections/section', 'partners' );
 // get_template_part( 'template-parts/sections/section', 'homeProducts' );
 // get_template_part( 'template-parts/sections/section', 'media' );
 // get_template_part( 'template-parts/sections/section', 'hscroll' );
