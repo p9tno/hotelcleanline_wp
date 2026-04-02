@@ -539,6 +539,150 @@ function my_template_acf_mataboxes(){
     // END media_swiper section
     // ---------------------------------------------------------
 
+    // BEGIN hscroll section
+    acf_add_local_field_group(array(
+        'key' => 'acf_hscroll_settings',
+        'title' => 'Настройки горизонтально скрола изображений',
+        'fields' => array(
+            array(
+                'key' => 'hscroll_boolean',
+                'label' => 'Отображать блок?',
+                'name' => 'hscroll_boolean',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+                'ui_on_text' => 'Да',
+                'ui_off_text' => 'Нет',
+            ),
+            array(
+                'key' => 'hscroll_title',
+                'label' => 'Заголовок',
+                'name' => 'hscroll_title',
+                'type' => 'text',
+            ),
+            array(
+                'key' => 'hscroll_img_id_1',
+                'label' => 'Изображение 1',
+                'name' => 'hscroll_img_id_1',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                'required' => 1,
+                'wrapper' => array (
+                    'width' => '25',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_img_id_2',
+                'label' => 'Изображение 2',
+                'name' => 'hscroll_img_id_2',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                'required' => 1,
+                'wrapper' => array (
+                    'width' => '25',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_img_id_3',
+                'label' => 'Изображение 3',
+                'name' => 'hscroll_img_id_3',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                'required' => 1,
+                'wrapper' => array (
+                    'width' => '25',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_img_id_4',
+                'label' => 'Изображение 4',
+                'name' => 'hscroll_img_id_4',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                'required' => 1,
+                'wrapper' => array (
+                    'width' => '25',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_img_id_5',
+                'label' => 'Изображение 5',
+                'name' => 'hscroll_img_id_5',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                'required' => 1,
+                'wrapper' => array (
+                    'width' => '25',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_img_id_6',
+                'label' => 'Изображение 6',
+                'name' => 'hscroll_img_id_6',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                'required' => 1,
+                'wrapper' => array (
+                    'width' => '25',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_img_id_7',
+                'label' => 'Изображение 7',
+                'name' => 'hscroll_img_id_7',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                'required' => 1,
+                'wrapper' => array (
+                    'width' => '25',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_img_id_8',
+                'label' => 'Изображение 8',
+                'name' => 'hscroll_img_id_8',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                'required' => 1,
+                'wrapper' => array (
+                    'width' => '25',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_img_id_9',
+                'label' => 'Изображение 9',
+                'name' => 'hscroll_img_id_9',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                'required' => 1,
+                'wrapper' => array (
+                    'width' => '25',
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'template-homepage.php',
+                )
+            ),
+        ),
+        'menu_order' => 90,
+    ));
+    // END hscroll section
+    // ---------------------------------------------------------
+
     // BEGIN test section
     acf_add_local_field_group(array(
         'key' => 'acf_test_settings',
@@ -576,6 +720,16 @@ function my_template_acf_mataboxes(){
                 'name' => 'test_desc',
                 'type' => 'textarea',
                 'rows' => 2,
+            ),
+            array(
+                'key' => 'test_content',
+                'label' => 'Контент',
+                'name' => 'test_content',
+                'type' => 'wysiwyg',
+                'tabs' => 'all',  // 'visual' || 'text' || 'all'
+                'toolbar' => 'basic',  // 'basic' \\ 'full'
+                'media_upload' => 0,
+                'delay' => 0,
             ),
             array(
                 'key' => 'test_img_id',
