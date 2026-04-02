@@ -1772,6 +1772,9 @@ body {
   overflow: hidden;
   border-radius: 0.625em;
 }
+.banner__slide .section__btns {
+  justify-content: flex-start;
+}
 .banner__img {
   position: absolute;
   top: 0;

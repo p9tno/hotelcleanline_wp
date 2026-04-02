@@ -8,6 +8,10 @@
         overflow: hidden;
         border-radius: 0.625em;
 
+        .section__btns {
+            justify-content: flex-start;
+        }
+
     }
 
     &__img {

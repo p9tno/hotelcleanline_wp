@@ -16,7 +16,7 @@
 <?php // render_section_description('section_description'); ?>
 <?php // render_section_content('section_content'); ?>
 <?php // render_section_buttons('test_first_btn','test_second_btn'); ?>
-<?php // ender_acf_link('test_first_btn'); ?>
+<?php // render_acf_link('test_first_btn'); ?>
 
 
 
@@ -77,7 +77,7 @@ get_template_part( 'template-parts/sections/section', 'partners' );
 // get_template_part( 'template-parts/sections/section', 'homeProducts' );
 get_template_part( 'template-parts/sections/section', 'media' );
 get_template_part( 'template-parts/sections/section', 'hscroll' );
-// get_template_part( 'template-parts/sections/section', 'banner' );
+get_template_part( 'template-parts/sections/section', 'banner' );
 
 
 ?>

@@ -683,6 +683,84 @@ function my_template_acf_mataboxes(){
     // END hscroll section
     // ---------------------------------------------------------
 
+    // BEGIN banner section
+    acf_add_local_field_group(array(
+        'key' => 'acf_banner_settings',
+        'title' => 'Настройки банера',
+        'fields' => array(
+            array(
+                'key' => 'banner_boolean',
+                'label' => 'Отображать блок?',
+                'name' => 'banner_boolean',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+                'ui_on_text' => 'Да',
+                'ui_off_text' => 'Нет',
+            ),
+            array(
+                'key' => 'banner_slides',
+                'label' => 'Слайды',
+                'name' => 'banner_slides',
+                'type' => 'repeater',
+                'layout' => 'block',  // 'block' || 'row' || 'table'
+                'button_label' => 'Добавить',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'banner_title',
+                        'label' => 'Заголовок',
+                        'name' => 'banner_title',
+                        'type' => 'text',
+                    ),
+                    array(
+                        'key' => 'banner_desc',
+                        'label' => 'Описание',
+                        'name' => 'banner_desc',
+                        'type' => 'textarea',
+                        'rows' => 2,
+                    ),
+                    array(
+                        'key' => 'banner_btn',
+                        'label' => 'Кнопка',
+                        'name' => 'banner_btn',
+                        'type' => 'link',
+                        'return_format' => 'array',
+                    ),
+                    array(
+                        'key' => 'banner_img_id',
+                        'label' => 'Изображение',
+                        'name' => 'banner_img_id',
+                        'type' => 'image',
+                        'return_format' => 'id',  // 'id' || 'url' || 'array'
+                        'preview_size' => 'medium', // (thumbnail, medium, large, full or custom size)
+                        'instructions' => 'Рекомендуемое разрешение изображения не более 1200/400px.',
+                        'required' => 1,
+                    ),
+                ),
+            ),
+ 
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'template-homepage.php',
+                )
+            ),
+            // array(
+            //     array(
+            //         'param' => 'page_template',
+            //         'operator' => '==',
+            //         'value' => 'template-contacts.php',
+            //     ),
+            // ),
+        ),
+        'menu_order' => 100,
+    ));
+    // END banner section
+    // ---------------------------------------------------------
+
     // BEGIN test section
     acf_add_local_field_group(array(
         'key' => 'acf_test_settings',
