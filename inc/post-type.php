@@ -45,7 +45,8 @@ function register_product_post_type() {
             'pages'      => true
         ),
         'capability_type'    => 'post',
-        'has_archive'        => 'products',   // URL архива: site.com/products/
+        // 'has_archive'        => 'products',   // URL архива: site.com/products/
+        'has_archive'        => false,   // Отключаем архив
         'hierarchical'       => false,
         'menu_position'      => 20,           // Позиция в меню (20 - под страницами)
         'menu_icon'          => 'dashicons-cart', // Иконка в меню

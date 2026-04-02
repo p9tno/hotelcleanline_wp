@@ -39,9 +39,9 @@ if (!empty($parent_categories) && !is_wp_error($parent_categories)) : ?>
                 </div>
             </div>
             
-            <div class="section__btns">
-                <a class="btn" href="<?php echo esc_url(get_post_type_archive_link('product')); ?>">Все товары</a>
-            </div>
+            <!-- <div class="section__btns">
+                <a class="btn" href="<?php // echo esc_url(get_post_type_archive_link('product')); ?>">Все товары</a>
+            </div> -->
             
         </div>
     </section>
