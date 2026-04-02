@@ -114,8 +114,33 @@ require get_template_directory() . '/inc/disable-verification.php';
 require get_template_directory() . '/inc/utilities.php';
 require get_template_directory() . '/inc/acf-options.php';
 require get_template_directory() . '/inc/breadcrumb.php';
-// require get_template_directory() . '/inc/post-type.php';
+require get_template_directory() . '/inc/post-type.php';
 // require get_template_directory() . '/inc/filter.php';
+
+
+/**
+ * Полное отключение комментариев
+ */
+function complete_disable_comments() {
+    // 1. Отключаем поддержку комментариев для всех типов записей
+    $post_types = ['post', 'page', 'product'];
+    foreach ($post_types as $post_type) {
+        remove_post_type_support($post_type, 'comments');
+        remove_post_type_support($post_type, 'trackbacks');
+    }
+    
+    // 2. Отключаем RSS ленту комментариев
+    add_filter('feed_links_show_comments_feed', '__return_false');
+    
+    // 3. Перенаправляем запросы к комментариям на главную
+    add_action('template_redirect', function() {
+        if (is_comment_feed() || is_single() && (comments_open() || get_comments_number())) {
+            wp_redirect(home_url('/'), 301);
+            exit;
+        }
+    });
+}
+add_action('init', 'complete_disable_comments', 100);
 
 
 

@@ -2,21 +2,14 @@
 
 if( function_exists('acf_add_options_page') ) {
 
-    acf_add_options_page(array(
-        'page_title' 	=> 'Шапка',
-        'menu_title'	=> 'Шапка',
-        'menu_slug' 	=> 'theme-header',
-        'capability'	=> 'edit_posts',
-        'redirect'		=> false,
-        // 'icon_url' => 'dashicons-arrow-up',
-    ));		
+	
 	acf_add_options_page(array(
-		'page_title' 	=> 'Контакты',
-		'menu_title'	=> 'Контакты',
-		'menu_slug' 	=> 'theme-contact',
+		'page_title' 	=> 'Магазин',
+		'menu_title'	=> 'Магазин',
+		'menu_slug' 	=> 'theme-shop',
 		'capability'	=> 'edit_posts',
 		'redirect'		=> false,
-        'icon_url' => 'dashicons-phone',
+        'icon_url' => 'dashicons-screenoptions',
 	));	
 	acf_add_options_page(array(
 		'page_title' 	=> 'Настройки контента',
@@ -26,22 +19,179 @@ if( function_exists('acf_add_options_page') ) {
 		'redirect'		=> false,
         'icon_url' => 'dashicons-text',
 	));
-    acf_add_options_page(array(
-        'page_title' 	=> 'Подвал',
-        'menu_title'	=> 'Подвал',
-        'menu_slug' 	=> 'theme-footer',
-        'capability'	=> 'edit_posts',
-        'redirect'		=> false,
-        // 'icon_url' => 'dashicons-arrow-down',
-    ));
 }
 
 function my_template_acf_mataboxes(){
     // BEGIN GLOBAL CONTACTS
     acf_add_local_field_group(array(
         'key' => 'acf_global_contacts',
-        'title' => 'Контактные данные',
+        'title' => 'Настройки магазина',
         'fields' => array(
+            // ------------------------------- Настройки валюты (НОВАЯ ВКЛАДКА)
+            array(
+                'key' => 'tab_content_currency',
+                'label' => 'Валюта', 
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'currency_symbol',
+                'label' => 'Символ валюты',
+                'name' => 'currency_symbol',
+                'type' => 'select',
+                'default_value' => '₽',
+                'choices' => array(
+                    '₽' => 'Рубль (₽)',
+                    '$' => 'Доллар ($)',
+                    '€' => 'Евро (€)',
+                    'custom' => 'Свой символ',
+                ),
+                'instructions' => 'Выберите символ валюты',
+            ),
+            array(
+                'key' => 'currency_symbol_custom',
+                'label' => 'Свой символ валюты',
+                'name' => 'currency_symbol_custom',
+                'type' => 'text',
+                'default_value' => '',
+                'placeholder' => 'Например: ₿',
+                'instructions' => 'Введите свой символ, если выбрали "Свой символ"',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'currency_symbol',
+                            'operator' => '==',
+                            'value' => 'custom',
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'currency_position',
+                'label' => 'Позиция валюты',
+                'name' => 'currency_position',
+                'type' => 'select',
+                'default_value' => 'after',
+                'choices' => array(
+                    'before' => 'Перед ценой (₽100 )',
+                    'after' => 'После цены (100₽)',
+                    'before_space' => 'Перед ценой с пробелом (₽ 100)',
+                    'after_space' => 'После цены с пробелом (100 ₽)',
+                ),
+                'instructions' => 'Где отображать символ валюты относительно цены',
+            ),
+            array(
+                'key' => 'currency_thousand_separator',
+                'label' => 'Разделитель тысяч',
+                'name' => 'currency_thousand_separator',
+                'type' => 'select',
+                'default_value' => 'space',
+                'choices' => array(
+                    'space' => 'Пробел (1 000)',
+                    'comma' => 'Запятая (1,000)',
+                    'dot' => 'Точка (1.000)',
+                    'none' => 'Без разделителя (1000)',
+                ),
+            ),
+            array(
+                'key' => 'currency_decimal_separator',
+                'label' => 'Разделитель копеек',
+                'name' => 'currency_decimal_separator',
+                'type' => 'select',
+                'default_value' => 'dot',
+                'choices' => array(
+                    'dot' => 'Точка (100.50)',
+                    'comma' => 'Запятая (100,50)',
+                ),
+            ),
+            array(
+                'key' => 'currency_decimals',
+                'label' => 'Количество знаков после запятой',
+                'name' => 'currency_decimals',
+                'type' => 'number',
+                'default_value' => 0,
+                'min' => 0,
+                'max' => 2,
+                'instructions' => '0 — без копеек, 2 — с копейками',
+            ),
+
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'options_page',
+                    'operator' => '==',
+                    'value' => 'theme-shop',
+                )
+            )
+        ),
+    ));
+    // END GLOBAL CONTACTS
+    // ---------------------------------------------------------
+
+    // BEGIN GLOBAL CONTENT
+    acf_add_local_field_group(array(
+        'key' => 'acf_global_content',
+        'title' => 'Настройки контента',
+        'fields' => array(
+            // ------------------------------- Preloader
+            array (
+                'key' => 'tab_content_preloader',
+                'label' => 'Preloader', 
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'preloader_boolean',
+                'label' => 'Отображать блок?',
+                'name' => 'preloader_boolean',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+                'ui_on_text' => 'Да',
+                'ui_off_text' => 'Нет',
+            ),
+            // ------------------------------- tab_header
+            array (
+                'key' => 'tab_header',
+                'label' => 'Шапка', 
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'logo_img',
+                'label' => 'Логотип',
+                'name' => 'logo_img',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url'
+                'preview_size' => 'full',
+            ),
+            // array(
+            //     'key' => 'header_scripts',
+            //     'label' => 'Скрипты перед закрывающим тегом <b>/HEAD</b>',
+            //     'name' => 'header_scripts',
+            //     'type' => 'textarea',
+            //     'rows'  => 20,
+            // ),
+            // ------------------------------- tab_footer
+            array (
+                'key' => 'tab_footer',
+                'label' => 'Подвал', 
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'footer_img',
+                'label' => 'Логотип',
+                'name' => 'footer_img',
+                'type' => 'image',
+                'return_format' => 'id',  // 'id' || 'url'
+                'preview_size' => 'full',
+            ),
+            // array(
+            //     'key' => 'footer_scripts',
+            //     'label' => 'Скрипты перед закрывающим тегом <b>/BODY</b>',
+            //     'name' => 'footer_scripts',
+            //     'type' => 'textarea',
+            //     'rows'  => 20,
+            // ),
+
             // ------------------------------- tab_phone
             array (
                 'key' => 'tab_phone',
@@ -96,187 +246,22 @@ function my_template_acf_mataboxes(){
                 'name' => 'vk',
                 'type' => 'text',
             ),
-            // ------------------------------- tab_email
-            array (
-                'key' => 'tab_email',
-                'label' => 'Email', 
-                'type' => 'tab',
-            ),
-            array(
-                'key' => 'mail',
-                'label' => 'Email',
-                'name' => 'mail',
-                'type' => 'text',
-            ),
-            array(
-                'key' => 'mail_to',
-                'label' => 'Email для получения заявок с сайта',
-                'name' => 'mail_to',
-                'type' => 'text',
-                // 'instructions' => 'Почта получателя в одинарных <b>кавычках</b>, через запятую можно указать несколько адресов.',
-                // 'placeholder' => 'daria11140@gmail.com',
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'options_page',
-                    'operator' => '==',
-                    'value' => 'theme-contact',
-                )
-            )
-        ),
-    ));
-    // END GLOBAL CONTACTS
-    // ---------------------------------------------------------
-    // BEGIN GLOBAL HEADER
-    acf_add_local_field_group(array(
-        'key' => 'acf_global_header',
-        'title' => 'Настройки шапки',
-        'fields' => array(
-            // ------------------------------- tab_header_general
-            array (
-                'key' => 'tab_header_general',
-                'label' => 'Общие настройки', 
-                'type' => 'tab',
-            ),
-            array(
-                'key' => 'logo_img',
-                'label' => 'Логотип',
-                'name' => 'logo_img',
-                'type' => 'image',
-                'return_format' => 'id',  // 'id' || 'url'
-                'preview_size' => 'full',
-            ),
-            // ------------------------------- tab_header_scripts
-            array (
-                'key' => 'tab_header_scripts',
-                'label' => 'Скрипты', 
-                'type' => 'tab',
-            ),
-            array(
-                'key' => 'header_scripts',
-                'label' => 'Скрипты перед закрывающим тегом <b>/HEAD</b>',
-                'name' => 'header_scripts',
-                'type' => 'textarea',
-                'rows'  => 20,
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'options_page',
-                    'operator' => '==',
-                    'value' => 'theme-header',
-                )
-            )
-        ),
-    ));
-    // END GLOBAL HEADER
-    // ---------------------------------------------------------
-    // BEGIN GLOBAL FOOTER
-    acf_add_local_field_group(array(
-        'key' => 'acf_global_footer',
-        'title' => 'Настройки подвала',
-        'fields' => array(
-            // ------------------------------- tab_footer_general
-            array (
-                'key' => 'tab_footer_general',
-                'label' => 'Общие настройки', 
-                'type' => 'tab',
-            ),
-            array(
-                'key' => 'footer_img',
-                'label' => 'Логотип',
-                'name' => 'footer_img',
-                'type' => 'image',
-                'return_format' => 'id',  // 'id' || 'url'
-                'preview_size' => 'full',
-            ),
-            // ------------------------------- tab_footer_scripts
-            array (
-                'key' => 'tab_footer_scripts',
-                'label' => 'Скрипты', 
-                'type' => 'tab',
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'options_page',
-                    'operator' => '==',
-                    'value' => 'theme-footer',
-                )
-            )
-        ),
-    ));
-    // END GLOBAL FOOTER
-    // ---------------------------------------------------------
-    // BEGIN GLOBAL CONTENT
-    acf_add_local_field_group(array(
-        'key' => 'acf_global_content',
-        'title' => 'Настройки контента',
-        'fields' => array(
-            // ------------------------------- Preloader
-            array (
-                'key' => 'tab_content_preloader',
-                'label' => 'Preloader', 
-                'type' => 'tab',
-            ),
-            array(
-                'key' => 'preloader_boolean',
-                'label' => 'Отображать блок?',
-                'name' => 'preloader_boolean',
-                'type' => 'true_false',
-                'default_value' => 1,
-                'ui' => 1,
-                'ui_on_text' => 'Да',
-                'ui_off_text' => 'Нет',
-            ),
-            // ------------------------------- 404
-            array (
-                'key' => 'tab_content_404',
-                'label' => 'Страница 404', 
-                'type' => 'tab',
-            ),
-            array(
-                'key' => '404_title',
-                'label' => 'Заголовок',
-                'name' => '404_title',
-                'type' => 'text',
-                'instructions' => 'Используйте тег b для выделения жирного контента. Для переноса строки используйте тег br. Тег i для выделения другим цветом',
-            ),
-            array(
-                'key' => '404_subtitle',
-                'label' => 'Подзаголовок',
-                'name' => '404_subtitle',
-                'type' => 'text',
-            ),
-            array(
-                'key' => '404_img_id',
-                'label' => 'Фоновое изображение блока',
-                'name' => '404_img_id',
-                'type' => 'image',
-                'return_format' => 'id',  // 'id' || 'url'
-                'preview_size' => 'thumbnail',
-                'instructions' => 'Рекомендуемое разрешение изображения 1920/1080px.',
-            ),
-            // ------------------------------- privacy
-            array (
-                'key' => 'tab_content_privacy',
-                'label' => 'Политика конфиденциальности', 
-                'type' => 'tab',
-            ),
-            array(
-                'key' => 'privacy_content',
-                'label' => 'Контент',
-                'name' => 'privacy_content',
-                'type' => 'wysiwyg',
-                'tabs' => 'all',  // 'visual' || 'text'
-                'toolbar' => 'full',  // 'basic'
-                'media_upload' => 0,
-                'delay' => 0,
-            ),
+            // // ------------------------------- privacy
+            // array (
+            //     'key' => 'tab_content_privacy',
+            //     'label' => 'Политика конфиденциальности', 
+            //     'type' => 'tab',
+            // ),
+            // array(
+            //     'key' => 'privacy_content',
+            //     'label' => 'Контент',
+            //     'name' => 'privacy_content',
+            //     'type' => 'wysiwyg',
+            //     'tabs' => 'all',  // 'visual' || 'text'
+            //     'toolbar' => 'full',  // 'basic'
+            //     'media_upload' => 0,
+            //     'delay' => 0,
+            // ),
         ),
         'location' => array(
             array(
@@ -884,6 +869,409 @@ function my_template_acf_mataboxes(){
     ));
     // END test section
     // ---------------------------------------------------------
+
+    // *********************************************************
+    // *********************************************************
+
+    // BEGIN POST TYPE product - основные поля
+    acf_add_local_field_group(array(
+        'key' => 'acf_product_settings',
+        'title' => 'Настройки продукта',
+        'fields' => array(
+            // Изображение товара
+            array(
+                'key' => 'product_image_id',
+                'label' => 'Изображение товара',
+                'name' => 'product_image_id',
+                'type' => 'image',
+                'preview_size' => 'thumbnail',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'required' => 1,
+                'wrapper' => array(
+                    'width' => '100',
+                ),
+                'instructions' => 'Загрузите основное изображение товара',
+            ),
+            
+            // Галерея изображений
+            array(
+                'key' => 'product_gallery',
+                'label' => 'Галерея изображений',
+                'name' => 'product_gallery',
+                'type' => 'gallery',
+                'preview_size' => 'thumbnail',
+                'return_format' => 'id',  // 'id' || 'url' || 'array'
+                'required' => 0,
+                'wrapper' => array(
+                    'width' => '100',
+                ),
+                'instructions' => 'Дополнительные изображения товара (необязательно)',
+            ),
+            
+            // Цена
+            array(
+                'key' => 'product_price',
+                'label' => 'Цена',
+                'name' => 'product_price',
+                'type' => 'number',
+                'wrapper' => array(
+                    'width' => '50',
+                ),
+                'instructions' => 'Цена в рублях',
+                'required' => 0,
+                'placeholder' => '1000.00',
+                'prepend' => '₽',
+                'step' => '0.01',
+            ),
+            
+            // // Старая цена (со скидкой)
+            // array(
+            //     'key' => 'product_old_price',
+            //     'label' => 'Старая цена',
+            //     'name' => 'product_old_price',
+            //     'type' => 'number',
+            //     'wrapper' => array(
+            //         'width' => '33',
+            //     ),
+            //     'instructions' => 'Цена до скидки (если есть акция)',
+            //     'placeholder' => '1500.00',
+            //     'prepend' => '₽',
+            //     'step' => '0.01',
+            // ),
+            
+            // Артикул
+            array(
+                'key' => 'product_sku',
+                'label' => 'Артикул (SKU)',
+                'name' => 'product_sku',
+                'type' => 'text',
+                'wrapper' => array(
+                    'width' => '50',
+                ),
+                'instructions' => 'Уникальный артикул товара',
+                'placeholder' => 'PRD-001',
+            ),
+            
+            // // Наличие на складе
+            // array(
+            //     'key' => 'product_stock',
+            //     'label' => 'Наличие на складе',
+            //     'name' => 'product_stock',
+            //     'type' => 'select',
+            //     'choices' => array(
+            //         'in_stock' => 'В наличии',
+            //         'out_of_stock' => 'Нет в наличии',
+            //         'preorder' => 'Предзаказ',
+            //         'under_order' => 'Под заказ',
+            //     ),
+            //     'default_value' => 'in_stock',
+            //     'wrapper' => array(
+            //         'width' => '50',
+            //     ),
+            //     'instructions' => 'Текущий статус наличия товара',
+            // ),
+            
+            // // Количество
+            // array(
+            //     'key' => 'product_quantity',
+            //     'label' => 'Количество на складе',
+            //     'name' => 'product_quantity',
+            //     'type' => 'number',
+            //     'wrapper' => array(
+            //         'width' => '50',
+            //     ),
+            //     'instructions' => 'Точное количество единиц (для складского учёта)',
+            //     'placeholder' => '10',
+            //     'min' => 0,
+            // ),
+            
+            // // Вес
+            // array(
+            //     'key' => 'product_weight',
+            //     'label' => 'Вес',
+            //     'name' => 'product_weight',
+            //     'type' => 'number',
+            //     'wrapper' => array(
+            //         'width' => '33',
+            //     ),
+            //     'instructions' => 'Вес товара в кг',
+            //     'placeholder' => '0.5',
+            //     'step' => '0.01',
+            //     'append' => 'кг',
+            // ),
+            
+            // // Размеры
+            // array(
+            //     'key' => 'product_dimensions',
+            //     'label' => 'Размеры (Д×Ш×В)',
+            //     'name' => 'product_dimensions',
+            //     'type' => 'text',
+            //     'wrapper' => array(
+            //         'width' => '67',
+            //     ),
+            //     'instructions' => 'Например: 10×20×30 см',
+            //     'placeholder' => '10×20×30 см',
+            // ),
+            
+            // // Видео (YouTube/Vimeo)
+            // array(
+            //     'key' => 'product_video_url',
+            //     'label' => 'Ссылка на видео',
+            //     'name' => 'product_video_url',
+            //     'type' => 'url',
+            //     'wrapper' => array(
+            //         'width' => '100',
+            //     ),
+            //     'instructions' => 'Ссылка на YouTube или Vimeo видео обзора товара',
+            //     'placeholder' => 'https://www.youtube.com/watch?v=...',
+            // ),
+            
+            // // SEO заголовок
+            // array(
+            //     'key' => 'product_seo_title',
+            //     'label' => 'SEO заголовок',
+            //     'name' => 'product_seo_title',
+            //     'type' => 'text',
+            //     'wrapper' => array(
+            //         'width' => '100',
+            //     ),
+            //     'instructions' => 'Meta Title (если пусто - используется заголовок товара)',
+            //     'maxlength' => 70,
+            // ),
+            
+            // // SEO описание
+            // array(
+            //     'key' => 'product_seo_description',
+            //     'label' => 'SEO описание',
+            //     'name' => 'product_seo_description',
+            //     'type' => 'textarea',
+            //     'wrapper' => array(
+            //         'width' => '100',
+            //     ),
+            //     'instructions' => 'Meta Description (рекомендуемая длина 150-160 символов)',
+            //     'rows' => 3,
+            //     'maxlength' => 160,
+            // ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                )
+            ),
+        ),
+        'menu_order' => 1,
+        'position' => 'acf_after_title', // Позиция после заголовка
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+
+    // BEGIN дополнительная вкладка "Характеристики"
+    acf_add_local_field_group(array(
+        'key' => 'acf_product_specifications',
+        'title' => 'Характеристики товара',
+        'fields' => array(
+            array(
+                'key' => 'product_specifications',
+                'label' => 'Технические характеристики',
+                'name' => 'product_specifications',
+                'type' => 'repeater',
+                'instructions' => 'Добавьте основные характеристики товара',
+                'required' => 0,
+                'min' => 0,
+                'max' => 20,
+                'layout' => 'table',
+                'button_label' => 'Добавить характеристику',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'product_spec_name',
+                        'label' => 'Название характеристики',
+                        'name' => 'product_spec_name',
+                        'type' => 'text',
+                        'wrapper' => array(
+                            'width' => '40',
+                        ),
+                        'placeholder' => 'Например: Процессор',
+                    ),
+                    array(
+                        'key' => 'product_spec_value',
+                        'label' => 'Значение',
+                        'name' => 'product_spec_value',
+                        'type' => 'text',
+                        'wrapper' => array(
+                            'width' => '60',
+                        ),
+                        'placeholder' => 'Например: Intel Core i7',
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                )
+            ),
+        ),
+        'menu_order' => 2,
+    ));
+
+    // BEGIN дополнительная вкладка "Связанные товары"
+    acf_add_local_field_group(array(
+        'key' => 'acf_product_related',
+        'title' => 'Связанные товары',
+        'fields' => array(
+            array(
+                'key' => 'product_related_products',
+                'label' => 'Рекомендуемые товары',
+                'name' => 'product_related_products',
+                'type' => 'relationship',
+                'instructions' => 'Выберите товары, которые рекомендуете вместе с этим',
+                'post_type' => array('product'),
+                'filters' => array('search', 'taxonomy'),
+                'return_format' => 'id',
+                'min' => 0,
+                'max' => 10,
+                'elements' => array('featured_image'),
+            ),
+            array(
+                'key' => 'product_cross_sell',
+                'label' => 'Сопутствующие товары (cross-sell)',
+                'name' => 'product_cross_sell',
+                'type' => 'relationship',
+                'instructions' => 'Товары, которые часто покупают вместе (аксессуары)',
+                'post_type' => array('product'),
+                'filters' => array('search', 'taxonomy'),
+                'return_format' => 'id',
+                'min' => 0,
+                'max' => 10,
+                'elements' => array('featured_image'),
+            ),
+            array(
+                'key' => 'product_up_sell',
+                'label' => 'Более дорогие альтернативы (up-sell)',
+                'name' => 'product_up_sell',
+                'type' => 'relationship',
+                'instructions' => 'Товары, которые можно предложить вместо этого (более дорогие)',
+                'post_type' => array('product'),
+                'filters' => array('search', 'taxonomy'),
+                'return_format' => 'id',
+                'min' => 0,
+                'max' => 10,
+                'elements' => array('featured_image'),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                )
+            ),
+        ),
+        'menu_order' => 3,
+    ));
+
+    // BEGIN дополнительная вкладка "Файлы"
+    acf_add_local_field_group(array(
+        'key' => 'acf_product_files',
+        'title' => 'Файлы для скачивания',
+        'fields' => array(
+            array(
+                'key' => 'product_files',
+                'label' => 'Файлы для скачивания',
+                'name' => 'product_files',
+                'type' => 'repeater',
+                'instructions' => 'Добавьте инструкции, каталоги, сертификаты и другие файлы',
+                'button_label' => 'Добавить файл',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'product_file_name',
+                        'label' => 'Название файла',
+                        'name' => 'product_file_name',
+                        'type' => 'text',
+                        'wrapper' => array(
+                            'width' => '40',
+                        ),
+                        'placeholder' => 'Например: Инструкция по эксплуатации',
+                        'required' => 1,
+                    ),
+                    array(
+                        'key' => 'product_file',
+                        'label' => 'Файл',
+                        'name' => 'product_file',
+                        'type' => 'file',
+                        'wrapper' => array(
+                            'width' => '60',
+                        ),
+                        'return_format' => 'url',
+                        'required' => 1,
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                )
+            ),
+        ),
+        'menu_order' => 4,
+    ));
+
+    // *********************************************************
+    // *********************************************************
+    // КАТЕГОРИЙ ПРОДУКТОВ
+    acf_add_local_field_group(array(
+        'key' => 'acf_product_category_settings',
+        'title' => 'Изображение категории',
+        'fields' => array(
+            array(
+                'key' => 'product_category_image',
+                'label' => 'Изображение категории',
+                'name' => 'product_category_image',
+                'type' => 'image',
+                'preview_size' => 'medium',
+                'return_format' => 'id', // Возвращает массив с информацией об изображении
+                'required' => 0,
+                'wrapper' => array(
+                    'width' => '100',
+                ),
+                'instructions' => 'Загрузите изображение для категории (рекомендуемый размер: 400x200px)',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'taxonomy',
+                    'operator' => '==',
+                    'value' => 'product_category',
+                )
+            ),
+        ),
+        'menu_order' => 1,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+
+
+    // *********************************************************
+    // *********************************************************
+
+
+
+
 
 }
 add_action('acf/init', 'my_template_acf_mataboxes');
