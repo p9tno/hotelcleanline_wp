@@ -26,6 +26,6 @@
 		<main class="main_content">
 			<?php get_template_part( 'template-parts/parts/part', 'breadcrumb' ); ?>
 
-			<?php echo '<h2>'.get_post_type().'</h2>'; ?>
+			
 
 

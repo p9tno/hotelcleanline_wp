@@ -89,7 +89,7 @@ $(document).ready(function() {
     const partnersContainer = document.querySelector('.partners');
     if (partnersContainer) {
         initSwiper('.partners_swiper_js', {
-            slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 6,
             speed: speed,
             loop: false,
@@ -107,7 +107,7 @@ $(document).ready(function() {
             breakpoints: {
                 768: {
                     spaceBetween: 40,
-                    slidesPerView: 4,
+                    slidesPerView: 2,
                     simulateTouch: false,
                 },
             }

@@ -2,6 +2,9 @@ $animation-duration: 1.5s;
 
 .firstscreen {
     // padding: 0;
+    // @media (max-width: 767px) {
+    //   padding: 0!important;
+    // }
 
     &__swiper {
         width: 100%;
@@ -41,7 +44,8 @@ $animation-duration: 1.5s;
         padding: 5em 1em;
         @media (min-width: 768px) {
             align-items: flex-end;
-            padding: 7.5em;
+            justify-content: flex-end;
+            padding: 5em;
         }
         @media (min-width: 1441px) {
           border-radius: 0.625em;
@@ -56,16 +60,16 @@ $animation-duration: 1.5s;
         width: 100%;
         height: 100%;
 
-        &:before {
-          content: '';
-          display: block;
-          width: 100%;
-          height: 100%;
-          position: absolute;   
-          top: 0;
-          left: 0;
-          background-color: rgba($color_black, 0.3);
-        }
+        // &:before {
+        //   content: '';
+        //   display: block;
+        //   width: 100%;
+        //   height: 100%;
+        //   position: absolute;   
+        //   top: 0;
+        //   left: 0;
+        //   background-color: rgba($color_black, 0.3);
+        // }
     }
 
     &__content {
@@ -73,9 +77,12 @@ $animation-duration: 1.5s;
         width: 18.75em;
         padding: 1.5em 1.25em;
 
+        background-color: rgba($color_white, 0.7);
+        backdrop-filter: blur(3px);
+        border-radius: 0.625em;
+
         @media (min-width: 768px) {
-          width: 40em;
-          padding: 0;
+          width: 30em;
         }
 
     }
@@ -83,7 +90,7 @@ $animation-duration: 1.5s;
     &__title {
 		margin: 0;
 		font-family: $second_font_family;
-		color: $color_white;
+		color: $color_primary;
 		line-height: 1.1;
 		font-weight: 300;
 		font-size: 1.75em;
@@ -103,7 +110,7 @@ $animation-duration: 1.5s;
     &__desc {
         margin-top: 1.125em;
         opacity: 0;
-        color: $color_white;
+        // color: $color_white;
 
         > * {
             &:first-child {
@@ -133,8 +140,7 @@ $animation-duration: 1.5s;
         opacity: 0;
         
         @media (min-width: 768px) {
-            margin-top: 2.5em;
-          
+            margin-top: 2em;
         }
 
         .swiper-slide-active & {
