@@ -660,7 +660,27 @@ function my_template_acf_mataboxes(){
                 'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
                 'required' => 1,
                 'wrapper' => array (
-                    'width' => '25',
+                    'width' => '100',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_first_btn',
+                'label' => 'Первая кнопка',
+                'name' => 'hscroll_first_btn',
+                'type' => 'link',
+                'return_format' => 'array',
+                'wrapper' => array (
+                    'width' => '50',
+                ),
+            ),
+            array(
+                'key' => 'hscroll_second_btn',
+                'label' => 'Вторая кнопка',
+                'name' => 'hscroll_second_btn',
+                'type' => 'link',
+                'return_format' => 'array',
+                'wrapper' => array (
+                    'width' => '50',
                 ),
             ),
         ),

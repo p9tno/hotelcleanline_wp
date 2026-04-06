@@ -25,6 +25,7 @@
             </div>
         </div>
     </div>
+    <?php render_section_buttons('hscroll_first_btn','hscroll_second_btn'); ?>
 </section>
 <!-- end hscroll -->
 <?php } ?>
