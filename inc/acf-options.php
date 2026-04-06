@@ -350,7 +350,7 @@ function my_template_acf_mataboxes(){
     // BEGIN partners section
     acf_add_local_field_group(array(
         'key' => 'acf_partners_settings',
-        'title' => 'Настройки партнеров',
+        'title' => 'Настройки араматов',
         'fields' => array(
             array(
                 'key' => 'partners_boolean',
@@ -395,6 +395,16 @@ function my_template_acf_mataboxes(){
                         'name' => 'partners_slide_desc',
                         'type' => 'textarea',
                         'rows' => 1,
+                    ),
+                    array(
+                        'key' => 'partners_slide_img_id',
+                        'label' => 'Изображение',
+                        'name' => 'partners_slide_img_id',
+                        'type' => 'image',
+                        'return_format' => 'id',  // 'id' || 'url' || 'array'
+                        'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                        'instructions' => 'Рекомендуемое разрешение изображения не более 600/320px.',
+                        'required' => 1,
                     ),
                 ),
             ),
