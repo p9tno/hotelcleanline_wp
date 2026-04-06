@@ -15,7 +15,7 @@
                                 $field_name = 'hscroll_img_id_' . $i;
                                 $image_id = get_field($field_name);
                                 if ($image_id) {
-                                    echo wp_get_attachment_image($image_id, 'full');
+                                    echo wp_get_attachment_image($image_id, 'medium');
                                 }
                                 ?>
                             </div>

@@ -12,7 +12,7 @@ if (get_field('banner_boolean') && $slides) { ?>
                         <?php foreach( $slides as $slide ) { ?>
                             <div class="swiper-slide banner__slide">
                                 <div class="banner__img img">
-                                    <?php echo wp_get_attachment_image($slide['banner_img_id'], 'full'); ?>
+                                    <?php echo wp_get_attachment_image($slide['banner_img_id'], 'large'); ?>
                                 </div>
                                 <div class="banner__content">
                                     <h2 class="banner__title ta_l"><?php echo $slide['banner_title']; ?></h2>
