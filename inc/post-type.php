@@ -53,7 +53,7 @@ function register_product_post_type() {
         'supports'           => array(
             'title',
             // 'editor',
-            // 'thumbnail',
+            'thumbnail',
             // 'excerpt',
             // 'comments',
             // 'revisions',

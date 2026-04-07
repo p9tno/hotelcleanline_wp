@@ -909,19 +909,19 @@ function my_template_acf_mataboxes(){
         'title' => 'Настройки продукта',
         'fields' => array(
             // Изображение товара
-            array(
-                'key' => 'product_image_id',
-                'label' => 'Изображение товара',
-                'name' => 'product_image_id',
-                'type' => 'image',
-                'preview_size' => 'thumbnail',
-                'return_format' => 'id',  // 'id' || 'url' || 'array'
-                'required' => 1,
-                'wrapper' => array(
-                    'width' => '100',
-                ),
-                'instructions' => 'Загрузите основное изображение товара',
-            ),
+            // array(
+            //     'key' => 'product_image_id',
+            //     'label' => 'Изображение товара',
+            //     'name' => 'product_image_id',
+            //     'type' => 'image',
+            //     'preview_size' => 'thumbnail',
+            //     'return_format' => 'id',  // 'id' || 'url' || 'array'
+            //     'required' => 1,
+            //     'wrapper' => array(
+            //         'width' => '100',
+            //     ),
+            //     'instructions' => 'Загрузите основное изображение товара',
+            // ),
             
             // Галерея изображений
             array(
@@ -1099,57 +1099,57 @@ function my_template_acf_mataboxes(){
         'instruction_placement' => 'label',
     ));
 
-    // BEGIN дополнительная вкладка "Характеристики"
-    acf_add_local_field_group(array(
-        'key' => 'acf_product_specifications',
-        'title' => 'Характеристики товара',
-        'fields' => array(
-            array(
-                'key' => 'product_specifications',
-                'label' => 'Технические характеристики',
-                'name' => 'product_specifications',
-                'type' => 'repeater',
-                'instructions' => 'Добавьте основные характеристики товара',
-                'required' => 0,
-                'min' => 0,
-                'max' => 20,
-                'layout' => 'table',
-                'button_label' => 'Добавить характеристику',
-                'sub_fields' => array(
-                    array(
-                        'key' => 'product_spec_name',
-                        'label' => 'Название характеристики',
-                        'name' => 'product_spec_name',
-                        'type' => 'text',
-                        'wrapper' => array(
-                            'width' => '40',
-                        ),
-                        'placeholder' => 'Например: Процессор',
-                    ),
-                    array(
-                        'key' => 'product_spec_value',
-                        'label' => 'Значение',
-                        'name' => 'product_spec_value',
-                        'type' => 'text',
-                        'wrapper' => array(
-                            'width' => '60',
-                        ),
-                        'placeholder' => 'Например: Intel Core i7',
-                    ),
-                ),
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'post_type',
-                    'operator' => '==',
-                    'value' => 'product',
-                )
-            ),
-        ),
-        'menu_order' => 2,
-    ));
+    // // BEGIN дополнительная вкладка "Характеристики"
+    // acf_add_local_field_group(array(
+    //     'key' => 'acf_product_specifications',
+    //     'title' => 'Характеристики товара',
+    //     'fields' => array(
+    //         array(
+    //             'key' => 'product_specifications',
+    //             'label' => 'Технические характеристики',
+    //             'name' => 'product_specifications',
+    //             'type' => 'repeater',
+    //             'instructions' => 'Добавьте основные характеристики товара',
+    //             'required' => 0,
+    //             'min' => 0,
+    //             'max' => 20,
+    //             'layout' => 'table',
+    //             'button_label' => 'Добавить характеристику',
+    //             'sub_fields' => array(
+    //                 array(
+    //                     'key' => 'product_spec_name',
+    //                     'label' => 'Название характеристики',
+    //                     'name' => 'product_spec_name',
+    //                     'type' => 'text',
+    //                     'wrapper' => array(
+    //                         'width' => '40',
+    //                     ),
+    //                     'placeholder' => 'Например: Процессор',
+    //                 ),
+    //                 array(
+    //                     'key' => 'product_spec_value',
+    //                     'label' => 'Значение',
+    //                     'name' => 'product_spec_value',
+    //                     'type' => 'text',
+    //                     'wrapper' => array(
+    //                         'width' => '60',
+    //                     ),
+    //                     'placeholder' => 'Например: Intel Core i7',
+    //                 ),
+    //             ),
+    //         ),
+    //     ),
+    //     'location' => array(
+    //         array(
+    //             array(
+    //                 'param' => 'post_type',
+    //                 'operator' => '==',
+    //                 'value' => 'product',
+    //             )
+    //         ),
+    //     ),
+    //     'menu_order' => 2,
+    // ));
 
     // BEGIN дополнительная вкладка "Связанные товары"
     acf_add_local_field_group(array(
@@ -1157,11 +1157,11 @@ function my_template_acf_mataboxes(){
         'title' => 'Связанные товары',
         'fields' => array(
             array(
-                'key' => 'product_related_products',
-                'label' => 'Рекомендуемые товары',
-                'name' => 'product_related_products',
+                'key' => 'product_bundle',
+                'label' => 'Комплект товара',
+                'name' => 'product_bundle',
                 'type' => 'relationship',
-                'instructions' => 'Выберите товары, которые рекомендуете вместе с этим',
+                'instructions' => 'Выберите товары',
                 'post_type' => array('product'),
                 'filters' => array('search', 'taxonomy'),
                 'return_format' => 'id',
@@ -1169,32 +1169,45 @@ function my_template_acf_mataboxes(){
                 'max' => 10,
                 'elements' => array('featured_image'),
             ),
-            array(
-                'key' => 'product_cross_sell',
-                'label' => 'Сопутствующие товары (cross-sell)',
-                'name' => 'product_cross_sell',
-                'type' => 'relationship',
-                'instructions' => 'Товары, которые часто покупают вместе (аксессуары)',
-                'post_type' => array('product'),
-                'filters' => array('search', 'taxonomy'),
-                'return_format' => 'id',
-                'min' => 0,
-                'max' => 10,
-                'elements' => array('featured_image'),
-            ),
-            array(
-                'key' => 'product_up_sell',
-                'label' => 'Более дорогие альтернативы (up-sell)',
-                'name' => 'product_up_sell',
-                'type' => 'relationship',
-                'instructions' => 'Товары, которые можно предложить вместо этого (более дорогие)',
-                'post_type' => array('product'),
-                'filters' => array('search', 'taxonomy'),
-                'return_format' => 'id',
-                'min' => 0,
-                'max' => 10,
-                'elements' => array('featured_image'),
-            ),
+            // array(
+            //     'key' => 'product_related_products',
+            //     'label' => 'Рекомендуемые товары',
+            //     'name' => 'product_related_products',
+            //     'type' => 'relationship',
+            //     'instructions' => 'Выберите товары, которые рекомендуете вместе с этим',
+            //     'post_type' => array('product'),
+            //     'filters' => array('search', 'taxonomy'),
+            //     'return_format' => 'id',
+            //     'min' => 0,
+            //     'max' => 10,
+            //     'elements' => array('featured_image'),
+            // ),
+            // array(
+            //     'key' => 'product_cross_sell',
+            //     'label' => 'Сопутствующие товары (cross-sell)',
+            //     'name' => 'product_cross_sell',
+            //     'type' => 'relationship',
+            //     'instructions' => 'Товары, которые часто покупают вместе (аксессуары)',
+            //     'post_type' => array('product'),
+            //     'filters' => array('search', 'taxonomy'),
+            //     'return_format' => 'id',
+            //     'min' => 0,
+            //     'max' => 10,
+            //     'elements' => array('featured_image'),
+            // ),
+            // array(
+            //     'key' => 'product_up_sell',
+            //     'label' => 'Более дорогие альтернативы (up-sell)',
+            //     'name' => 'product_up_sell',
+            //     'type' => 'relationship',
+            //     'instructions' => 'Товары, которые можно предложить вместо этого (более дорогие)',
+            //     'post_type' => array('product'),
+            //     'filters' => array('search', 'taxonomy'),
+            //     'return_format' => 'id',
+            //     'min' => 0,
+            //     'max' => 10,
+            //     'elements' => array('featured_image'),
+            // ),
         ),
         'location' => array(
             array(
@@ -1208,55 +1221,55 @@ function my_template_acf_mataboxes(){
         'menu_order' => 3,
     ));
 
-    // BEGIN дополнительная вкладка "Файлы"
-    acf_add_local_field_group(array(
-        'key' => 'acf_product_files',
-        'title' => 'Файлы для скачивания',
-        'fields' => array(
-            array(
-                'key' => 'product_files',
-                'label' => 'Файлы для скачивания',
-                'name' => 'product_files',
-                'type' => 'repeater',
-                'instructions' => 'Добавьте инструкции, каталоги, сертификаты и другие файлы',
-                'button_label' => 'Добавить файл',
-                'sub_fields' => array(
-                    array(
-                        'key' => 'product_file_name',
-                        'label' => 'Название файла',
-                        'name' => 'product_file_name',
-                        'type' => 'text',
-                        'wrapper' => array(
-                            'width' => '40',
-                        ),
-                        'placeholder' => 'Например: Инструкция по эксплуатации',
-                        'required' => 1,
-                    ),
-                    array(
-                        'key' => 'product_file',
-                        'label' => 'Файл',
-                        'name' => 'product_file',
-                        'type' => 'file',
-                        'wrapper' => array(
-                            'width' => '60',
-                        ),
-                        'return_format' => 'url',
-                        'required' => 1,
-                    ),
-                ),
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'post_type',
-                    'operator' => '==',
-                    'value' => 'product',
-                )
-            ),
-        ),
-        'menu_order' => 4,
-    ));
+    // // BEGIN дополнительная вкладка "Файлы"
+    // acf_add_local_field_group(array(
+    //     'key' => 'acf_product_files',
+    //     'title' => 'Файлы для скачивания',
+    //     'fields' => array(
+    //         array(
+    //             'key' => 'product_files',
+    //             'label' => 'Файлы для скачивания',
+    //             'name' => 'product_files',
+    //             'type' => 'repeater',
+    //             'instructions' => 'Добавьте инструкции, каталоги, сертификаты и другие файлы',
+    //             'button_label' => 'Добавить файл',
+    //             'sub_fields' => array(
+    //                 array(
+    //                     'key' => 'product_file_name',
+    //                     'label' => 'Название файла',
+    //                     'name' => 'product_file_name',
+    //                     'type' => 'text',
+    //                     'wrapper' => array(
+    //                         'width' => '40',
+    //                     ),
+    //                     'placeholder' => 'Например: Инструкция по эксплуатации',
+    //                     'required' => 1,
+    //                 ),
+    //                 array(
+    //                     'key' => 'product_file',
+    //                     'label' => 'Файл',
+    //                     'name' => 'product_file',
+    //                     'type' => 'file',
+    //                     'wrapper' => array(
+    //                         'width' => '60',
+    //                     ),
+    //                     'return_format' => 'url',
+    //                     'required' => 1,
+    //                 ),
+    //             ),
+    //         ),
+    //     ),
+    //     'location' => array(
+    //         array(
+    //             array(
+    //                 'param' => 'post_type',
+    //                 'operator' => '==',
+    //                 'value' => 'product',
+    //             )
+    //         ),
+    //     ),
+    //     'menu_order' => 4,
+    // ));
 
     // *********************************************************
     // *********************************************************
@@ -1285,6 +1298,40 @@ function my_template_acf_mataboxes(){
                     'param' => 'taxonomy',
                     'operator' => '==',
                     'value' => 'product_category',
+                )
+            ),
+        ),
+        'menu_order' => 1,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'acf_product_tag_settings',
+        'title' => 'Изображение метки',
+        'fields' => array(
+            array(
+                'key' => 'product_tag_image',
+                'label' => 'Изображение метки',
+                'name' => 'product_tag_image',
+                'type' => 'image',
+                'preview_size' => 'medium',
+                'return_format' => 'id', // Можно изменить на 'array' если нужно больше данных
+                'required' => 0,
+                'wrapper' => array(
+                    'width' => '100',
+                ),
+                'instructions' => 'Загрузите изображение для метки (рекомендуемый размер: 400x200px)',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'taxonomy',
+                    'operator' => '==',
+                    'value' => 'product_tag',
                 )
             ),
         ),
