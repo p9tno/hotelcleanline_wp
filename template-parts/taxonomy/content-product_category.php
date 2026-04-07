@@ -1,32 +1,12 @@
 <?php
 /**
- * Шаблон для категорий продуктов (с табами подкатегорий)
+ * Шаблон для категорий продуктов (с табами подкатегорий и товарами по меткам)
+ * Оптимизированная версия
  */
 
 $term_id = get_queried_object_id();
 $no_img_url = get_template_directory_uri() . '/assets/img/no_cat.webp';
 
-?>
-
-<!-- begin head -->
-<section id="head" class="head section">
-    <div class="container_center">
-        <div class="head__wrap">
-            <div class="head__img img">
-                <?php echo get_product_category_image_html($term_id, 'full'); ?>
-            </div>
-            <div class="head__content">
-                <h1 class="section__title"><?php single_term_title(); ?></h1>
-                <?php if (term_description()) : ?>
-                    <div class="section__desc"><?php echo term_description(); ?></div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- end head -->
-
-<?php
 // Получаем подкатегории
 $child_categories = get_terms(array(
     'taxonomy' => 'product_category',
@@ -36,74 +16,97 @@ $child_categories = get_terms(array(
     'order' => 'ASC',
 ));
 
-// Если есть подкатегории, показываем секцию с табами
-if (!empty($child_categories) && !is_wp_error($child_categories)) : ?>
+// ========== ОПТИМИЗИРОВАННЫЙ ЗАПРОС - ОДИН ЗАПРОС К БД ==========
+$structured_data = array();
+$all_product_ids = array();
 
-<!-- begin subcategories -->
-<section id="subcategories" class="subcategories section">
-    <div class="container_center">
-        <div class="subcategories__content">
-
-            <div class="subcategories__tabs">
-                <div class="tabs__wrapper">
-                    
-                    <!-- Заголовки табов (подкатегории) -->
-                    <div class="tabs">
-                        <?php foreach ($child_categories as $child) : ?>
-                            <div class="tab">
-                                <?php echo esc_html($child->name); ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    
-                    <!-- Контент табов (товары подкатегорий) -->
-                    <div class="tabs__content">
-                        <?php foreach ($child_categories as $child) : 
-                            // Запрос товаров для текущей подкатегории
-                            $products_query = new WP_Query(array(
-                                'post_type' => 'product',
-                                'posts_per_page' => -1,
-                                'tax_query' => array(
-                                    array(
-                                        'taxonomy' => 'product_category',
-                                        'field' => 'term_id',
-                                        'terms' => $child->term_id,
-                                        'include_children' => true,
-                                    ),
-                                ),
-                            ));
-                        ?>
-                            <div class="tab__item">
-                                <?php if ($products_query->have_posts()) : ?>
-                                    <div class="products-grid">
-                                        <?php while ($products_query->have_posts()) : $products_query->the_post(); ?>
-                                            <?php get_template_part('template-parts/product/card'); ?>
-                                        <?php endwhile; ?>
-                                    </div>
-                                <?php else : ?>
-                                    <div class="no-products">
-                                        <p>В этой подкатегории пока нет товаров.</p>
-                                    </div>
-                                <?php endif;
-                                wp_reset_postdata(); ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-<!-- end subcategories -->
-
-<?php else : 
-    // Если нет подкатегорий, показываем товары текущей категории
-    $products_query = new WP_Query(array(
+if (!empty($child_categories) && !is_wp_error($child_categories)) {
+    $child_ids = wp_list_pluck($child_categories, 'term_id');
+    
+    // Получаем ВСЕ товары для всех подкатегорий одним запросом
+    $all_products = new WP_Query(array(
         'post_type' => 'product',
-        'posts_per_page' => 12,
-        'paged' => get_query_var('paged') ?: 1,
+        'posts_per_page' => -1,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'product_category',
+                'field' => 'term_id',
+                'terms' => $child_ids,
+                'include_children' => true,
+            ),
+        ),
+    ));
+    
+    if ($all_products->have_posts()) {
+        while ($all_products->have_posts()) {
+            $all_products->the_post();
+            $all_product_ids[] = get_the_ID();
+        }
+        wp_reset_postdata();
+    }
+    
+    if (!empty($all_product_ids)) {
+        // Получаем все метки для всех товаров
+        $all_tags = wp_get_object_terms($all_product_ids, 'product_tag', array(
+            'fields' => 'all_with_object_id',
+        ));
+        
+        // Получаем все категории для всех товаров
+        $all_cats = wp_get_object_terms($all_product_ids, 'product_category', array(
+            'fields' => 'all_with_object_id',
+        ));
+        
+        // Структурируем: product_id => [tag_names]
+        $products_tags = array();
+        foreach ($all_tags as $term) {
+            if (!isset($products_tags[$term->object_id])) {
+                $products_tags[$term->object_id] = array();
+            }
+            if (!in_array($term->name, $products_tags[$term->object_id])) {
+                $products_tags[$term->object_id][] = $term->name;
+            }
+        }
+        
+        // Структурируем: product_id => [cat_ids]
+        $products_cats = array();
+        foreach ($all_cats as $term) {
+            if (!isset($products_cats[$term->object_id])) {
+                $products_cats[$term->object_id] = array();
+            }
+            if (!in_array($term->term_id, $products_cats[$term->object_id])) {
+                $products_cats[$term->object_id][] = $term->term_id;
+            }
+        }
+        
+        // Группируем по [категория][метка] = [товары]
+        foreach ($all_product_ids as $product_id) {
+            $product_cats = isset($products_cats[$product_id]) ? $products_cats[$product_id] : array();
+            $product_tags = isset($products_tags[$product_id]) ? $products_tags[$product_id] : array();
+            
+            foreach ($product_cats as $cat_id) {
+                if (in_array($cat_id, $child_ids)) {
+                    if (!isset($structured_data[$cat_id])) {
+                        $structured_data[$cat_id] = array();
+                    }
+                    
+                    foreach ($product_tags as $tag_name) {
+                        if (!isset($structured_data[$cat_id][$tag_name])) {
+                            $structured_data[$cat_id][$tag_name] = array();
+                        }
+                        
+                        if (!in_array($product_id, $structured_data[$cat_id][$tag_name])) {
+                            $structured_data[$cat_id][$tag_name][] = $product_id;
+                        }
+                    }
+                }
+            }
+        }
+    }
+} else {
+    // Нет подкатегорий - работаем с текущей категорией
+    $products_in_cat = new WP_Query(array(
+        'post_type' => 'product',
+        'posts_per_page' => -1,
         'tax_query' => array(
             array(
                 'taxonomy' => 'product_category',
@@ -114,35 +117,210 @@ if (!empty($child_categories) && !is_wp_error($child_categories)) : ?>
         ),
     ));
     
-    if ($products_query->have_posts()) : ?>
+    if ($products_in_cat->have_posts()) {
+        while ($products_in_cat->have_posts()) {
+            $products_in_cat->the_post();
+            $all_product_ids[] = get_the_ID();
+        }
+        wp_reset_postdata();
+    }
+    
+    if (!empty($all_product_ids)) {
+        $all_tags = wp_get_object_terms($all_product_ids, 'product_tag', array(
+            'fields' => 'all_with_object_id',
+        ));
         
-        <!-- begin products -->
-        <section id="products" class="products section">
-            <div class="container_center">
-                <h2 class="section__title">Товары</h2>
-                <div class="products-grid">
-                    <?php while ($products_query->have_posts()) : $products_query->the_post(); ?>
-                        <?php get_template_part('template-parts/product/card'); ?>
-                    <?php endwhile; ?>
+        foreach ($all_tags as $term) {
+            $tag_name = $term->name;
+            $product_id = $term->object_id;
+            
+            if (!isset($structured_data[$tag_name])) {
+                $structured_data[$tag_name] = array();
+            }
+            if (!in_array($product_id, $structured_data[$tag_name])) {
+                $structured_data[$tag_name][] = $product_id;
+            }
+        }
+    }
+}
+?>
+<?
+// ========== РАСШИРЕННАЯ ОТЛАДКА ==========
+if (true) {
+    echo '<div style="background: #f0f0f0; padding: 15px; margin: 10px; font-size: 13px; font-family: monospace; border-left: 4px solid #007cba;">';
+    echo '<strong style="font-size: 16px;">🔍 ОТЛАДОЧНАЯ ИНФОРМАЦИЯ</strong><br><br>';
+    
+    echo '<strong>📁 Текущая категория:</strong> ' . single_term_title('', false) . ' (ID: ' . $term_id . ')<br>';
+    echo '<strong>📂 Подкатегорий найдено:</strong> ' . count($child_categories) . '<br>';
+    
+    if (!empty($child_categories)) {
+        echo '<strong>📋 Список подкатегорий:</strong><br>';
+        foreach ($child_categories as $cat) {
+            echo '&nbsp;&nbsp;&nbsp;- ' . $cat->name . ' (ID: ' . $cat->term_id . ')<br>';
+        }
+    }
+    
+    echo '<br><strong>📦 Товаров найдено:</strong> ' . count($all_product_ids) . '<br>';
+    
+    // Показываем ВСЕ метки для КАЖДОГО товара
+    if (!empty($all_product_ids)) {
+        echo '<br><strong>🔍 ДЕТАЛЬНАЯ ИНФОРМАЦИЯ ПО ТОВАРАМ:</strong><br>';
+        foreach ($all_product_ids as $pid) {
+            $tags = wp_get_post_terms($pid, 'product_tag', array('fields' => 'names'));
+            $cats = wp_get_post_terms($pid, 'product_category', array('fields' => 'names'));
+            echo '<strong>&nbsp;&nbsp;&nbsp;📦 Товар: ' . get_the_title($pid) . ' (ID: ' . $pid . ')</strong><br>';
+            echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📂 Категории: ' . ( !empty($cats) ? implode(', ', $cats) : 'Нет категорий' ) . '<br>';
+            echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🏷️ Метки: ' . ( !empty($tags) ? implode(', ', $tags) : 'Нет меток' ) . '<br>';
+            echo '<br>';
+        }
+    }
+    
+    echo '<strong>🏷️ Структура по меткам (как сгруппировал код):</strong><br>';
+    if (!empty($structured_data)) {
+        foreach ($structured_data as $key => $value) {
+            if (is_array($value)) {
+                if (isset($child_ids) && is_array($child_ids) && in_array($key, $child_ids)) {
+                    $cat = get_term($key);
+                    echo '<strong>&nbsp;&nbsp;&nbsp;📂 Категория: ' . ($cat ? $cat->name : $key) . '</strong><br>';
+                    foreach ($value as $tag_name => $products) {
+                        echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🏷️ Метка: ' . $tag_name . ' (' . count($products) . ' товаров)<br>';
+                        foreach ($products as $pid) {
+                            echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ' . get_the_title($pid) . ' (ID: ' . $pid . ')<br>';
+                        }
+                    }
+                } else {
+                    echo '&nbsp;&nbsp;&nbsp;🏷️ Метка: ' . $key . ' (' . count($value) . ' товаров)<br>';
+                    foreach ($value as $pid) {
+                        echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ' . get_the_title($pid) . ' (ID: ' . $pid . ')<br>';
+                    }
+                }
+            }
+        }
+    } else {
+        echo '<span style="color: #ff9800;">⚠️ Нет структурированных данных по меткам!!!</span><br>';
+    }
+    
+    echo '</div>';
+}
+?>
+
+<?php 
+
+get_template_part( 'template-parts/sections/section', 'head' ); 
+
+get_pr($child_categories);
+?>
+
+<?php if (!empty($child_categories) && !is_wp_error($child_categories)) : ?>
+
+<!-- begin subcategories -->
+<section id="subcategories" class="subcategories section">
+    <div class="container_center">
+        <div class="subcategories__content">
+            <div class="subcategories__tabs">
+                <div class="tabs__wrapper">
+                    
+                    <!-- Заголовки табов -->
+                    <div class="tabs">
+                        <?php foreach ($child_categories as $index => $child) : ?>
+                            <div class="tab <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                 data-tab="tab-<?php echo $child->term_id; ?>">
+                                <?php echo esc_html($child->name); ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <!-- Контент табов -->
+                    <div class="tabs__content">
+                        <?php foreach ($child_categories as $index => $child) : 
+                            $cat_data = isset($structured_data[$child->term_id]) ? $structured_data[$child->term_id] : array();
+                        ?>
+                            <div class="subcategories__item tab__item <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                 id="tab-<?php echo $child->term_id; ?>">
+                                
+                                <?php if (!empty($cat_data)) : ?>
+                                    <?php foreach ($cat_data as $tag_name => $tag_product_ids) : 
+                                        // Получаем объект метки для создания ссылки
+                                        // $tag = get_term_by('name', $tag_name, 'product_tag');
+                                        // $tag_link = $tag ? get_term_link($tag) : '#';    
+                                    ?>
+                                        <div class="tag">
+                                            <h3 class="tag__title">
+                                                <!-- <a href="<?php // echo esc_url($tag_link); ?>" class="tag__link">
+                                                    <?php // echo esc_html($tag_name); ?>
+                                                </a> -->
+                                                <?php echo esc_html($tag_name); ?>
+                                                <span class="tag-count">(<?php echo count($tag_product_ids); ?>)</span>
+                                                <span>метка</span>
+                                            </h3>
+                                            
+                                            <div class="tag__products">
+                                                <span>товары с этой меткой</span>
+                                                <ol>
+                                                    <?php foreach ($tag_product_ids as $product_id) : 
+                                                        echo '<li>';
+                                                        set_query_var('product_id', $product_id);
+                                                        get_template_part('template-parts/product/card');
+                                                         echo '</li>';
+                                                    endforeach; ?>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <div class="no-tags">
+                                        <p>В этой подкатегории нет товаров с метками.</p>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end subcategories -->
+
+<?php else : 
+    // Нет подкатегорий - выводим по меткам
+    get_pr($structured_data);
+    if (!empty($structured_data)) : ?>
+        
+        <section id="tags-products" class="tags-products section">
+            <div class="container_center">
+                <h2 class="section__title">Товары по меткам</h2>
                 
-                <?php 
-                echo paginate_links(array(
-                    'total' => $products_query->max_num_pages,
-                    'current' => get_query_var('paged') ?: 1,
-                ));
-                ?>
+                <?php foreach ($structured_data as $tag_name => $tag_product_ids) : ?>
+                    <div class="tag-section">
+                        <h3 class="tag-title">
+                            <?php echo esc_html($tag_name); ?>
+                            <span class="tag-count">(<?php echo count($tag_product_ids); ?>)</span>
+                        </h3>
+                        
+                        <div class="products-grid">
+                            <?php foreach ($tag_product_ids as $product_id) : 
+                                set_query_var('product_id', $product_id);
+                                get_template_part('template-parts/product/card');
+                            endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </section>
-        <!-- end products -->
         
     <?php else : ?>
         
-        <div class="no-products">
-            <p>В этой категории пока нет товаров.</p>
-            <a href="<?php echo esc_url(home_url('/')); ?>" class="btn">Вернуться на главную</a>
+        <div class="no-content section">
+            <div class="container_center">
+                <div class="no-content__content">
+                    <p>В этой категории пока нет товаров с метками.</p>
+                    <a href="<?php echo esc_url(home_url('/')); ?>" class="btn">Вернуться на главную</a>
+                </div>
+            </div>
         </div>
         
     <?php endif;
-    wp_reset_postdata();
 endif; ?>
+
