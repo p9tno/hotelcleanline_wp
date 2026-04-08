@@ -1,4 +1,30 @@
+/* Базовые стили для цены */
+.product-price {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.125em;
+    color: $main_color;
+    font-size: 1.125em;
+    font-weight: 400;
+}
 
+/* Символ валюты */
+.currency-symbol {
+    font-weight: 400;
+    font-size: 0.9em;
+}
+
+/* Сумма */
+.price-amount {
+    // font-weight: bold;
+    // font-size: 1.2em;
+}
+
+/* Для позиции с пробелом */
+.currency-symbol.with-space {
+    margin-right: 0.125em;
+    margin-left: 0.125em;
+}
 
 
 .product {
@@ -66,7 +92,7 @@
         grid-gap: 0.625em;
 
         @media (min-width: 768px) {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             grid-gap: 1.25em;
         }
 
@@ -100,7 +126,7 @@
         border-top-left-radius: 0.625em;
         border-top-right-radius: 0.625em;
         overflow: hidden;
-        height: 12em;
+        height: 15em;
 
         @media (min-width: 768px) {
           &:hover {
@@ -183,9 +209,10 @@
 
     &__title {
         display: block;
-        // font-family: $second_font_family;
-        font-size: 1em;
-        font-weight: 400;
+        width: fit-content;
+        font-family: $second_font_family;
+        font-size: 1.5em;
+        font-weight: 300;
      
         color: $color_primary;
         text-decoration: none;
@@ -298,35 +325,6 @@
     }
 
     &__price {
-        line-height: 1;
-
-        // color: $color_primary;
-        color: $main_color;
-
-        display: flex;
-        flex-direction: column-reverse;
-        gap: 0.25em;
-        font-size: 1.125em;
-        font-weight: 400;
-
-        del {
-            color: $main_color;
-            display: none;
-            font-size: 0.875em;
-            @media (min-width: 768px) {
-                font-size: 0.625em;
-            }
-
-            .sale & {
-                display: block;
-            }
-        }
-
-        ins {
-            text-decoration: none;
-        }
-
-
     }
 
     &__button {

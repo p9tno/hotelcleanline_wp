@@ -22,9 +22,9 @@ if( function_exists('acf_add_options_page') ) {
 }
 
 function my_template_acf_mataboxes(){
-    // BEGIN GLOBAL CONTACTS
+    // BEGIN GLOBAL SHOP
     acf_add_local_field_group(array(
-        'key' => 'acf_global_contacts',
+        'key' => 'acf_global_shop',
         'title' => 'Настройки магазина',
         'fields' => array(
             // ------------------------------- Настройки валюты (НОВАЯ ВКЛАДКА)
@@ -34,45 +34,13 @@ function my_template_acf_mataboxes(){
                 'type' => 'tab',
             ),
             array(
-                'key' => 'currency_symbol',
-                'label' => 'Символ валюты',
-                'name' => 'currency_symbol',
-                'type' => 'select',
-                'default_value' => '₽',
-                'choices' => array(
-                    '₽' => 'Рубль (₽)',
-                    '$' => 'Доллар ($)',
-                    '€' => 'Евро (€)',
-                    'custom' => 'Свой символ',
-                ),
-                'instructions' => 'Выберите символ валюты',
-            ),
-            array(
-                'key' => 'currency_symbol_custom',
-                'label' => 'Свой символ валюты',
-                'name' => 'currency_symbol_custom',
-                'type' => 'text',
-                'default_value' => '',
-                'placeholder' => 'Например: ₿',
-                'instructions' => 'Введите свой символ, если выбрали "Свой символ"',
-                'conditional_logic' => array(
-                    array(
-                        array(
-                            'field' => 'currency_symbol',
-                            'operator' => '==',
-                            'value' => 'custom',
-                        ),
-                    ),
-                ),
-            ),
-            array(
                 'key' => 'currency_position',
                 'label' => 'Позиция валюты',
                 'name' => 'currency_position',
                 'type' => 'select',
                 'default_value' => 'after',
                 'choices' => array(
-                    'before' => 'Перед ценой (₽100 )',
+                    'before' => 'Перед ценой (₽100)',
                     'after' => 'После цены (100₽)',
                     'before_space' => 'Перед ценой с пробелом (₽ 100)',
                     'after_space' => 'После цены с пробелом (100 ₽)',
@@ -92,28 +60,6 @@ function my_template_acf_mataboxes(){
                     'none' => 'Без разделителя (1000)',
                 ),
             ),
-            array(
-                'key' => 'currency_decimal_separator',
-                'label' => 'Разделитель копеек',
-                'name' => 'currency_decimal_separator',
-                'type' => 'select',
-                'default_value' => 'dot',
-                'choices' => array(
-                    'dot' => 'Точка (100.50)',
-                    'comma' => 'Запятая (100,50)',
-                ),
-            ),
-            array(
-                'key' => 'currency_decimals',
-                'label' => 'Количество знаков после запятой',
-                'name' => 'currency_decimals',
-                'type' => 'number',
-                'default_value' => 0,
-                'min' => 0,
-                'max' => 2,
-                'instructions' => '0 — без копеек, 2 — с копейками',
-            ),
-
         ),
         'location' => array(
             array(
@@ -125,8 +71,7 @@ function my_template_acf_mataboxes(){
             )
         ),
     ));
-    // END GLOBAL CONTACTS
-    // ---------------------------------------------------------
+    // END GLOBAL SHOP
 
     // BEGIN GLOBAL CONTENT
     acf_add_local_field_group(array(
@@ -493,6 +438,82 @@ function my_template_acf_mataboxes(){
         'menu_order' => 10,
     ));
     // END partners section
+    // ---------------------------------------------------------
+
+    // BEGIN homeProducts section
+    acf_add_local_field_group(array(
+        'key' => 'acf_homeProducts_settings',
+        'title' => 'Настройки каталога товаров',
+        'fields' => array(
+            array(
+                'key' => 'homeProducts_boolean',
+                'label' => 'Отображать блок?',
+                'name' => 'homeProducts_boolean',
+                'type' => 'true_false',
+                'default_value' => 1,
+                'ui' => 1,
+                'ui_on_text' => 'Да',
+                'ui_off_text' => 'Нет',
+            ),
+            array(
+                'key' => 'homeProducts_title',
+                'label' => 'Заголовок',
+                'name' => 'homeProducts_title',
+                'type' => 'text',
+            ),
+            array(
+                'key' => 'homeProducts_desc',
+                'label' => 'Описание',
+                'name' => 'homeProducts_desc',
+                'type' => 'textarea',
+                'rows' => 2,
+            ),
+            array(
+                'key' => 'homeProducts_relationship',
+                'label' => 'Выберите товары',
+                'name' => 'homeProducts_relationship',
+                'type' => 'relationship',
+                'instructions' => 'Выберите товары',
+                'post_type' => array('product'),
+                'filters' => array('search', 'taxonomy'),
+                'return_format' => 'id',
+                'min' => 0,
+                'max' => 10,
+                'elements' => array('featured_image'),
+            ),
+            array(
+                'key' => 'homeProducts_first_btn',
+                'label' => 'Первая кнопка',
+                'name' => 'homeProducts_first_btn',
+                'type' => 'link',
+                'return_format' => 'array',
+                'wrapper' => array (
+                    'width' => '50',
+                ),
+            ),
+            array(
+                'key' => 'homeProducts_second_btn',
+                'label' => 'Вторая кнопка',
+                'name' => 'homeProducts_second_btn',
+                'type' => 'link',
+                'return_format' => 'array',
+                'wrapper' => array (
+                    'width' => '50',
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'template-homepage.php',
+                )
+            ),
+        ),
+        'menu_order' => 15,
+    ));
+    // END homeProducts section
     // ---------------------------------------------------------
 
     // BEGIN media_swiper section
@@ -990,7 +1011,7 @@ function my_template_acf_mataboxes(){
                 'instructions' => 'Дополнительные изображения товара (необязательно)',
             ),
             
-            // Цена
+            // Цена НЕ ИЗМЕНЯТЬ KEY, NAME
             array(
                 'key' => 'product_price',
                 'label' => 'Цена',

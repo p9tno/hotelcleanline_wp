@@ -27,7 +27,7 @@
 		min-width: 10em;
 	}
 
-	&:hover {
+	&:hover:not(:disabled) {
 		@media (min-width: 768px) {
 			color: $color_warning;
 			border-color: $color_warning;
@@ -35,7 +35,7 @@
 		}
 	}
 	
-	&:active {
+	&:active:not(:disabled) {
 		@media (min-width: 768px) {
 			color: $color_white;
 			border-color: $color_warning;
@@ -45,7 +45,7 @@
 
 	&:disabled {
 		cursor: not-allowed;
-		opacity: 0.4;
+		opacity: 0.5;
 	}
 
 	&_border {
@@ -53,7 +53,7 @@
 		border-color: $color_warning;
 		background-color: transparent;
 
-		&:hover {
+		&:hover:not(:disabled) {
 			@media (min-width: 768px) {
 				color: $color_white;
 				border-color: $color_warning;
@@ -61,7 +61,7 @@
 			}
 		}
 		
-		&:active {
+		&:active:not(:disabled) {
 			@media (min-width: 768px) {
 				color: $color_warning;
 				border-color: $color_warning;

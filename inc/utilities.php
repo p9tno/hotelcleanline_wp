@@ -433,6 +433,27 @@ function get_product_category_image_html($term_id, $size = 'medium') {
     return '<img src="' . esc_url($no_img_url) . '" alt="' . esc_attr($alt) . '">';
 }
 
+/**
+ * Получение HTML изображения продукта (только миниатюра)
+ * 
+ * @param int $product_id ID продукта
+ * @param string $size Размер изображения (thumbnail, medium, large, full)
+ * @return string HTML изображения
+ * Использование в цикле: <?php echo get_product_image_html(get_the_ID(), 'thumbnail'); ?>
+ */
+function get_product_image_html($product_id, $size = 'medium') {
+    if (has_post_thumbnail($product_id)) {
+        return get_the_post_thumbnail($product_id, $size);
+    }
+    
+    // Если миниатюры нет, возвращаем заглушку
+    $no_img_url = get_template_directory_uri() . '/assets/img/no_img.webp';
+    $product = get_post($product_id);
+    $alt = $product ? $product->post_title : 'Изображение товара';
+    
+    return '<img src="' . esc_url($no_img_url) . '" alt="' . esc_attr($alt) . '">';
+}
+
 // Добавляем колонки в список продуктов
 add_filter('manage_product_posts_columns', function($columns) {
     $columns['thumbnail'] = 'Миниатюра';
@@ -468,3 +489,30 @@ add_filter('manage_edit-product_sortable_columns', function($columns) {
     $columns['price'] = 'price';
     return $columns;
 });
+
+/**
+ * Выводит информационное сообщение
+ *
+ * @param string $content Текст сообщения
+ * @param string $tag     HTML тег (по умолчанию h4)
+ * @return void
+ * Базовое использование custom_info(); // "Товары не найдены"
+ * С произвольным текстом custom_info( 'Корзина пуста' );
+ */
+function custom_info( $content = '', $tag = 'h4' ) {
+    if ( empty( $content ) ) {
+        $content = 'Товары не найдены';
+    }
+    
+    $allowed_tags = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' );
+    if ( ! in_array( $tag, $allowed_tags ) ) {
+        $tag = 'div';
+    }
+    
+    printf(
+        '<%s class="section__info info">%s</%s>',
+        esc_attr( $tag ),
+        esc_html( $content ),
+        esc_attr( $tag )
+    );
+}

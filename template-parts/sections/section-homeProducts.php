@@ -1,81 +1,48 @@
-<!-- begin homeProducts-->
-<section class="homeProducts section" id="homeProducts">
-    <div class="container_center">
-        <h2 class="section__title">Каталог товаров</h2>
-        <div class="section__desc">Описание секции, если нужно</div>
-        <div class="section__wrap">
-            <div class="product__grid">
-                <div class="product">
-                    <div class="product__header"><a class="product__img img" href="#"><img
-                                src="../../../img/firstscreen_1.webp" alt="image" loading="lazy" /></a></div>
-                    <div class="product__body product_padding"><a class="product__title" href="#">Название товара в
-                            несколько строк</a></div>
-                    <div class="product__footer product_padding">
-                        <div class="product__price">
-                            <del><span class="woocommerce-Price-amount amount">
-                                    <bdi>2 200 <span
-                                            class="woocommerce-Price-currencySymbol">₽<span></bdi></span></del><ins><span
-                                    class="woocommerce-Price-amount amount">
-                                    <bdi>2 000 <span class="woocommerce-Price-currencySymbol">₽<span></bdi></span></ins>
-                        </div>
-                        <div class="product__button"><a class="btn" href="#"><span>Купить</span><i
-                                    class="icon_basket"></i></a></div>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product__header"><a class="product__img img" href="#"><img
-                                src="../../../img/firstscreen_1.webp" alt="image" loading="lazy" /></a></div>
-                    <div class="product__body product_padding"><a class="product__title" href="#">Название товара в
-                            несколько строк</a></div>
-                    <div class="product__footer product_padding">
-                        <div class="product__price">
-                            <del><span class="woocommerce-Price-amount amount">
-                                    <bdi>2 200 <span
-                                            class="woocommerce-Price-currencySymbol">₽<span></bdi></span></del><ins><span
-                                    class="woocommerce-Price-amount amount">
-                                    <bdi>2 000 <span class="woocommerce-Price-currencySymbol">₽<span></bdi></span></ins>
-                        </div>
-                        <div class="product__button"><a class="btn" href="#"><span>Купить</span><i
-                                    class="icon_basket"></i></a></div>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product__header"><a class="product__img img" href="#"><img
-                                src="../../../img/firstscreen_1.webp" alt="image" loading="lazy" /></a></div>
-                    <div class="product__body product_padding"><a class="product__title" href="#">Название товара в
-                            несколько строк</a></div>
-                    <div class="product__footer product_padding">
-                        <div class="product__price">
-                            <del><span class="woocommerce-Price-amount amount">
-                                    <bdi>2 200 <span
-                                            class="woocommerce-Price-currencySymbol">₽<span></bdi></span></del><ins><span
-                                    class="woocommerce-Price-amount amount">
-                                    <bdi>2 000 <span class="woocommerce-Price-currencySymbol">₽<span></bdi></span></ins>
-                        </div>
-                        <div class="product__button"><a class="btn" href="#"><span>Купить</span><i
-                                    class="icon_basket"></i></a></div>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product__header"><a class="product__img img" href="#"><img
-                                src="../../../img/firstscreen_1.webp" alt="image" loading="lazy" /></a></div>
-                    <div class="product__body product_padding"><a class="product__title" href="#">Название товара в
-                            несколько строк</a></div>
-                    <div class="product__footer product_padding">
-                        <div class="product__price">
-                            <del><span class="woocommerce-Price-amount amount">
-                                    <bdi>2 200 <span
-                                            class="woocommerce-Price-currencySymbol">₽<span></bdi></span></del><ins><span
-                                    class="woocommerce-Price-amount amount">
-                                    <bdi>2 000 <span class="woocommerce-Price-currencySymbol">₽<span></bdi></span></ins>
-                        </div>
-                        <div class="product__button"><a class="btn" href="#"><span>Купить</span><i
-                                    class="icon_basket"></i></a></div>
-                    </div>
+<?php if (get_field('homeProducts_boolean')) { ?>
+    <!-- begin homeProducts -->
+    <section class="homeProducts section" id="homeProducts">
+        <div class="container_center">
+            <?php render_section_title('homeProducts_title'); ?>
+            <?php render_section_description('homeProducts_desc'); ?>
+
+            <div class="section__wrap">
+                <div class="product__grid">
+
+                    <?php
+                    $post_id = get_field('homeProducts_relationship');
+
+                    // Проверяем, есть ли данные и не пустой ли массив
+                    if (empty($post_id)) {
+                        custom_info('! Товары не выбраны');
+                    } else {
+                        // Преобразуем в массив, если это одиночное значение
+                        if (!is_array($post_id)) {
+                            $post_id = array($post_id);
+                        }
+                        
+                        $args = array(
+                            'post_type' => 'product',
+                            'posts_per_page' => 9,
+                            'post__in' => $post_id,
+                            'orderby' => 'post__in',
+                        );
+                        $query = new WP_Query($args);
+                        ?>
+                        
+                        <?php if ($query->have_posts()) : ?>
+                            <?php while ($query->have_posts()) : $query->the_post(); ?>
+                                <?php get_template_part('template-parts/previews/preview', 'product'); ?>
+                            <?php endwhile; ?>
+                            <?php wp_reset_postdata(); ?>
+                        <?php else : ?>
+                            <?php custom_info('! Товары не выбраны'); ?>
+                        <?php endif; ?>
+                    <?php } ?>
+
                 </div>
             </div>
+            <?php render_section_buttons('homeProducts_first_btn','homeProducts_second_btn'); ?>
         </div>
-        <div class="section__btn"> <a class="btn" href="#">Все товары</a></div>
-    </div>
-</section>
-<!-- end homeProducts-->
+    </section>
+    <!-- end homeProducts -->
+<?php } ?>

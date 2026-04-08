@@ -1,58 +1,68 @@
-<?php
-// Базовое использование:
-// Для цены продукта
-$price = get_field('product_price', get_the_ID());
-if ($price) {
-    echo format_price_with_currency($price);
-    // Результат: 1000 ₽ (или ₽ 1000, или 1,000₽ и т.д.)
-}
-?>
-
-
-
-<!-- В цикле продуктов: -->
-<?php
-$price = get_field('product_price');
-if ($price): ?>
-    <div class="product-price">
-        <?php echo format_price_with_currency($price); ?>
+<!-- 1. В цикле (самый простой способ) -->
+<?php while ( have_posts() ) : the_post(); ?>
+    <div class="product-card">
+        <h3><?php the_title(); ?></h3>
+        
+        <!-- Самое простое использование -->
+        <div class="price">
+            <?php the_product_price(); ?>
+        </div>
+        
+        <!-- С явным указанием ID -->
+        <div class="price">
+            <?php the_product_price(get_the_ID()); ?>
+        </div>
     </div>
-<?php endif; ?>
+<?php endwhile; ?>
 
-<!-- Сокращённый вариант (как the_title()): -->
-<?php the_price(get_field('product_price')); ?>
-
-
-<!-- В HTML с дополнительным форматированием: -->
- <div class="price">
-    <span class="price-value"><?php echo format_price_with_currency(2990); ?></span>
-    <?php if ($old_price): ?>
-        <span class="price-old"><?php echo format_price_with_currency($old_price); ?></span>
-        <span class="price-discount">-<?php echo round(($old_price - $price) / $old_price * 100); ?>%</span>
+<!-- 2. С проверкой наличия цены -->
+<div class="product-card">
+    <h3><?php the_title(); ?></h3>
+    
+    <?php if (get_product_price()) : ?>
+        <div class="price">
+            <?php the_product_price(); ?>
+        </div>
+    <?php else : ?>
+        <div class="price price-na">
+            Цена не указана
+        </div>
     <?php endif; ?>
 </div>
 
-<!-- Получить только символ валюты: -->
-<?php echo get_currency_symbol(); // Выведет: ₽ ?>
+<!-- 3. Со старой ценой (скидка) -->
+<?php 
+$current_price = get_product_price();
+$old_price = get_field('product_old_price'); // другое поле для старой цены
+?>
 
+<div class="product-card">
+    <h3><?php the_title(); ?></h3>
+    
+    <?php if ($old_price && $old_price > $current_price) : ?>
+        <div class="price-block">
+            <span class="price-old"><?php echo format_price($old_price); ?></span>
+            <span class="price-sale"><?php the_product_price(); ?></span>
+        </div>
+    <?php else : ?>
+        <div class="price-block">
+            <?php the_product_price(); ?>
+        </div>
+    <?php endif; ?>
+</div>
 
+<!-- 4. В произвольном месте (не в цикле) -->
+<?php 
+// Если нужно вывести цену конкретного товара по ID
+$product_id = 123;
+the_product_price($product_id);
+?>
 
+<!-- 5. Для расчетов -->
+<?php 
+$price = get_product_price(); // Получаем число для расчетов
+$price_with_tax = $price * 1.2; // Добавляем НДС 20%
 
-<!-- Пример настройки в админке:
-После добавления кода в админке появится новая вкладка «Валюта» в настройках контента, где можно настроить:
-
-Поле	Значение
-Символ валюты	₽, $, € или свой
-Позиция	После цены (100 ₽)
-Разделитель тысяч	Пробел (1 000)
-Разделитель копеек	Точка (100.50)
-Количество знаков	0 (без копеек)
-
-
-Результат работы функции:
-Цена	Настройки	Результат
-1000	₽, после, пробел, 0	1000 ₽
-1000	₽, перед, пробел, 0	₽ 1000
-1000.50	₽, после, запятая, 2	1,000.50₽
-1000	$, после, точка, 0	1.000$
-1000	€, после пробел, пробел, 0	1 000 € -->
+echo 'Цена без НДС: ' . format_price($price) . '<br>';
+echo 'Цена с НДС: ' . format_price($price_with_tax);
+?>

@@ -740,6 +740,27 @@ body {
 .section__content .wp-block-quote > *:last-child {
   margin-bottom: 0;
 }
+.section__info {
+  display: inline-block;
+  padding: 0.875em 2.25em;
+  border-radius: 0.625em;
+  outline: none;
+  max-width: 100%;
+  font-family: "Roboto";
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  text-align: center;
+  color: #ffffff;
+  background-color: #5F8B9F;
+  text-transform: uppercase;
+}
+@media (min-width: 768px) {
+  .section__info {
+    font-size: 1em;
+  }
+}
 
 @media (max-width: 767px) {
   .desktop {
@@ -1921,6 +1942,29 @@ body {
 .head__content .section__desc {
   color: #ffffff;
 }
+/* Базовые стили для цены */
+.product-price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.125em;
+  color: #333541;
+  font-size: 1.125em;
+  font-weight: 400;
+}
+
+/* Символ валюты */
+.currency-symbol {
+  font-weight: 400;
+  font-size: 0.9em;
+}
+
+/* Сумма */
+/* Для позиции с пробелом */
+.currency-symbol.with-space {
+  margin-right: 0.125em;
+  margin-left: 0.125em;
+}
+
 .product {
   position: relative;
   display: flex;
@@ -1965,7 +2009,7 @@ body {
 }
 @media (min-width: 768px) {
   .product__grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 1.25em;
   }
 }
@@ -1974,7 +2018,7 @@ body {
   border-top-left-radius: 0.625em;
   border-top-right-radius: 0.625em;
   overflow: hidden;
-  height: 12em;
+  height: 15em;
 }
 @media (min-width: 768px) {
   .product__header:hover .product__img {
@@ -2016,8 +2060,12 @@ body {
 }
 .product__title {
   display: block;
-  font-size: 1em;
-  font-weight: 400;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-family: "Oswald";
+  font-size: 1.5em;
+  font-weight: 300;
   color: #9F5434;
   text-decoration: none;
   transition: none;
@@ -2103,31 +2151,6 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 0.5em;
-}
-.product__price {
-  line-height: 1;
-  color: #333541;
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 0.25em;
-  font-size: 1.125em;
-  font-weight: 400;
-}
-.product__price del {
-  color: #333541;
-  display: none;
-  font-size: 0.875em;
-}
-@media (min-width: 768px) {
-  .product__price del {
-    font-size: 0.625em;
-  }
-}
-.sale .product__price del {
-  display: block;
-}
-.product__price ins {
-  text-decoration: none;
 }
 .product__button {
   font-size: 0.8em;
@@ -2700,14 +2723,14 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
   }
 }
 @media (min-width: 768px) {
-  .btn:hover {
+  .btn:hover:not(:disabled) {
     color: #CFA999;
     border-color: #CFA999;
     background-color: #ffffff;
   }
 }
 @media (min-width: 768px) {
-  .btn:active {
+  .btn:active:not(:disabled) {
     color: #ffffff;
     border-color: #CFA999;
     background-color: #CFA999;
@@ -2715,7 +2738,7 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
 }
 .btn:disabled {
   cursor: not-allowed;
-  opacity: 0.4;
+  opacity: 0.5;
 }
 .btn_border {
   color: #CFA999;
@@ -2723,14 +2746,14 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
   background-color: transparent;
 }
 @media (min-width: 768px) {
-  .btn_border:hover {
+  .btn_border:hover:not(:disabled) {
     color: #ffffff;
     border-color: #CFA999;
     background-color: #CFA999;
   }
 }
 @media (min-width: 768px) {
-  .btn_border:active {
+  .btn_border:active:not(:disabled) {
     color: #CFA999;
     border-color: #CFA999;
     background-color: transparent;
