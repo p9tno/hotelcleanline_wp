@@ -14,10 +14,8 @@ if (!empty($parent_categories) && !is_wp_error($parent_categories)) : ?>
     <!-- begin topCategories -->
     <section class="topCategories section" id="topCategories">
         <div class="container_center container_center_sm">
-            
-            <h2 class="section__title">Категории продуктов</h2>
-            <div class="section__desc">Выберите интересующую вас категорию</div>
-
+            <?php render_section_title('topCategories_title'); ?>
+            <?php render_section_description('topCategories_desc'); ?>
             <div class="section__wrap">
                 <div class="topCategories__grid">
                     

@@ -347,6 +347,58 @@ function my_template_acf_mataboxes(){
     // END firstscreen section
     // ---------------------------------------------------------
 
+    // BEGIN topCategories section
+    acf_add_local_field_group(array(
+        'key' => 'acf_topCategories_settings',
+        'title' => 'Настройки категорий',
+        'fields' => array(
+            // array(
+            //     'key' => 'topCategories_boolean',
+            //     'label' => 'Отображать блок?',
+            //     'name' => 'topCategories_boolean',
+            //     'type' => 'true_false',
+            //     'default_value' => 1,
+            //     'ui' => 1,
+            //     'ui_on_text' => 'Да',
+            //     'ui_off_text' => 'Нет',
+            // ),
+            array(
+                'key' => 'topCategories_title',
+                'label' => 'Заголовок',
+                'name' => 'topCategories_title',
+                'type' => 'text',
+            ),
+            array(
+                'key' => 'topCategories_desc',
+                'label' => 'Описание',
+                'name' => 'topCategories_desc',
+                'type' => 'textarea',
+                'rows' => 2,
+            ),
+
+  
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'template-homepage.php',
+                )
+            ),
+            // array(
+            //     array(
+            //         'param' => 'page_template',
+            //         'operator' => '==',
+            //         'value' => 'template-contacts.php',
+            //     ),
+            // ),
+        ),
+        'menu_order' => 4,
+    ));
+    // END topCategories section
+    // ---------------------------------------------------------
+
     // BEGIN partners section
     acf_add_local_field_group(array(
         'key' => 'acf_partners_settings',
