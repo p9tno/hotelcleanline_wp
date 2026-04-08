@@ -208,7 +208,7 @@ if (true) {
 
 get_template_part( 'template-parts/sections/section', 'head' ); 
 
-get_pr($child_categories);
+// get_pr($child_categories);
 ?>
 
 <?php if (!empty($child_categories) && !is_wp_error($child_categories)) : ?>
@@ -285,7 +285,7 @@ get_pr($child_categories);
 
 <?php else : 
     // Нет подкатегорий - выводим по меткам
-    get_pr($structured_data);
+    // get_pr($structured_data);
     if (!empty($structured_data)) : ?>
         
         <section id="tags-products" class="tags-products section">

@@ -1783,30 +1783,37 @@ body {
   position: relative;
   overflow: hidden;
   border-radius: 0.625em;
+  height: 100%;
+  background: #f5f2ee;
 }
 .banner__slide .section__btns {
   justify-content: flex-start;
 }
 .banner__img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  height: 12em;
+}
+@media (min-width: 768px) {
+  .banner__img {
+    flex: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 56%;
+    height: 100%;
+  }
 }
 .banner__content {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1.5em 1em;
-  min-height: 15em;
-  color: #ffffff;
+  min-height: 8em;
+  padding: 1em;
 }
 @media (min-width: 768px) {
   .banner__content {
     min-height: 25em;
-    padding: 2.5em 35em 2.5em 6em;
+    padding: 2.5em 45em 2.5em 5em;
   }
 }
 .banner__pagination {
@@ -1816,6 +1823,7 @@ body {
   margin: 0;
   line-height: 1.1;
   font-family: "Oswald";
+  color: #9F5434;
   font-weight: 200;
   font-size: 1.25em;
 }
@@ -1827,7 +1835,6 @@ body {
 .banner__desc {
   margin-top: 1em;
   font-size: 0.875em;
-  font-weight: 300;
 }
 @media (min-width: 768px) {
   .banner__desc {

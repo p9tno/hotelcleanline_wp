@@ -10,30 +10,33 @@ if (get_field('banner_boolean') && $slides) { ?>
                 <div class="swiper banner_swiper_js">
                     <div class="swiper-wrapper">
                         <?php foreach( $slides as $slide ) { ?>
-                            <div class="swiper-slide banner__slide">
-                                <div class="banner__img img">
-                                    <?php echo wp_get_attachment_image($slide['banner_img_id'], 'large'); ?>
-                                </div>
-                                <div class="banner__content">
-                                    <h2 class="banner__title ta_l"><?php echo $slide['banner_title']; ?></h2>
-                                    <div class="banner__desc ta_l"><?php echo $slide['banner_desc']; ?></div>
-                                    <?php if ($slide['banner_btn']) { ?>
-                                        <?php 
-                                            $link = $slide['banner_btn'];
-                                            $title = $link['title'];
-                                            $url = $link['url'];
-                                            $target = $link['target'];
-                                        ?>
-                                        <div class="section__btns ta_l">
-                                            <a 
-                                                class="btn" 
-                                                href="<?php echo $url; ?>" 
-                                                <?php if ($target) { echo 'target="_blank"'; } ?>
-                                            >
-                                                <?php echo $title; ?>
-                                            </a>
-                                        </div>
-                                    <?php } ?>
+                            <div class="swiper-slide">
+                                <div class="banner__slide">
+                                    <div class="banner__img img">
+                                        <?php echo wp_get_attachment_image($slide['banner_img_id'], 'large'); ?>
+                                    </div>
+                                    <div class="banner__content">
+                                        <h3 class="banner__title ta_l"><?php echo $slide['banner_title']; ?></h3>
+                                        <div class="banner__desc ta_l"><?php echo $slide['banner_desc']; ?></div>
+                                        <?php if ($slide['banner_btn']) { ?>
+                                            <?php 
+                                                $link = $slide['banner_btn'];
+                                                $title = $link['title'];
+                                                $url = $link['url'];
+                                                $target = $link['target'];
+                                            ?>
+                                            <div class="section__btns ta_l">
+                                                <a 
+                                                    class="btn" 
+                                                    href="<?php echo $url; ?>" 
+                                                    <?php if ($target) { echo 'target="_blank"'; } ?>
+                                                >
+                                                    <?php echo $title; ?>
+                                                </a>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+
                                 </div>
                             </div>
                         <?php } ?>
