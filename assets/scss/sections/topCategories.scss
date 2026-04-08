@@ -37,7 +37,7 @@
 
     &__img {
         overflow: hidden;
-        aspect-ratio: 16 / 9;
+        aspect-ratio: $aspect-ratio;
         border-radius: 0.625em;
 
         @media (min-width: 768px) {

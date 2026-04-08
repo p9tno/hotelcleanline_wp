@@ -1,7 +1,7 @@
 <?php
 /**
  * Шаблон для категорий продуктов (с табами подкатегорий и товарами по меткам)
- * Оптимизированная версия
+ * Оптимизированная версия с использованием ID меток
  */
 
 $term_id = get_queried_object_id();
@@ -56,14 +56,14 @@ if (!empty($child_categories) && !is_wp_error($child_categories)) {
             'fields' => 'all_with_object_id',
         ));
         
-        // Структурируем: product_id => [tag_names]
+        // Структурируем: product_id => [tag_ids] (используем ID вместо названий)
         $products_tags = array();
         foreach ($all_tags as $term) {
             if (!isset($products_tags[$term->object_id])) {
                 $products_tags[$term->object_id] = array();
             }
-            if (!in_array($term->name, $products_tags[$term->object_id])) {
-                $products_tags[$term->object_id][] = $term->name;
+            if (!in_array($term->term_id, $products_tags[$term->object_id])) {
+                $products_tags[$term->object_id][] = $term->term_id;
             }
         }
         
@@ -78,7 +78,7 @@ if (!empty($child_categories) && !is_wp_error($child_categories)) {
             }
         }
         
-        // Группируем по [категория][метка] = [товары]
+        // Группируем по [категория][метка] = [товары] (используем ID меток)
         foreach ($all_product_ids as $product_id) {
             $product_cats = isset($products_cats[$product_id]) ? $products_cats[$product_id] : array();
             $product_tags = isset($products_tags[$product_id]) ? $products_tags[$product_id] : array();
@@ -89,13 +89,13 @@ if (!empty($child_categories) && !is_wp_error($child_categories)) {
                         $structured_data[$cat_id] = array();
                     }
                     
-                    foreach ($product_tags as $tag_name) {
-                        if (!isset($structured_data[$cat_id][$tag_name])) {
-                            $structured_data[$cat_id][$tag_name] = array();
+                    foreach ($product_tags as $tag_id) {
+                        if (!isset($structured_data[$cat_id][$tag_id])) {
+                            $structured_data[$cat_id][$tag_id] = array();
                         }
                         
-                        if (!in_array($product_id, $structured_data[$cat_id][$tag_name])) {
-                            $structured_data[$cat_id][$tag_name][] = $product_id;
+                        if (!in_array($product_id, $structured_data[$cat_id][$tag_id])) {
+                            $structured_data[$cat_id][$tag_id][] = $product_id;
                         }
                     }
                 }
@@ -131,20 +131,21 @@ if (!empty($child_categories) && !is_wp_error($child_categories)) {
         ));
         
         foreach ($all_tags as $term) {
-            $tag_name = $term->name;
+            $tag_id = $term->term_id;
             $product_id = $term->object_id;
             
-            if (!isset($structured_data[$tag_name])) {
-                $structured_data[$tag_name] = array();
+            if (!isset($structured_data[$tag_id])) {
+                $structured_data[$tag_id] = array();
             }
-            if (!in_array($product_id, $structured_data[$tag_name])) {
-                $structured_data[$tag_name][] = $product_id;
+            if (!in_array($product_id, $structured_data[$tag_id])) {
+                $structured_data[$tag_id][] = $product_id;
             }
         }
     }
 }
 ?>
-<?
+
+<?php
 // ========== РАСШИРЕННАЯ ОТЛАДКА ==========
 if (false) {
     echo '<div style="background: #f0f0f0; padding: 15px; margin: 10px; font-size: 13px; font-family: monospace; border-left: 4px solid #007cba;">';
@@ -182,14 +183,18 @@ if (false) {
                 if (isset($child_ids) && is_array($child_ids) && in_array($key, $child_ids)) {
                     $cat = get_term($key);
                     echo '<strong>&nbsp;&nbsp;&nbsp;📂 Категория: ' . ($cat ? $cat->name : $key) . '</strong><br>';
-                    foreach ($value as $tag_name => $products) {
-                        echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🏷️ Метка: ' . $tag_name . ' (' . count($products) . ' товаров)<br>';
+                    foreach ($value as $tag_id => $products) {
+                        $tag = get_term($tag_id, 'product_tag');
+                        $tag_name = $tag ? $tag->name : $tag_id;
+                        echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🏷️ Метка: ' . $tag_name . ' (ID: ' . $tag_id . ', ' . count($products) . ' товаров)<br>';
                         foreach ($products as $pid) {
                             echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ' . get_the_title($pid) . ' (ID: ' . $pid . ')<br>';
                         }
                     }
                 } else {
-                    echo '&nbsp;&nbsp;&nbsp;🏷️ Метка: ' . $key . ' (' . count($value) . ' товаров)<br>';
+                    $tag = get_term($key, 'product_tag');
+                    $tag_name = $tag ? $tag->name : $key;
+                    echo '&nbsp;&nbsp;&nbsp;🏷️ Метка: ' . $tag_name . ' (ID: ' . $key . ', ' . count($value) . ' товаров)<br>';
                     foreach ($value as $pid) {
                         echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ' . get_the_title($pid) . ' (ID: ' . $pid . ')<br>';
                     }
@@ -205,10 +210,7 @@ if (false) {
 ?>
 
 <?php 
-
 get_template_part( 'template-parts/sections/section', 'head' ); 
-
-// get_pr($child_categories);
 ?>
 
 <?php if (!empty($child_categories) && !is_wp_error($child_categories)) : ?>
@@ -218,16 +220,18 @@ get_template_part( 'template-parts/sections/section', 'head' );
     <div class="container_center">
 
         <h1 class="section__title">Наборы</h1>
+        
         <div class="section__wrap">
+
             <div class="subcategories__content">
+
                 <div class="subcategories__tabs">
                     <div class="tabs__wrapper">
                         
                         <!-- Заголовки табов -->
                         <div class="tabs">
                             <?php foreach ($child_categories as $index => $child) : ?>
-                                <div class="tab <?php echo $index === 0 ? 'active' : ''; ?>" 
-                                     data-tab="tab-<?php echo $child->term_id; ?>">
+                                <div class="tab <?php echo $index === 0 ? 'active' : ''; ?>" data-tab="tab-<?php echo $child->term_id; ?>">
                                     <?php echo esc_html($child->name); ?>
                                 </div>
                             <?php endforeach; ?>
@@ -241,36 +245,34 @@ get_template_part( 'template-parts/sections/section', 'head' );
                                 <div class="tab__item <?php echo $index === 0 ? 'active' : ''; ?>" id="tab-<?php echo $child->term_id; ?>">
                                     <div class="tag__grid">
                                         <?php if (!empty($cat_data)) : ?>
-                                            <?php foreach ($cat_data as $tag_slug => $tag_product_ids) : 
-                                                // Получаем объект метки для создания ссылки
-                                                $tag = get_term_by('name', $tag_slug, 'product_tag');
-                                                get_pr($tag);
-                                                // $all_meta = get_term_meta($tag->term_id);
-                                                // get_pr($all_meta);
-                                                // $tag_link = $tag ? get_term_link($tag) : '#';    
-                                                // get_pr($cat_data);
+                                            <?php foreach ($cat_data as $tag_id => $tag_product_ids) : 
+                                                $tag = get_term($tag_id, 'product_tag');
+                                                if (!$tag || is_wp_error($tag)) continue;
+                                                // get_pr($tag);
+                                                $tag_link = get_term_link($tag);
+                                                $tag_name = $tag->name;
+                                                $tag_slug = $tag->slug;
+                                                $tag_description = $tag->description;
+                                                $tag_image = get_product_tag_image_html($tag_id, 'medium');
                                             ?>
                                                 <div class="tag">
-                                                    <div class="tag__img img"><?php echo get_product_tag_image_html($tag->term_id, 'medium'); ?></div>
-                                                    <div class="tag__title">
-                                                        <!-- <a href="<?php // echo esc_url($tag_link); ?>" class="tag__link">
-                                                            <?php // echo esc_html($tag_slug); ?>
-                                                        </a> -->
-                                                        <?php echo esc_html($tag_slug); ?>
-                                                        <!-- <span class="tag__count">(<?php echo count($tag_product_ids); ?>)</span> -->
+                                                    <div class="tag__img img"><?php echo $tag_image; ?></div>
+                                                    <div class="tag__content">
+                                                        <div class="tag__title"><?php echo esc_html($tag_name); ?></div>
+                                                        <?php if ($tag_description) { ?>
+                                                            <div class="tag__desc"><?php echo esc_html($tag_description); ?></div>
+                                                        <?php } ?>
                                                     </div>
-                                                    
                                                     <div class="tag__products">
                                                         <ol>
                                                             <?php foreach ($tag_product_ids as $product_id) : 
                                                                 echo '<li>';
                                                                 set_query_var('product_id', $product_id);
                                                                 get_template_part('template-parts/product/card');
-                                                                 echo '</li>';
+                                                                echo '</li>';
                                                             endforeach; ?>
                                                         </ol>
                                                     </div>
-
                                                 </div>
                                             <?php endforeach; ?>
                                         <?php else : ?>
@@ -287,24 +289,30 @@ get_template_part( 'template-parts/sections/section', 'head' );
 
         </div>
         
-        
     </div>
 </section>
 <!-- end subcategories -->
 
 <?php else : 
     // Нет подкатегорий - выводим по меткам
-    // get_pr($structured_data);
     if (!empty($structured_data)) : ?>
         
         <section id="tags-products" class="tags-products section">
             <div class="container_center">
                 <h2 class="section__title">Товары по меткам</h2>
                 
-                <?php foreach ($structured_data as $tag_name => $tag_product_ids) : ?>
+                <?php foreach ($structured_data as $tag_id => $tag_product_ids) : 
+                    $tag = get_term($tag_id, 'product_tag');
+                    if (!$tag || is_wp_error($tag)) continue;
+                    
+                    $tag_link = get_term_link($tag);
+                    $tag_name = $tag->name;
+                ?>
                     <div class="tag-section">
                         <h3 class="tag-title">
-                            <?php echo esc_html($tag_name); ?>
+                            <a href="<?php echo esc_url($tag_link); ?>">
+                                <?php echo esc_html($tag_name); ?>
+                            </a>
                             <span class="tag-count">(<?php echo count($tag_product_ids); ?>)</span>
                         </h3>
                         
@@ -332,4 +340,3 @@ get_template_part( 'template-parts/sections/section', 'head' );
         
     <?php endif;
 endif; ?>
-

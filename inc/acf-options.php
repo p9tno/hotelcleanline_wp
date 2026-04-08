@@ -1362,7 +1362,7 @@ function my_template_acf_mataboxes(){
                 'wrapper' => array(
                     'width' => '100',
                 ),
-                'instructions' => 'Загрузите изображение для категории (рекомендуемый размер: 1440x600px)',
+                'instructions' => 'Загрузите изображение для категории (рекомендуемый размер: 1440x800px)',
             ),
         ),
         'location' => array(
@@ -1396,7 +1396,7 @@ function my_template_acf_mataboxes(){
                 'wrapper' => array(
                     'width' => '100',
                 ),
-                'instructions' => 'Загрузите изображение для метки (рекомендуемый размер: 1440x600px)',
+                'instructions' => 'Загрузите изображение для метки (рекомендуемый размер: 1440x800px)',
             ),
         ),
         'location' => array(
