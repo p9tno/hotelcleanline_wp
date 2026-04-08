@@ -93,6 +93,16 @@ body {
 			font-size: 1.5em;
 		}
 
+		> * {
+			&:first-child {
+				margin-top: 0;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
 		&.ta_l {
 			text-align: left;
 		}

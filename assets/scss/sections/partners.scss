@@ -56,11 +56,9 @@
         backdrop-filter: blur(3px);
         padding: 1em;
         border-radius: 0.625em;
-
         @media (min-width: 768px) {
             padding: 2em;
         }
-        
     }
 
     &__title {

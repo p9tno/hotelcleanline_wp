@@ -146,7 +146,7 @@ if (!empty($child_categories) && !is_wp_error($child_categories)) {
 ?>
 <?
 // ========== РАСШИРЕННАЯ ОТЛАДКА ==========
-if (true) {
+if (false) {
     echo '<div style="background: #f0f0f0; padding: 15px; margin: 10px; font-size: 13px; font-family: monospace; border-left: 4px solid #007cba;">';
     echo '<strong style="font-size: 16px;">🔍 ОТЛАДОЧНАЯ ИНФОРМАЦИЯ</strong><br><br>';
     
