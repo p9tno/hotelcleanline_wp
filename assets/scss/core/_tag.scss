@@ -9,9 +9,10 @@
     align-items: flex-end;
     padding: 1em;
     aspect-ratio: $aspect-ratio;
-
     border-radius: 0.625em;
     cursor: pointer;
+    text-decoration: none;
+    color: $main_color;
   
     &__grid {
         display: grid;

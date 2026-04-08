@@ -1,3 +1,5 @@
+@import 'variables/variables';
+
 // Mixin =======================================================================
 
 // Placeholder for input
@@ -49,4 +51,41 @@
 		src: $src;
 		font-display: swap;
 	}
+}
+
+
+%scrollbar {
+    overflow-y: auto;
+    // overflow: hidden overlay;
+    // overflow: overlay;
+  
+    @media (min-width: 768px) {
+        scrollbar-gutter: stable;
+
+		// Firefox
+        scrollbar-width: thin;
+        scrollbar-color: $color_warning transparent;
+
+        // WebKit (Chrome, Safari, Edge)
+        &::-webkit-scrollbar {
+            width: 1.25em;
+            height: 1.25em;
+
+            &-button {
+                display: none;
+            }
+
+            &-thumb {
+				background: $color_warning;
+				border-radius: 1.25em;
+				border: 0.5em solid transparent;
+				background-clip: content-box;
+				min-height: 3em;
+            }
+        }
+
+        &::-webkit-scrollbar-corner {
+            background-color: transparent; 
+        }
+    }
 }

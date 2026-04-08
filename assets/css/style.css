@@ -7,6 +7,41 @@
 /* Form */
 /* ======================================================================== */
 @import "../fonts/icon/style.css";
+.modal-body.scrolled {
+  overflow-y: auto;
+}
+@media (min-width: 768px) {
+  .modal-body.scrolled {
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: #CFA999 transparent;
+  }
+  .modal-body.scrolled::-webkit-scrollbar {
+    width: 1.25em;
+    height: 1.25em;
+  }
+  .modal-body.scrolled::-webkit-scrollbar-button {
+    display: none;
+  }
+  .modal-body.scrolled::-webkit-scrollbar-thumb {
+    background: #CFA999;
+    border-radius: 1.25em;
+    border: 0.5em solid transparent;
+    background-clip: content-box;
+    min-height: 3em;
+  }
+  .modal-body.scrolled::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+}
+
+/* Global variables */
+/* ======================================================================== */
+/* Grid */
+/* ======================================================================== */
+/* 20/16 */
+/* Form */
+/* ======================================================================== */
 @font-face {
   font-family: "Roboto";
   font-style: normal;
@@ -2176,6 +2211,8 @@ body {
   aspect-ratio: 1.7777777778;
   border-radius: 0.625em;
   cursor: pointer;
+  text-decoration: none;
+  color: #333541;
 }
 .tag__grid {
   display: grid;
@@ -3101,8 +3138,10 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
 .modal-close:after {
   transform: rotate(-45deg);
 }
-.modal-close:hover {
-  opacity: 0.8;
+@media (min-width: 768px) {
+  .modal-close:hover {
+    color: #9F5434;
+  }
 }
 .modal.fade .modal-dialog {
   transform: translate(0, -25%);
@@ -3125,13 +3164,16 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
 }
 .modal-content {
   position: relative;
-  background-color: #fff;
+  background-color: #FCFCFD;
   border: none;
   border-radius: 0;
-  box-shadow: 0 0.2em 0.6em rgba(0, 0, 0, 0.5);
   background-clip: padding-box;
   outline: 0;
-  padding: 1em 1.1em;
+  padding: 1.5em 2.5em;
+  border-radius: 0.625em;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5em;
 }
 .modal-backdrop {
   position: fixed;
@@ -3140,7 +3182,7 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
   bottom: 0;
   left: 0;
   z-index: 1040;
-  background-color: #000;
+  background-color: #333541;
 }
 .modal-backdrop.fade {
   opacity: 0;
@@ -3150,47 +3192,35 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-.modal-header {
-  padding: 1em 0;
-  /* 16/16 */
-  min-height: 1em;
-  /* 16/16 */
-  color: #666;
-  font-size: 1.125em;
-  /* 18/16 */
-}
-.modal-header .close {
-  margin-top: -0.125em;
-  /* 2/16 */
-}
-.modal-title {
-  margin: 0;
-  line-height: 1.4;
-}
 .modal-body {
   position: relative;
   padding: 0;
 }
-.modal-footer {
-  margin-top: 1em;
-  /* 16/16 */
-  padding: 1.25em;
-  /* 20/16 */
-  text-align: right;
-  border-top: 0.0625em solid #e5e5e5;
-  /* 1/16 */
+.modal-body.scrolled {
+  height: 60vh;
 }
-.modal-footer .btn + .btn {
-  margin-left: 0.3125em;
-  /* 5/16 */
-  margin-bottom: 0;
+.modal-title {
+  margin: 0;
+  font-family: "Oswald";
+  color: #9F5434;
+  line-height: 1.1;
+  font-weight: 300;
+  font-size: 1.25em;
 }
-.modal-footer .btn-group .btn + .btn {
-  margin-left: -0.0625em;
-  /* 1/16 */
+@media (min-width: 768px) {
+  .modal-title {
+    font-size: 2em;
+  }
 }
-.modal-footer .btn-block + .btn-block {
-  margin-left: 0;
+
+.tag-products .modal-dialog {
+  max-width: 19.25em;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .tag-products .modal-dialog {
+    max-width: 80em;
+  }
 }
 
 .modalVideo .modal-dialog {

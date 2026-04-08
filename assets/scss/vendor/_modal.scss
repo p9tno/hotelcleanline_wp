@@ -26,7 +26,7 @@
         align-items: center;
         justify-content: center;
         color: $main_color;
-        // background: image-url('close.svg') no-repeat center center;
+
         &:after,
         &:before {
             content: '';
@@ -44,9 +44,12 @@
             transform: rotate(-45deg);
         }
 
-        &:hover {
-            opacity: 0.8;
+        @media (min-width: 768px) {
+            &:hover {
+                color: $color_primary;
+            }
         }
+
     }
 
     &.fade .modal-dialog {
@@ -75,13 +78,17 @@
 
     &-content {
         position: relative;
-        background-color: #fff;
+        background-color: $main_bg;
         border: none;
         border-radius: 0;
-        box-shadow: 0 0.2em 0.6em rgba(0,0,0,.5);
         background-clip: padding-box;
         outline: 0;
-        padding: 1em 1.1em;
+        padding: 1.5em 2.5em;
+        border-radius: 0.625em;
+
+        display: flex;
+        flex-direction: column;
+        gap: 2.5em;
     }
 
     &-backdrop {
@@ -91,7 +98,7 @@
         bottom: 0;
         left: 0;
         z-index: 1040;
-        background-color: #000;
+        background-color: $main_color;
 
         &.fade {
             opacity: 0;
@@ -104,56 +111,43 @@
         }
     }
 
-    &-header {
-        padding: 1em 0;
-        /* 16/16 */
-        min-height: 1em;
-        /* 16/16 */
-        color: #666;
-        font-size: 1.125em;
-        /* 18/16 */
 
-        .close {
-            margin-top: -0.125em;
-            /* 2/16 */
+
+   
+
+    &-body {
+        position: relative;
+        padding: 0;
+
+        &.scrolled {
+            height: 60vh;
+            @extend %scrollbar;
         }
     }
 
     &-title {
         margin: 0;
-        line-height: 1.4;
+		font-family: $second_font_family;
+		color: $color_primary;
+		line-height: 1.1;
+		font-weight: 300;
+		font-size: 1.25em;
+		@media (min-width: 768px) {
+			font-size: 2em;
+		}
     }
 
-    &-body {
-        position: relative;
-        padding: 0;
-    }
 
-    &-footer {
-        margin-top: 1em;
-        /* 16/16 */
-        padding: 1.25em;
-        /* 20/16 */
-        text-align: right;
-        border-top: 0.0625em solid #e5e5e5;
-        /* 1/16 */
+}
 
-        .btn+.btn {
-            margin-left: 0.3125em;
-            /* 5/16 */
-            margin-bottom: 0;
-        }
-
-        .btn-group .btn+.btn {
-            margin-left: -0.0625em;
-            /* 1/16 */
-        }
-
-        .btn-block+.btn-block {
-            margin-left: 0;
+.tag-products {
+    .modal-dialog {
+        max-width: 19.25em;
+        width: 100%;
+        @media (min-width: 768px) {
+            max-width: 80em;
         }
     }
-
 }
 
 .modalVideo {

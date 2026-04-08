@@ -255,7 +255,7 @@ get_template_part( 'template-parts/sections/section', 'head' );
                                                 $tag_description = $tag->description;
                                                 $tag_image = get_product_tag_image_html($tag_id, 'medium');
                                             ?>
-                                                <div class="tag">
+                                                <a href="#tag-products" class="tag show_modal_js">
                                                     <div class="tag__img img"><?php echo $tag_image; ?></div>
                                                     <div class="tag__content">
                                                         <div class="tag__title"><?php echo esc_html($tag_name); ?></div>
@@ -273,7 +273,7 @@ get_template_part( 'template-parts/sections/section', 'head' );
                                                             endforeach; ?>
                                                         </ol>
                                                     </div>
-                                                </div>
+                                                </a>
                                             <?php endforeach; ?>
                                         <?php else : ?>
                                             <?php custom_info('! В этой подкатегории нет товаров с метками.'); ?>
