@@ -748,7 +748,7 @@ function my_template_acf_mataboxes(){
                         'type' => 'image',
                         'return_format' => 'id',  // 'id' || 'url' || 'array'
                         'preview_size' => 'medium', // (thumbnail, medium, large, full or custom size)
-                        'instructions' => 'Рекомендуемое разрешение изображения не более 1200/400px.',
+                        'instructions' => 'Рекомендуемое разрешение изображения не более 700/400px.',
                         'required' => 1,
                     ),
                 ),

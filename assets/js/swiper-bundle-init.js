@@ -124,9 +124,9 @@ $(document).ready(function() {
             spaceBetween: 0,
             speed: speed,
             loop: false,
-            // autoplay: {
-            //     delay: delay,
-            // },
+            autoplay: {
+                delay: delay,
+            },
             effect: "creative",
             creativeEffect: {
                 prev: {
