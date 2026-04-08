@@ -1950,6 +1950,9 @@ body {
   }
 }
 
+.subcategories {
+  padding-top: 0;
+}
 /* Базовые стили для цены */
 .product-price {
   display: inline-flex;
@@ -2162,6 +2165,18 @@ body {
 }
 .product__button {
   font-size: 0.8em;
+}
+
+.tag {
+  border: 1px solid #000;
+}
+.tag__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1em;
+}
+.tag__products {
+  display: none;
 }
 
 /* Footer
@@ -2830,45 +2845,53 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
 }
 
 .tabs {
-  display: flex;
-  gap: 1em;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 1em;
+}
+.tabs__content {
+  margin-top: 1em;
 }
 
 .tab {
-  border: 1px solid #000;
-  border-radius: 0.25em;
-  padding: 0.5em 1em;
+  display: inline-block;
+  padding: 0.875em;
+  border-radius: 0.625em;
+  border: 1px solid;
+  outline: none;
+  max-width: 100%;
+  font-family: "Roboto";
+  font-size: 0.75em;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: lowercase;
+  text-align: center;
+  color: #CFA999;
+  border-color: #CFA999;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.tab:first-letter {
+  text-transform: uppercase;
+}
+@media (min-width: 768px) {
+  .tab {
+    font-size: 1em;
+  }
 }
 .tab.active {
-  color: red;
+  color: #ffffff;
+  border-color: #CFA999;
+  background-color: #CFA999;
 }
-.tab:hover {
-  color: red;
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  margin-top: 1em;
-  grid-gap: 1em;
-}
-.products-grid .product-card {
-  border: 1px solid #CFA999;
-  border-radius: 0.625em;
-  padding: 1em;
-}
-
-.subcategories__item {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 1em;
-  grid-gap: 1em;
-}
-
-.tag {
-  border: 1px solid #000;
-  border-radius: 0.625em;
-  padding: 1em;
+@media (min-width: 768px) {
+  .tab:hover:not(:disabled) {
+    color: #ffffff;
+    border-color: #CFA999;
+    background-color: #CFA999;
+  }
 }
 
 .product-card {

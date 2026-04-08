@@ -434,6 +434,25 @@ function get_product_category_image_html($term_id, $size = 'medium') {
 }
 
 /**
+ * Получение HTML изображения меток (тегов)
+ */
+function get_product_tag_image_html($term_id, $size = 'medium') {
+    // Исправлено: product_tag вместо product_category
+    $image_id = get_field('product_tag_image', 'product_tag_' . $term_id);
+    
+    if ($image_id) {
+        return wp_get_attachment_image($image_id, $size);
+    }
+    
+    // Если изображения нет, возвращаем заглушку
+    $no_img_url = get_template_directory_uri() . '/assets/img/no_img.webp';
+    $term = get_term($term_id, 'product_tag'); // Исправлено: product_tag
+    $alt = $term ? $term->name : 'Изображение метки'; // Исправлен текст
+    
+    return '<img src="' . esc_url($no_img_url) . '" alt="' . esc_attr($alt) . '">';
+}
+
+/**
  * Получение HTML изображения продукта (только миниатюра)
  * 
  * @param int $product_id ID продукта

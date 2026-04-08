@@ -1,0 +1,13 @@
+.tag {
+    border: 1px solid #000;
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1em;
+    }
+
+    &__products {
+        display: none;
+    }
+}

@@ -216,69 +216,78 @@ get_template_part( 'template-parts/sections/section', 'head' );
 <!-- begin subcategories -->
 <section id="subcategories" class="subcategories section">
     <div class="container_center">
-        <div class="subcategories__content">
-            <div class="subcategories__tabs">
-                <div class="tabs__wrapper">
-                    
-                    <!-- Заголовки табов -->
-                    <div class="tabs">
-                        <?php foreach ($child_categories as $index => $child) : ?>
-                            <div class="tab <?php echo $index === 0 ? 'active' : ''; ?>" 
-                                 data-tab="tab-<?php echo $child->term_id; ?>">
-                                <?php echo esc_html($child->name); ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    
-                    <!-- Контент табов -->
-                    <div class="tabs__content">
-                        <?php foreach ($child_categories as $index => $child) : 
-                            $cat_data = isset($structured_data[$child->term_id]) ? $structured_data[$child->term_id] : array();
-                        ?>
-                            <div class="subcategories__item tab__item <?php echo $index === 0 ? 'active' : ''; ?>" 
-                                 id="tab-<?php echo $child->term_id; ?>">
-                                
-                                <?php if (!empty($cat_data)) : ?>
-                                    <?php foreach ($cat_data as $tag_name => $tag_product_ids) : 
-                                        // Получаем объект метки для создания ссылки
-                                        // $tag = get_term_by('name', $tag_name, 'product_tag');
-                                        // $tag_link = $tag ? get_term_link($tag) : '#';    
-                                    ?>
-                                        <div class="tag">
-                                            <h3 class="tag__title">
-                                                <!-- <a href="<?php // echo esc_url($tag_link); ?>" class="tag__link">
-                                                    <?php // echo esc_html($tag_name); ?>
-                                                </a> -->
-                                                <?php echo esc_html($tag_name); ?>
-                                                <span class="tag-count">(<?php echo count($tag_product_ids); ?>)</span>
-                                                <span>метка</span>
-                                            </h3>
-                                            
-                                            <div class="tag__products">
-                                                <span>товары с этой меткой</span>
-                                                <ol>
-                                                    <?php foreach ($tag_product_ids as $product_id) : 
-                                                        echo '<li>';
-                                                        set_query_var('product_id', $product_id);
-                                                        get_template_part('template-parts/product/card');
-                                                         echo '</li>';
-                                                    endforeach; ?>
-                                                </ol>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                <?php else : ?>
-                                    <div class="no-tags">
-                                        <p>В этой подкатегории нет товаров с метками.</p>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
 
+        <h1 class="section__title">Наборы</h1>
+        <div class="section__wrap">
+            <div class="subcategories__content">
+                <div class="subcategories__tabs">
+                    <div class="tabs__wrapper">
+                        
+                        <!-- Заголовки табов -->
+                        <div class="tabs">
+                            <?php foreach ($child_categories as $index => $child) : ?>
+                                <div class="tab <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                     data-tab="tab-<?php echo $child->term_id; ?>">
+                                    <?php echo esc_html($child->name); ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        
+                        <!-- Контент табов -->
+                        <div class="tabs__content">
+                            <?php foreach ($child_categories as $index => $child) : 
+                                $cat_data = isset($structured_data[$child->term_id]) ? $structured_data[$child->term_id] : array();
+                            ?>
+                                <div class="tab__item <?php echo $index === 0 ? 'active' : ''; ?>" id="tab-<?php echo $child->term_id; ?>">
+                                    <div class="tag__grid">
+                                        <?php if (!empty($cat_data)) : ?>
+                                            <?php foreach ($cat_data as $tag_slug => $tag_product_ids) : 
+                                                // Получаем объект метки для создания ссылки
+                                                $tag = get_term_by('name', $tag_slug, 'product_tag');
+                                                get_pr($tag);
+                                                // $all_meta = get_term_meta($tag->term_id);
+                                                // get_pr($all_meta);
+                                                // $tag_link = $tag ? get_term_link($tag) : '#';    
+                                                // get_pr($cat_data);
+                                            ?>
+                                                <div class="tag">
+                                                    <div class="tag__img img"><?php echo get_product_tag_image_html($tag->term_id, 'medium'); ?></div>
+                                                    <div class="tag__title">
+                                                        <!-- <a href="<?php // echo esc_url($tag_link); ?>" class="tag__link">
+                                                            <?php // echo esc_html($tag_slug); ?>
+                                                        </a> -->
+                                                        <?php echo esc_html($tag_slug); ?>
+                                                        <!-- <span class="tag__count">(<?php echo count($tag_product_ids); ?>)</span> -->
+                                                    </div>
+                                                    
+                                                    <div class="tag__products">
+                                                        <ol>
+                                                            <?php foreach ($tag_product_ids as $product_id) : 
+                                                                echo '<li>';
+                                                                set_query_var('product_id', $product_id);
+                                                                get_template_part('template-parts/product/card');
+                                                                 echo '</li>';
+                                                            endforeach; ?>
+                                                        </ol>
+                                                    </div>
+
+                                                </div>
+                                            <?php endforeach; ?>
+                                        <?php else : ?>
+                                            <?php custom_info('! В этой подкатегории нет товаров с метками.'); ?>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+    
+                    </div>
                 </div>
             </div>
+
         </div>
+        
+        
     </div>
 </section>
 <!-- end subcategories -->
@@ -299,7 +308,7 @@ get_template_part( 'template-parts/sections/section', 'head' );
                             <span class="tag-count">(<?php echo count($tag_product_ids); ?>)</span>
                         </h3>
                         
-                        <div class="products-grid">
+                        <div class="product__grid">
                             <?php foreach ($tag_product_ids as $product_id) : 
                                 set_query_var('product_id', $product_id);
                                 get_template_part('template-parts/product/card');
