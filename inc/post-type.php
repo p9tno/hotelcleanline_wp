@@ -108,15 +108,15 @@ add_action( 'init', 'register_product_taxonomy' );
  */
 function register_product_tags() {
     $labels = array(
-        'name'              => 'Метки продуктов',
-        'singular_name'     => 'Метка продукта',
-        'search_items'      => 'Искать метки',
-        'all_items'         => 'Все метки',
-        'edit_item'         => 'Редактировать метку',
-        'update_item'       => 'Обновить метку',
-        'add_new_item'      => 'Добавить новую метку',
-        'new_item_name'     => 'Имя новой метки',
-        'menu_name'         => 'Метки',
+        'name'              => 'Дизайн продуктов',
+        'singular_name'     => 'Дизайн продукта',
+        'search_items'      => 'Искать дизайн',
+        'all_items'         => 'Все дизайны',
+        'edit_item'         => 'Редактировать дизайн',
+        'update_item'       => 'Обновить дизайн',
+        'add_new_item'      => 'Добавить новый дизайн',
+        'new_item_name'     => 'Имя нового дизайна',
+        'menu_name'         => 'Дизайн',
     );
 
     $args = array(
@@ -135,4 +135,37 @@ function register_product_tags() {
     register_taxonomy( 'product_tag', 'product', $args );
 }
 add_action( 'init', 'register_product_tags' );
+
+/**
+ * Создание таксономии "Изделия" (метки)
+ */
+function register_product_izdeliya_tags() {
+    $labels = array(
+        'name'              => 'Изделия',
+        'singular_name'     => 'Изделие',
+        'search_items'      => 'Искать изделия',
+        'all_items'         => 'Все изделия',
+        'edit_item'         => 'Редактировать изделие',
+        'update_item'       => 'Обновить изделие',
+        'add_new_item'      => 'Добавить новое изделие',
+        'new_item_name'     => 'Имя нового изделия',
+        'menu_name'         => 'Изделия',
+    );
+
+    $args = array(
+        'hierarchical'      => false,         // Как метки (без иерархии)
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'show_in_rest'      => true,          // Поддержка Gutenberg/REST API
+        'query_var'         => true,
+        'rewrite'           => array(
+            'slug'         => 'izdeliya',     // URL: site.com/izdeliya/название/
+            'with_front'   => false
+        ),
+    );
+
+    register_taxonomy( 'product_izdeliya', 'product', $args );
+}
+add_action( 'init', 'register_product_izdeliya_tags' );
 
