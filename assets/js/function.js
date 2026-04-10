@@ -106,19 +106,14 @@ $(document).ready(function() {
         $('.show_modal_js').on('click', function (e) {
             e.preventDefault();
             let id  = $(this).attr('href');
-
+            console.log(id);
             $(id).modal('show');
         });
 
-        $('.modal').on('show.bs.modal', () => {
-            // let openedModal = $('.modal.in:not(.popapCalc)');
-            let openedModal = $('.modal');
-            if (openedModal.length > 0) {
-                openedModal.modal('hide');
-            }
+        const modalTagProducts = $('#tag-products');
+        $(modalTagProducts).on('hide.bs.modal', () => {
+            modalTagProducts.find('.modal-body').html('');
         });
-
-        // $('.modal').on('hide.bs.modal', () => {});
 
     }
     showModal();
@@ -518,3 +513,138 @@ $(document).ready(function() {
 
 })
 
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Функция для генерации HTML карточки товара (полностью соответствует PHP шаблону)
+    function generateProductCard(product) {
+        // Используем готовый HTML изображения из PHP
+        let imageHTML = product.thumbnail_html || '';
+        
+        // Fallback если нет HTML изображения
+        if (!imageHTML && product.thumbnail_medium) {
+            imageHTML = `<img src="${product.thumbnail_medium}" alt="${product.title}" loading="lazy">`;
+        } else if (!imageHTML) {
+            imageHTML = `<img src="<?php echo $no_img_url; ?>" alt="${product.title}" loading="lazy">`;
+        }
+        
+        // Используем готовую отформатированную цену из PHP
+        const priceHTML = product.price_formatted || '';
+        
+        // Определяем, доступен ли товар для покупки
+        const isDisabled = product.stock_status !== 'instock' ? 'disabled' : '';
+        
+        // Возвращаем HTML карточки (полностью соответствует PHP шаблону)
+        return `
+            <div class="product" id="product-${product.id}">
+                <div class="product__header">
+                    <a class="product__img img" href="${product.permalink}">
+                        ${imageHTML}
+                    </a>
+                </div>
+                <div class="product__body product_padding">
+                    <a class="product__title" href="${product.permalink}">${product.title}</a>
+                </div>
+                <div class="product__footer product_padding">
+                    <div class="product__price">${priceHTML}</div>
+                    <div class="product__button">
+                        <button class="btn" ${isDisabled}>
+                            <span>Купить</span>
+                            <i class="icon_basket"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Функция для генерации контента модального окна
+    function setModalContent(categoryName, tagName, products, tagDescription = '') {
+        let productsHTML = '';
+        
+        if (products && products.length > 0) {
+            products.forEach(product => {
+                productsHTML += generateProductCard(product);
+            });
+        } else {
+            productsHTML = '<div class="no-products">В этой категории пока нет товаров</div>';
+        }
+        
+        // Формируем заголовок в формате "category_name / tag_name"
+        const titleText = categoryName ? `${categoryName} / ${tagName}` : tagName;
+        
+        return `
+            <div class="modal-title" id="myModalLabel">${titleText}</div>
+            <div class="product__grid scrolled">
+                ${productsHTML}
+            </div>
+        `;
+    }
+    
+    // Обработчик клика по .show_tag_products_js
+    const tagTriggers = document.querySelectorAll('.show_tag_products_js');
+    
+    if (tagTriggers.length > 0) {
+        tagTriggers.forEach((trigger) => {
+            trigger.addEventListener('click', (e) => {
+                // Получаем ID метки и категории
+                let tagId = null;
+                let categoryId = null;
+                
+                // Из data-атрибутов
+                if (trigger.dataset.tagId) {
+                    tagId = parseInt(trigger.dataset.tagId);
+                }
+                if (trigger.dataset.categoryId) {
+                    categoryId = parseInt(trigger.dataset.categoryId);
+                }
+                
+                console.log('tagId: ', tagId);
+                console.log('categoryId: ', categoryId);
+                
+                // Проверяем наличие productsCombinations
+                if (typeof productsCombinations === 'undefined') {
+                    console.error('productsCombinations не определен');
+                    return;
+                }
+                
+                // Ищем комбинацию в данных
+                let combo = null;
+                if (tagId && categoryId) {
+                    combo = productsCombinations.find(c => c.category_id === categoryId && c.tag_id === tagId);
+                }
+                
+                // Если не нашли, ищем только по tagId
+                // if (!combo && tagId) {
+                //     combo = productsCombinations.find(c => c.tag_id === tagId);
+                // }
+                
+                console.log('combo: ', combo);
+                
+                // Если нашли комбинацию, вставляем данные в модальное окно
+                if (combo) {
+                    const modal = document.querySelector('#tag-products');
+                    const modalBody = modal ? modal.querySelector('.modal-body') : null;
+                    
+                    if (modalBody) {
+                        // Обновляем содержимое модального окна
+                        modalBody.innerHTML = setModalContent(
+                            combo.category_name,
+                            combo.tag_name,
+                            combo.products,
+                            combo.tag_description
+                        );
+                        
+                        $(modal).modal('show');
+                      
+                    } else {
+                        console.error('Модальное окно #tag-products или его .modal-body не найдены');
+                    }
+                } else {
+                    console.error('Не найдены товары для этой комбинации', { tagId, categoryId });
+                }
+            });
+        });
+    } else {
+        console.log('Элементы .show_tag_products_js не найдены');
+    }
+});

@@ -209,6 +209,122 @@ if (false) {
 }
 ?>
 
+
+<script>
+    <?php
+    // Генерируем данные для всех комбинаций подкатегория + метка
+    $allProductsData = array();
+    $no_img_url = get_template_directory_uri() . '/assets/img/no_img.webp';
+    
+    if (!empty($structured_data)) {
+        foreach ($structured_data as $cat_id => $tags_data) {
+            $category = get_term($cat_id, 'product_category');
+            if (!$category || is_wp_error($category)) continue;
+            
+            foreach ($tags_data as $tag_id => $product_ids) {
+                $tag = get_term($tag_id, 'product_tag');
+                if (!$tag || is_wp_error($tag)) continue;
+                
+                $products_for_combo = array();
+                
+                foreach ($product_ids as $product_id) {
+                    $product = get_post($product_id);
+                    if (!$product) continue;
+                    
+                    $product_data = new stdClass();
+                    $product_data->id = $product_id;
+                    $product_data->title = get_the_title($product_id);
+                    $product_data->slug = $product->post_name;
+                    $product_data->permalink = get_permalink($product_id);
+                    
+                    // ========== ЦЕНА (с использованием PHP функции) ==========
+                    $product_price = get_field('product_price', $product_id);
+                    $product_data->price = $product_price ? (float)$product_price : null;
+                    
+                    // Получаем отформатированную цену через PHP функцию
+                    if ($product_price) {
+                        ob_start();
+                        the_product_price($product_id, true);
+                        $product_data->price_formatted = ob_get_clean();
+                    } else {
+                        $product_data->price_formatted = '';
+                    }
+                    
+                    // ========== АРТИКУЛ ==========
+                    $product_sku = get_field('product_sku', $product_id);
+                    $product_data->sku = $product_sku ? $product_sku : '';
+                    
+                    // ========== ИЗОБРАЖЕНИЕ (с использованием PHP функции) ==========
+                    // Получаем HTML изображения через PHP функцию
+                    ob_start();
+                    echo get_product_image_html($product_id);
+                    $product_data->thumbnail_html = ob_get_clean();
+                    
+                    // Дополнительно получаем URL для fallback
+                    $thumbnail_id = get_post_thumbnail_id($product_id);
+                    if ($thumbnail_id) {
+                        $product_data->thumbnail_medium = wp_get_attachment_image_url($thumbnail_id, 'medium');
+                    } else {
+                        $product_data->thumbnail_medium = $no_img_url;
+                    }
+                    
+                    // ========== ХАРАКТЕРИСТИКИ ==========
+                    $product_specifications = get_field('product_specifications', $product_id);
+                    $product_data->specifications = array();
+                    if ($product_specifications && is_array($product_specifications)) {
+                        foreach ($product_specifications as $spec) {
+                            if (!empty($spec['product_spec_name']) && !empty($spec['product_spec_value'])) {
+                                $product_data->specifications[] = array(
+                                    'name' => $spec['product_spec_name'],
+                                    'value' => $spec['product_spec_value']
+                                );
+                            }
+                        }
+                    }
+                    
+                    // ========== СТАТУС НАЛИЧИЯ ==========
+                    $product_data->stock_status = 'instock';
+                    
+                    // ========== МЕТКИ И КАТЕГОРИИ ==========
+                    $tags = wp_get_post_terms($product_id, 'product_tag', array('fields' => 'names'));
+                    $product_data->tags = !empty($tags) ? $tags : array();
+                    
+                    $categories = wp_get_post_terms($product_id, 'product_category', array('fields' => 'names'));
+                    $product_data->categories = !empty($categories) ? $categories : array();
+                    
+                    $products_for_combo[] = $product_data;
+                }
+                
+                // Создаём объект комбинации
+                $combination = new stdClass();
+                $combination->category_id = $cat_id;
+                $combination->category_name = $category->name;
+                $combination->category_slug = $category->slug;
+                $combination->tag_id = $tag_id;
+                $combination->tag_name = $tag->name;
+                $combination->tag_slug = $tag->slug;
+                $combination->tag_description = $tag->description;
+                $combination->products = $products_for_combo;
+                $combination->products_count = count($products_for_combo);
+                
+                // Получаем изображение метки (если есть ваша функция)
+                if (function_exists('get_product_tag_image_html')) {
+                    $tag_image = get_product_tag_image_html($tag_id, 'medium');
+                    $combination->tag_image = $tag_image;
+                }
+                
+                $allProductsData[] = $combination;
+            }
+        }
+    }
+    ?>
+
+    // Данные всех комбинаций товаров по подкатегориям и меткам
+    const productsCombinations = <?php echo json_encode($allProductsData, JSON_UNESCAPED_UNICODE); ?>;
+    console.log('productsCombinations:', productsCombinations);
+    
+</script>
+
 <?php 
 get_template_part( 'template-parts/sections/section', 'head' ); 
 ?>
@@ -255,25 +371,33 @@ get_template_part( 'template-parts/sections/section', 'head' );
                                                 $tag_description = $tag->description;
                                                 $tag_image = get_product_tag_image_html($tag_id, 'medium');
                                             ?>
-                                                <a href="#tag-products" class="tag show_modal_js">
+                                                <div 
+                                                    class="tag show_tag_products_js"
+                                                    data-tag-id="<?php echo $tag_id; ?>" 
+                                                    data-category-id="<?php echo $child->term_id; ?>"
+                                                >
+                                                    
+                                                
                                                     <div class="tag__img img"><?php echo $tag_image; ?></div>
                                                     <div class="tag__content">
                                                         <div class="tag__title"><?php echo esc_html($tag_name); ?></div>
                                                         <?php if ($tag_description) { ?>
                                                             <div class="tag__desc"><?php echo esc_html($tag_description); ?></div>
                                                         <?php } ?>
+                                                        <!-- <div class="tag__products">
+                                                            <?php 
+                                                            // foreach ($tag_product_ids as $product_id) : 
+                                                            //     echo '<p>';
+                                                            //     set_query_var('product_id', $product_id);
+                                                            //     get_template_part('template-parts/product/card');
+                                                            //     echo '</p>';
+                                                            // endforeach; 
+                                                            ?>
+                                                        </div> -->
                                                     </div>
-                                                    <div class="tag__products">
-                                                        <ol>
-                                                            <?php foreach ($tag_product_ids as $product_id) : 
-                                                                echo '<li>';
-                                                                set_query_var('product_id', $product_id);
-                                                                get_template_part('template-parts/product/card');
-                                                                echo '</li>';
-                                                            endforeach; ?>
-                                                        </ol>
-                                                    </div>
-                                                </a>
+                                                  
+                                                   
+                                                </div>
                                             <?php endforeach; ?>
                                         <?php else : ?>
                                             <?php custom_info('! В этой подкатегории нет товаров с метками.'); ?>

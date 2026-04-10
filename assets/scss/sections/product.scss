@@ -96,6 +96,11 @@
             grid-gap: 1.25em;
         }
 
+        &.scrolled {
+            height: 30vh;
+            @extend %scrollbar;
+        }
+
         // .pagination {
         //     grid-column-start: 1;
         //     grid-column-end: 3;
