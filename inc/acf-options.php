@@ -997,19 +997,19 @@ function my_template_acf_mataboxes(){
             // ),
             
             // Галерея изображений
-            array(
-                'key' => 'product_gallery',
-                'label' => 'Галерея изображений',
-                'name' => 'product_gallery',
-                'type' => 'gallery',
-                'preview_size' => 'thumbnail',
-                'return_format' => 'id',  // 'id' || 'url' || 'array'
-                'required' => 0,
-                'wrapper' => array(
-                    'width' => '100',
-                ),
-                'instructions' => 'Дополнительные изображения товара (необязательно)',
-            ),
+            // array(
+            //     'key' => 'product_gallery',
+            //     'label' => 'Галерея изображений',
+            //     'name' => 'product_gallery',
+            //     'type' => 'gallery',
+            //     'preview_size' => 'thumbnail',
+            //     'return_format' => 'id',  // 'id' || 'url' || 'array'
+            //     'required' => 0,
+            //     'wrapper' => array(
+            //         'width' => '100',
+            //     ),
+            //     'instructions' => 'Дополнительные изображения товара (необязательно)',
+            // ),
             
             // Цена НЕ ИЗМЕНЯТЬ KEY, NAME
             array(

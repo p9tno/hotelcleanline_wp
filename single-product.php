@@ -94,7 +94,7 @@ $product_tags = wp_get_object_terms($product_id, 'product_tag');
             <!-- Метки -->
             <?php if ($product_tags && !is_wp_error($product_tags)) : ?>
                 <div class="product__tags">
-                    <strong>Метки:</strong>
+                    <strong>Дизайн:</strong>
                     <ul>
                         <?php foreach ($product_tags as $tag) : ?>
                             <li>

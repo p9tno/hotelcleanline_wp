@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `
             <div class="product" id="product-${product.id}">
                 <div class="product__header">
-                    <a class="product__img img" href="${product.permalink}">
+                    <a class="product__img" href="${product.permalink}">
                         ${imageHTML}
                     </a>
                 </div>
@@ -570,7 +570,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Формируем заголовок в формате "category_name / tag_name"
-        const titleText = categoryName ? `${categoryName} / ${tagName}` : tagName;
+        // const titleText = categoryName ? `${categoryName} / ${tagName}` : tagName;
+        const titleText = categoryName;
         
         return `
             <div class="modal-title" id="myModalLabel">${titleText}</div>

@@ -7,30 +7,30 @@
 /* Form */
 /* ======================================================================== */
 @import "../fonts/icon/style.css";
-.modal-body.scrolled, .product__grid.scrolled {
+.modal-body.scrolled {
   overflow-y: auto;
 }
 @media (min-width: 768px) {
-  .modal-body.scrolled, .product__grid.scrolled {
+  .modal-body.scrolled {
     scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: #CFA999 transparent;
   }
-  .modal-body.scrolled::-webkit-scrollbar, .product__grid.scrolled::-webkit-scrollbar {
+  .modal-body.scrolled::-webkit-scrollbar {
     width: 1.25em;
     height: 1.25em;
   }
-  .modal-body.scrolled::-webkit-scrollbar-button, .product__grid.scrolled::-webkit-scrollbar-button {
+  .modal-body.scrolled::-webkit-scrollbar-button {
     display: none;
   }
-  .modal-body.scrolled::-webkit-scrollbar-thumb, .product__grid.scrolled::-webkit-scrollbar-thumb {
+  .modal-body.scrolled::-webkit-scrollbar-thumb {
     background: #CFA999;
     border-radius: 1.25em;
     border: 0.5em solid transparent;
     background-clip: content-box;
     min-height: 3em;
   }
-  .modal-body.scrolled::-webkit-scrollbar-corner, .product__grid.scrolled::-webkit-scrollbar-corner {
+  .modal-body.scrolled::-webkit-scrollbar-corner {
     background-color: transparent;
   }
 }
@@ -1493,7 +1493,7 @@ body {
 }
 .topCategories__img {
   overflow: hidden;
-  aspect-ratio: 1.7777777778;
+  aspect-ratio: 1.5;
   border-radius: 0.625em;
 }
 @media (min-width: 768px) {
@@ -1955,7 +1955,7 @@ body {
   align-items: flex-end;
   justify-content: flex-end;
   padding: 1em;
-  aspect-ratio: 1.7777777778;
+  aspect-ratio: 3/1;
 }
 @media (min-width: 768px) {
   .head__wrap {
@@ -2057,9 +2057,6 @@ body {
     grid-gap: 1.25em;
   }
 }
-.product__grid.scrolled {
-  height: 30vh;
-}
 .product__header {
   position: relative;
   border-top-left-radius: 0.625em;
@@ -2079,12 +2076,21 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media (min-width: 768px) {
   .product__img {
     transform: scale(1);
     transition: 0.5s;
   }
+}
+.product__img img {
+  display: block;
+  width: 40%;
+  height: auto;
+  object-fit: cover;
 }
 .product__head {
   display: flex;
@@ -2211,7 +2217,7 @@ body {
   justify-content: flex-end;
   align-items: flex-end;
   padding: 1em;
-  aspect-ratio: 1.7777777778;
+  aspect-ratio: 1.5;
   border-radius: 0.625em;
   cursor: pointer;
   text-decoration: none;
@@ -3196,7 +3202,7 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
   gap: 2.5em;
 }
 .modal-body.scrolled {
-  height: 60vh;
+  height: 100%;
 }
 .modal-title {
   margin: 0;
