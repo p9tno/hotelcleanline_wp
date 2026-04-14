@@ -1054,6 +1054,61 @@ function my_template_acf_mataboxes(){
                 'instructions' => 'Уникальный артикул товара',
                 'placeholder' => 'PRD-001',
             ),
+            // ------------------------------- tab_product_content
+            array(
+                'key' => 'tab_product_content',
+                'label' => 'Контент (описание) товара', 
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'product_content',
+                'label' => 'Контент (описание) товара',
+                'name' => 'product_content',
+                'type' => 'wysiwyg',
+                'instructions' => 'Добавьте описание товара',
+                'tabs' => 'all',  // 'visual' || 'text' || 'all'
+                'toolbar' => 'basic',  // 'basic' \\ 'full'
+                'media_upload' => 0,
+                'delay' => 0,
+            ),
+            // ------------------------------- tab_product_specifications
+            array(
+                'key' => 'tab_product_specifications',
+                'label' => 'Характеристики', 
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'product_specifications',
+                'label' => 'Характеристики ',
+                'name' => 'product_specifications',
+                'type' => 'repeater',
+                'instructions' => 'Добавьте основные характеристики товара',
+                'required' => 0,
+                'min' => 0,
+                'max' => 20,
+                'layout' => 'table',
+                'button_label' => 'Добавить характеристику',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'product_spec_name',
+                        'label' => 'Название характеристики',
+                        'name' => 'product_spec_name',
+                        'type' => 'text',
+                        'wrapper' => array(
+                            'width' => '40',
+                        ),
+                    ),
+                    array(
+                        'key' => 'product_spec_value',
+                        'label' => 'Значение',
+                        'name' => 'product_spec_value',
+                        'type' => 'text',
+                        'wrapper' => array(
+                            'width' => '60',
+                        ),
+                    ),
+                ),
+            ),
             
             // // Наличие на складе
             // array(
@@ -1172,57 +1227,7 @@ function my_template_acf_mataboxes(){
         'instruction_placement' => 'label',
     ));
 
-    // // BEGIN дополнительная вкладка "Характеристики"
-    // acf_add_local_field_group(array(
-    //     'key' => 'acf_product_specifications',
-    //     'title' => 'Характеристики товара',
-    //     'fields' => array(
-    //         array(
-    //             'key' => 'product_specifications',
-    //             'label' => 'Технические характеристики',
-    //             'name' => 'product_specifications',
-    //             'type' => 'repeater',
-    //             'instructions' => 'Добавьте основные характеристики товара',
-    //             'required' => 0,
-    //             'min' => 0,
-    //             'max' => 20,
-    //             'layout' => 'table',
-    //             'button_label' => 'Добавить характеристику',
-    //             'sub_fields' => array(
-    //                 array(
-    //                     'key' => 'product_spec_name',
-    //                     'label' => 'Название характеристики',
-    //                     'name' => 'product_spec_name',
-    //                     'type' => 'text',
-    //                     'wrapper' => array(
-    //                         'width' => '40',
-    //                     ),
-    //                     'placeholder' => 'Например: Процессор',
-    //                 ),
-    //                 array(
-    //                     'key' => 'product_spec_value',
-    //                     'label' => 'Значение',
-    //                     'name' => 'product_spec_value',
-    //                     'type' => 'text',
-    //                     'wrapper' => array(
-    //                         'width' => '60',
-    //                     ),
-    //                     'placeholder' => 'Например: Intel Core i7',
-    //                 ),
-    //             ),
-    //         ),
-    //     ),
-    //     'location' => array(
-    //         array(
-    //             array(
-    //                 'param' => 'post_type',
-    //                 'operator' => '==',
-    //                 'value' => 'product',
-    //             )
-    //         ),
-    //     ),
-    //     'menu_order' => 2,
-    // ));
+
 
     // BEGIN дополнительная вкладка "Связанные товары"
     acf_add_local_field_group(array(

@@ -1,9 +1,5 @@
 <?php
-/**
- * Шаблон для страницы товара (single-product.php)
- */
 
-get_header();
 
 // Получаем ID текущего товара
 $product_id = get_queried_object_id();
@@ -29,14 +25,18 @@ $product_categories = wp_get_object_terms($product_id, 'product_category');
 $product_tags = wp_get_object_terms($product_id, 'product_tag');
 ?>
 
+
+
 <!-- begin test_single product -->
 <section id="test_single product" class="test_single product section">
     <div class="container_center">
         <div class="container ">
-            
+            <h1>single</h1>
             <h1 class="product__title"><?php the_title(); ?></h1>
         
             <div class="product__test_single_img img">
+                
+                <?php echo get_product_image_html($product_id); ?>
                 <!-- Основное изображение -->
                 <?php if ( has_post_thumbnail() ) { ?>
                     <?php the_post_thumbnail( 'thumbnail' ); ?>
@@ -263,7 +263,3 @@ $product_tags = wp_get_object_terms($product_id, 'product_tag');
     </div>
 </section>
 <!-- end test_single product -->
-
-<?php
-get_footer();
-?>

@@ -768,6 +768,10 @@ body {
 .section__content ol, .section__content ul {
   padding-left: 1.5em;
 }
+.section__content b {
+  font-weight: 500;
+  color: #9F5434;
+}
 .section__content .wp-block-quote {
   background: #ffffff;
   padding: 1em;
@@ -2205,8 +2209,135 @@ body {
   justify-content: space-between;
   gap: 0.5em;
 }
+.product__price {
+  font-size: 1em;
+}
+.single-product .product__price {
+  font-size: 1.25em;
+}
+@media (min-width: 768px) {
+  .single-product .product__price {
+    font-size: 2em;
+  }
+}
 .product__button {
   font-size: 0.8em;
+}
+.single-product .product__button {
+  font-size: 1.25em;
+}
+
+.slProduct__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+@media (min-width: 768px) {
+  .slProduct__head {
+    flex-direction: row;
+    gap: 2.5em;
+  }
+}
+.slProduct__left {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 1em;
+  padding: 2em;
+  border-radius: 0.625em;
+  background: #ffffff;
+  box-shadow: rgba(159, 84, 52, 0.1) 0 2px 4px 0;
+}
+@media (min-width: 768px) {
+  .slProduct__left {
+    width: 40em;
+    min-width: 0;
+  }
+}
+.slProduct__img {
+  width: 100%;
+  aspect-ratio: 1.5;
+}
+.slProduct__img img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 60%;
+  height: auto;
+  object-fit: cover;
+}
+.slProduct__right {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+@media (min-width: 768px) {
+  .slProduct__right {
+    gap: 2.5em;
+    flex: 1;
+  }
+}
+.slProduct__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125em;
+}
+.slProduct__tags {
+  position: relative;
+  z-index: 5;
+}
+.slProduct__tags a {
+  display: block;
+  padding: 1em;
+  border-radius: 0.625em;
+  background-color: rgba(207, 169, 153, 0.85);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+  color: #ffffff;
+  text-decoration: none;
+  font-family: "Oswald";
+  line-height: 1.1;
+  font-weight: 300;
+  font-size: 0.875em;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .slProduct__tags a {
+    font-size: 1em;
+    cursor: pointer;
+  }
+}
+.slProduct__tabs .section__content {
+  margin-top: 0;
+}
+.slProduct__specifications ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.slProduct__specifications ul li {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-bottom: 1px solid #CFA999;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+}
+@media (min-width: 768px) {
+  .slProduct__specifications ul li {
+    flex-direction: row;
+    gap: 1.5em;
+  }
+}
+@media (min-width: 768px) {
+  .slProduct__specifications ul li b {
+    width: 20em;
+  }
 }
 
 .tag {
