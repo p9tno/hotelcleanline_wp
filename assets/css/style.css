@@ -2197,7 +2197,7 @@ body {
 }
 @media (min-width: 768px) {
   .product__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 1.25em;
   }
 }

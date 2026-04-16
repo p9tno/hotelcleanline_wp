@@ -478,7 +478,7 @@ function my_template_acf_mataboxes(){
                 'filters' => array('search', 'taxonomy'),
                 'return_format' => 'id',
                 'min' => 0,
-                'max' => 10,
+                'max' => 12,
                 'elements' => array('featured_image'),
             ),
             array(

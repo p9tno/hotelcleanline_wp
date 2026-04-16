@@ -92,7 +92,7 @@
         grid-gap: 0.625em;
 
         @media (min-width: 768px) {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             grid-gap: 1.25em;
         }
 

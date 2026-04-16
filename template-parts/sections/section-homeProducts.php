@@ -22,7 +22,7 @@
                         
                         $args = array(
                             'post_type' => 'product',
-                            'posts_per_page' => 9,
+                            'posts_per_page' => 12,
                             'post__in' => $post_id,
                             'orderby' => 'post__in',
                         );
