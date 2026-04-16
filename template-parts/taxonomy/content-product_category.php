@@ -308,8 +308,8 @@ if (false) {
                 $combination->products_count = count($products_for_combo);
                 
                 // Получаем изображение метки (если есть ваша функция)
-                if (function_exists('get_product_tag_image_html')) {
-                    $tag_image = get_product_tag_image_html($tag_id, 'medium');
+                if (function_exists('get_taxonomy_image_html')) {
+                    $tag_image = get_taxonomy_image_html($tag_id, $tag->taxonomy);
                     $combination->tag_image = $tag_image;
                 }
                 
@@ -367,9 +367,10 @@ get_template_part( 'template-parts/sections/section', 'head' );
                                                 // get_pr($tag);
                                                 $tag_link = get_term_link($tag);
                                                 $tag_name = $tag->name;
+                                                $tag_taxonomy = $tag->taxonomy;
                                                 $tag_slug = $tag->slug;
                                                 $tag_description = $tag->description;
-                                                $tag_image = get_product_tag_image_html($tag_id, 'medium');
+                                                $tag_image = get_taxonomy_image_html($tag_id, $tag_taxonomy);
                                             ?>
                                                 <div 
                                                     class="tag show_tag_products_js"
@@ -384,16 +385,6 @@ get_template_part( 'template-parts/sections/section', 'head' );
                                                         <?php if ($tag_description) { ?>
                                                             <div class="tag__desc"><?php echo esc_html($tag_description); ?></div>
                                                         <?php } ?>
-                                                        <!-- <div class="tag__products">
-                                                            <?php 
-                                                            // foreach ($tag_product_ids as $product_id) : 
-                                                            //     echo '<p>';
-                                                            //     set_query_var('product_id', $product_id);
-                                                            //     get_template_part('template-parts/product/card');
-                                                            //     echo '</p>';
-                                                            // endforeach; 
-                                                            ?>
-                                                        </div> -->
                                                     </div>
                                                   
                                                    
@@ -421,7 +412,7 @@ get_template_part( 'template-parts/sections/section', 'head' );
     // Нет подкатегорий - выводим по меткам
     if (!empty($structured_data)) : ?>
         
-        <section id="tags-products" class="tags-products section">
+        <section id="tags-products" class="tags section">
             <div class="container_center">
                 <h2 class="section__title">Товары по меткам</h2>
                 
@@ -434,15 +425,16 @@ get_template_part( 'template-parts/sections/section', 'head' );
                 ?>
                     <div class="tag-section">
                         <h3 class="tag-title">
-                            <a href="<?php echo esc_url($tag_link); ?>">
-                                <?php echo esc_html($tag_name); ?>
+                            <a href="<?php // echo esc_url($tag_link); ?>">
+                                <?php // echo esc_html($tag_name); ?>
                             </a>
-                            <span class="tag-count">(<?php echo count($tag_product_ids); ?>)</span>
+                            <?php // echo count($tag_product_ids); ?>
                         </h3>
                         
                         <div class="product__grid">
                             <?php foreach ($tag_product_ids as $product_id) : 
                                 set_query_var('product_id', $product_id);
+                                // get_template_part('template-parts/previews/preview', 'product');
                                 get_template_part('template-parts/product/card');
                             endforeach; ?>
                         </div>

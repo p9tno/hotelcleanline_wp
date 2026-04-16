@@ -416,10 +416,16 @@ function my_cat_list_filter ( $post_type = 'post' , $taxonomy = '', $posts_per_p
 
 
 /**
- * Получение HTML изображения категории
+ * Получение HTML изображения для любой таксономии
+ * 
+ * @param int $term_id ID термина
+ * @param string $taxonomy Название таксономии
+ * @param string $size Размер изображения
+ * @return string HTML изображения
  */
-function get_product_category_image_html($term_id, $size = 'medium') {
-    $image_id = get_field('product_category_image', 'product_category_' . $term_id);
+function get_taxonomy_image_html($term_id, $taxonomy, $size = 'medium') {
+    // Пытаемся получить изображение через ACF
+    $image_id = get_field($taxonomy . '_image', $taxonomy . '_' . $term_id);
     
     if ($image_id) {
         return wp_get_attachment_image($image_id, $size);
@@ -427,30 +433,18 @@ function get_product_category_image_html($term_id, $size = 'medium') {
     
     // Если изображения нет, возвращаем заглушку
     $no_img_url = get_template_directory_uri() . '/assets/img/no_img.webp';
-    $term = get_term($term_id, 'product_category');
-    $alt = $term ? $term->name : 'Изображение категории';
+    $term = get_term($term_id, $taxonomy);
+    $alt = $term ? $term->name : 'Изображение таксономии';
     
     return '<img src="' . esc_url($no_img_url) . '" alt="' . esc_attr($alt) . '">';
 }
 
-/**
- * Получение HTML изображения меток (тегов)
- */
-function get_product_tag_image_html($term_id, $size = 'medium') {
-    // Исправлено: product_tag вместо product_category
-    $image_id = get_field('product_tag_image', 'product_tag_' . $term_id);
-    
-    if ($image_id) {
-        return wp_get_attachment_image($image_id, $size);
-    }
-    
-    // Если изображения нет, возвращаем заглушку
-    $no_img_url = get_template_directory_uri() . '/assets/img/no_img.webp';
-    $term = get_term($term_id, 'product_tag'); // Исправлено: product_tag
-    $alt = $term ? $term->name : 'Изображение метки'; // Исправлен текст
-    
-    return '<img src="' . esc_url($no_img_url) . '" alt="' . esc_attr($alt) . '">';
-}
+// Использование
+// $image_html = get_taxonomy_image_html($term_id, 'product_category', 'large');
+// или
+// $image_html = get_taxonomy_image_html($term_id, 'product_tag', 'large');
+// или
+// $image_html = get_taxonomy_image_html($term_id, 'product_izdeliya', 'large');
 
 /**
  * Получение HTML изображения продукта (только миниатюра)

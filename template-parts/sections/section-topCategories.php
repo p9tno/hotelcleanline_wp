@@ -21,7 +21,8 @@ if (!empty($parent_categories) && !is_wp_error($parent_categories)) : ?>
                     
                     <?php 
                     foreach ($parent_categories as $category) {
-                        $image_html = get_product_category_image_html($category->term_id);
+                        // get_pr($category);
+                        $image_html = get_taxonomy_image_html($category->term_id, $category->taxonomy);
                     ?>
                         <a class="topCategories__item" href="<?php echo esc_url(get_term_link($category)); ?>">
                             <div class="topCategories__img img"><?php echo $image_html; ?></div>

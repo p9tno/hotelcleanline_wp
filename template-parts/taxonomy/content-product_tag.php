@@ -4,6 +4,11 @@
  */
 ?>
 
+
+<?php 
+get_template_part( 'template-parts/sections/section', 'head' ); 
+?>
+
 <main class="product-tag-page">
     <div class="container">
         
