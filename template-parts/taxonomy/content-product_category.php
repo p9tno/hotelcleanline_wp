@@ -325,9 +325,7 @@ if (false) {
     
 </script>
 
-<?php 
-get_template_part( 'template-parts/sections/section', 'head' ); 
-?>
+<?php get_template_part( 'template-parts/sections/section', 'head' ); ?>
 
 <?php if (!empty($child_categories) && !is_wp_error($child_categories)) : ?>
 
@@ -409,40 +407,11 @@ get_template_part( 'template-parts/sections/section', 'head' );
 <!-- end subcategories -->
 
 <?php else : 
-    // Нет подкатегорий - выводим по меткам
+    // Нет подкатегорий
     if (!empty($structured_data)) : ?>
-        
-        <section id="tags-products" class="tags section">
-            <div class="container_center">
-                <h2 class="section__title">Товары по меткам</h2>
-                
-                <?php foreach ($structured_data as $tag_id => $tag_product_ids) : 
-                    $tag = get_term($tag_id, 'product_tag');
-                    if (!$tag || is_wp_error($tag)) continue;
-                    
-                    $tag_link = get_term_link($tag);
-                    $tag_name = $tag->name;
-                ?>
-                    <div class="tag-section">
-                        <h3 class="tag-title">
-                            <a href="<?php // echo esc_url($tag_link); ?>">
-                                <?php // echo esc_html($tag_name); ?>
-                            </a>
-                            <?php // echo count($tag_product_ids); ?>
-                        </h3>
-                        
-                        <div class="product__grid">
-                            <?php foreach ($tag_product_ids as $product_id) : 
-                                set_query_var('product_id', $product_id);
-                                // get_template_part('template-parts/previews/preview', 'product');
-                                get_template_part('template-parts/product/card');
-                            endforeach; ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </section>
-        
+
+        <?php get_template_part( 'template-parts/sections/section', 'taxProducts' ); ?>
+
     <?php else : ?>
         
         <div class="no-content section">

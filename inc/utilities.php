@@ -159,8 +159,8 @@ function the_paginate($query = null) {
         'format'    => '?paged=%#%',
         'current'   => max(1, $paged),
         'total'     => $query->max_num_pages,
-        'prev_text' => '<i class="icon_arrow_left"></i>',
-        'next_text' => '<i class="icon_arrow_right"></i>',
+        'prev_text' => '<i class="icon_arrow_left_sm"></i>',
+        'next_text' => '<i class="icon_arrow_right_sm"></i>',
         'mid_size'  => 1,
         'end_size'  => 1
     ));
