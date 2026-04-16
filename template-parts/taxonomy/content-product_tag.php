@@ -9,15 +9,9 @@
 get_template_part( 'template-parts/sections/section', 'head' ); 
 ?>
 
-<main class="product-tag-page">
-    <div class="container">
-        
-        <h1>Метка: <?php single_term_title(); ?></h1>
-        
-        <?php if (term_description()) : ?>
-            <div class="tag-description"><?php echo term_description(); ?></div>
-        <?php endif; ?>
-
+<!-- begin tagProducts -->
+<section id="tagProducts" class="tagProducts section">
+    <div class="container_center">
         <?php
         $paged = get_query_var('paged') ?: 1;
         $products_query = new WP_Query(array(
@@ -35,9 +29,9 @@ get_template_part( 'template-parts/sections/section', 'head' );
 
         if ($products_query->have_posts()) : ?>
             
-            <div class="products-grid">
+            <div class="product__grid">
                 <?php while ($products_query->have_posts()) : $products_query->the_post(); ?>
-                    <?php get_template_part('template-parts/product/card'); ?>
+                    <?php get_template_part('template-parts/previews/preview', 'product'); ?>
                 <?php endwhile; ?>
             </div>
 
@@ -52,6 +46,14 @@ get_template_part( 'template-parts/sections/section', 'head' );
             <p>Товаров с этой меткой не найдено.</p>
         <?php endif;
         wp_reset_postdata(); ?>
-        
+
     </div>
-</main>
+</section>
+<!-- end tagProducts -->
+
+
+
+
+        
+ 
+        
