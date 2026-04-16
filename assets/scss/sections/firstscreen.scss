@@ -59,32 +59,202 @@ $animation-duration: 1.5s;
         left: 0;
         width: 100%;
         height: 100%;
-
-        // &:before {
-        //   content: '';
-        //   display: block;
-        //   width: 100%;
-        //   height: 100%;
-        //   position: absolute;   
-        //   top: 0;
-        //   left: 0;
-        //   background-color: rgba($color_black, 0.3);
-        // }
     }
+
+    // &__content {
+    //     position: relative;
+    //     width: 18.75em;
+    //     padding: 1.5em 1.25em;
+
+    //     background-color: rgba($color_white, 0.7);
+    //     backdrop-filter: blur(3px);
+    //     border-radius: 0.625em;
+
+    //     @media (min-width: 768px) {
+    //       width: 30em;
+    //     }
+
+    // }
 
     &__content {
         position: relative;
         width: 18.75em;
         padding: 1.5em 1.25em;
 
-        background-color: rgba($color_white, 0.7);
-        backdrop-filter: blur(3px);
+      
         border-radius: 0.625em;
 
+        background-color: rgba($color_white, 0.7);
+        backdrop-filter: blur(3px);
+        
+  
+
         @media (min-width: 768px) {
-          width: 30em;
+            width: 30em;
         }
 
+        &.v_1 {
+            background-color: rgba($color_white, 0.2); 
+            backdrop-filter: blur(10px);   
+            box-shadow: 0 8px 32px 0 rgba($main_color, 0.37);
+        }
+
+        &.v_2 {
+             background-color: rgba($color_white, 0.2); 
+            backdrop-filter: blur(10px);   
+            box-shadow: 0 8px 32px 0 rgba($color_primary, 0.37);
+        }
+        &.v_3 {
+             background-color: rgba($color_white, 0.2); 
+            backdrop-filter: blur(10px);   
+            box-shadow: 0 8px 32px 0 rgba($color_warning, 0.37);
+        }
+        &.v_4 {
+             background-color: rgba($color_white, 0.2); 
+            backdrop-filter: blur(10px);   
+            box-shadow: 0 8px 32px 0 rgba($color_white, 0.37);
+        }
+
+        &.v_5 {
+             background-color: rgba($color_white, 0.2); 
+            backdrop-filter: blur(10px);   
+            border: 1px solid rgba($color_white, 0.18);
+            box-shadow: 0 8px 32px 0 rgba($main_color, 0.37);
+        }
+        &.v_6 {
+             background-color: rgba($color_white, 0.2); 
+            backdrop-filter: blur(10px);   
+            border: 1px solid rgba($color_white, 0.18);
+            box-shadow: 0 8px 32px 0 rgba($color_primary, 0.37);
+        }
+        &.v_7 {
+             background-color: rgba($color_white, 0.2); 
+            backdrop-filter: blur(10px);   
+            border: 1px solid rgba($color_white, 0.18);
+            box-shadow: 0 8px 32px 0 rgba($color_warning, 0.37);
+        }
+        &.v_8 {
+             background-color: rgba($color_white, 0.2); 
+            backdrop-filter: blur(10px);   
+            border: 1px solid rgba($color_white, 0.18);
+            box-shadow: 0 8px 32px 0 rgba($color_white, 0.37);
+        }
+
+        &.v_9 {
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            backdrop-filter: blur(8px);
+            border-radius: 0.625em;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+            // Эффект отражения сверху
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 30%;
+                background: linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(255, 255, 255, 0) 100%
+                );
+                border-radius: 0.625em 0.625em 0 0;
+                pointer-events: none;
+            }
+
+        }
+
+        &.v_10 {
+
+            position: relative;
+            width: 18.75em;
+            padding: 1.5em 1.25em;
+            
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            backdrop-filter: blur(8px);
+            border-radius: 0.625em;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            
+            // Эффект отражения сверху
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 30%;
+                background: linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(255, 255, 255, 0) 100%
+                );
+                border-radius: 0.625em 0.625em 0 0;
+                pointer-events: none;
+            }
+
+            @media (min-width: 768px) {
+                width: 30em;
+            }
+            
+        }
+
+        &.v_11 {
+            position: relative;
+            width: 18.75em;
+            padding: 1.5em 1.25em;
+            
+            // Оптимизированный зеркальный фон
+            background: rgba($color_white, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 1.25em;
+            
+            // Лёгкая тень без размытия (экономит ресурсы)
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            
+            // Тонкая обводка для чёткости
+            border: 0.5px solid rgba($color_white, 0.3);
+            
+            @media (min-width: 768px) {
+                width: 30em;
+            }
+            
+        }
+
+        &.v_12 {
+            position: relative;
+            width: 18.75em;
+            padding: 1.5em 1.25em;
+            
+            // Ключевой приём Apple: лёгкое размытие + прозрачность
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            
+            // Для Safari (аппаратное ускорение)
+            transform: translateZ(0);
+            will-change: transform;
+            
+            border: 0.5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            
+            @media (min-width: 768px) {
+                width: 30em;
+            }
+            
+        }
+ 
     }
 
     &__title {
@@ -201,5 +371,15 @@ $animation-duration: 1.5s;
     to {
         opacity: 1;
         transform: translate3d(0, 0, 0);
+    }
+}
+
+.demo_grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+
+    .firstscreen__desc {
+        color: $color_white;
     }
 }
