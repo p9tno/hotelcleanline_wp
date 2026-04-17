@@ -254,6 +254,43 @@ body {
 			font-size: 1em;
 		}
 	}
+
+	&__label {
+
+	}
+}
+
+.glass_card {
+	position: relative;
+	overflow: hidden;
+	color: $color_white;
+	background: linear-gradient(
+		135deg,
+		rgba(255, 255, 255, 0.1) 0%,
+		rgba(255, 255, 255, 0.3) 50%,
+		rgba(255, 255, 255, 0.1) 100%
+	);
+	backdrop-filter: blur(8px);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 30%;
+		background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.4) 0%,
+			rgba(255, 255, 255, 0) 100%
+		);
+		pointer-events: none;
+	}
+
+	// background-color: rgba($color_white, 0.7);
+	// backdrop-filter: blur(3px);
 }
 
 .desktop {

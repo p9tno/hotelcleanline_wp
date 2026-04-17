@@ -806,6 +806,26 @@ body {
     font-size: 1em;
   }
 }
+.glass_card {
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.1) 100%);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.glass_card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
 
 @media (max-width: 767px) {
   .desktop {
@@ -1355,9 +1375,6 @@ body {
   width: 18.75em;
   padding: 1.5em 1.25em;
   border-radius: 0.625em;
-  background-color: rgba(255, 255, 255, 0.7);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
 }
 @media (min-width: 768px) {
   .firstscreen__content {
@@ -1839,9 +1856,6 @@ body {
 }
 .media__label {
   position: relative;
-  background-color: rgba(255, 255, 255, 0.7);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
   padding: 1em;
   border-radius: 0.625em;
 }
@@ -1857,7 +1871,6 @@ body {
   margin-bottom: 0;
 }
 .media__label span {
-  color: #333541;
   font-weight: 400;
   font-size: 0.875em;
 }
@@ -1940,9 +1953,6 @@ body {
 }
 .partners__caption {
   position: relative;
-  background-color: rgba(255, 255, 255, 0.7);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
   padding: 1em;
   border-radius: 0.625em;
 }
@@ -2115,9 +2125,6 @@ body {
 }
 .head__content {
   position: relative;
-  background-color: rgba(255, 255, 255, 0.7);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
   padding: 1em;
   border-radius: 0.625em;
 }
@@ -2508,9 +2515,6 @@ body {
 }
 .tag__content {
   position: relative;
-  background-color: rgba(255, 255, 255, 0.7);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
   padding: 1em;
   border-radius: 0.625em;
 }

@@ -61,33 +61,11 @@ $animation-duration: 1.5s;
         height: 100%;
     }
 
-    // &__content {
-    //     position: relative;
-    //     width: 18.75em;
-    //     padding: 1.5em 1.25em;
-
-    //     background-color: rgba($color_white, 0.7);
-    //     backdrop-filter: blur(3px);
-    //     border-radius: 0.625em;
-
-    //     @media (min-width: 768px) {
-    //       width: 30em;
-    //     }
-
-    // }
-
     &__content {
         position: relative;
         width: 18.75em;
         padding: 1.5em 1.25em;
-
-      
         border-radius: 0.625em;
-
-        background-color: rgba($color_white, 0.7);
-        backdrop-filter: blur(3px);
-        
-  
 
         @media (min-width: 768px) {
             width: 30em;

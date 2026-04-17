@@ -10,7 +10,7 @@ if( $slides && get_field('firstscreen_boolean') ) { ?>
                         <div class="swiper-slide">
                             <div class="firstscreen__slide">
                                 <div class="firstscreen__img img"><?php echo wp_get_attachment_image($slide['firstscreen_img_id'], 'large'); ?></div>
-                                <div class="firstscreen__content">
+                                <div class="firstscreen__content glass_card">
                                     <?php if ($slide['firstscreen_title']) { ?>
                                         <h2 class="firstscreen__title"><?php echo  $slide['firstscreen_title']; ?></h2>
                                     <?php } ?>

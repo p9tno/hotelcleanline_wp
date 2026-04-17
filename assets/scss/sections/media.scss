@@ -92,8 +92,6 @@
 
     &__label {
         position: relative;
-        background-color: rgba($color_white, 0.7);
-        backdrop-filter: blur(3px);
         padding: 1em;
         border-radius: 0.625em;
 
@@ -112,7 +110,7 @@
 		}
 
         span {
-            color: $main_color;
+            // color: $main_color;
             font-weight: 400;
             font-size: 0.875em;
             @media (min-width: 768px) {

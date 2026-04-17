@@ -12,7 +12,7 @@
                             <div class="swiper-slide counter-item">
                                 <div class="media__thumbnail">
                                     <div class="media__img img"><?php echo wp_get_attachment_image($slide['media_swiper_slide_img_id'], 'medium'); ?></div>
-                                    <div class="media__label">
+                                    <div class="media__label glass_card">
                                         <span class="counter-el"> &mdash; <?php echo $slide['media_swiper_label']; ?></span>
                                         <p><?php echo $slide['media_swiper_subtite']; ?></p>
                                     </div>

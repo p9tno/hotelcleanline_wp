@@ -378,7 +378,7 @@ if (false) {
                                                     
                                                 
                                                     <div class="tag__img img"><?php echo $tag_image; ?></div>
-                                                    <div class="tag__content">
+                                                    <div class="tag__content glass_card">
                                                         <div class="tag__title"><?php echo esc_html($tag_name); ?></div>
                                                         <?php if ($tag_description) { ?>
                                                             <div class="tag__desc"><?php echo esc_html($tag_description); ?></div>

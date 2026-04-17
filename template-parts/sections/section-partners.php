@@ -17,7 +17,7 @@ $slides = get_field('partners_slides');
                                 <div class="partners__img img">
                                     <?php echo wp_get_attachment_image($slide['partners_slide_img_id'], 'medium') ?>
                                 </div>
-                                <div class="partners__caption">
+                                <div class="partners__caption glass_card">
                                     <div class="partners__title"><?php echo  $slide['partners_slide_title']; ?></div>
                                     <div class="partners__desc"><?php echo  $slide['partners_slide_desc']; ?></div>
                                 </div>

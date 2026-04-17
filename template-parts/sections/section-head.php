@@ -30,7 +30,7 @@ if (is_tax()) {
     <div class="container_center">
         <div class="head__wrap">
             <div class="head__img img"><?php echo get_taxonomy_image_html($term_id, $term_taxonomy, 'large' ); ?></div>
-            <div class="head__content">
+            <div class="head__content glass_card">
                 <h1 class="section__title ta_l"><?php echo esc_html(single_term_title('', false)); ?></h1>
                 <?php if (term_description()) : ?>
                     <div class="section__desc ta_l"><?php echo wp_kses_post(term_description()); ?></div>
