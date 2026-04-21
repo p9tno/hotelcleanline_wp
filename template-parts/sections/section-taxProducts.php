@@ -17,6 +17,13 @@
                     'terms' => $current_term->term_id,
                 ),
             ),
+            'meta_query' => array(
+                array(
+                    'key' => 'product_status',
+                    'value' => 'hidden',
+                    'compare' => '!='
+                )
+            ),
         ));
 
         if ($products_query->have_posts()) : ?>

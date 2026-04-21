@@ -35,6 +35,13 @@ if (!empty($child_categories) && !is_wp_error($child_categories)) {
                 'include_children' => true,
             ),
         ),
+        'meta_query' => array(
+            array(
+                'key' => 'product_status',
+                'value' => 'hidden',
+                'compare' => '!='
+            )
+        ),
     ));
     
     if ($all_products->have_posts()) {
@@ -114,6 +121,13 @@ if (!empty($child_categories) && !is_wp_error($child_categories)) {
                 'terms' => $term_id,
                 'include_children' => true,
             ),
+        ),
+        'meta_query' => array(
+            array(
+                'key' => 'product_status',
+                'value' => 'hidden',
+                'compare' => '!='
+            )
         ),
     ));
     

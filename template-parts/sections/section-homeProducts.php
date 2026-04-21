@@ -25,6 +25,13 @@
                             'posts_per_page' => 12,
                             'post__in' => $post_id,
                             'orderby' => 'post__in',
+                            'meta_query' => array(
+                                array(
+                                    'key' => 'product_status',
+                                    'value' => 'hidden',
+                                    'compare' => '!='
+                                )
+                            ),
                         );
                         $query = new WP_Query($args);
                         ?>
