@@ -251,7 +251,7 @@ if (false) {
                     $product_data->slug = $product->post_name;
                     $product_data->permalink = get_permalink($product_id);
                     
-                    // ========== ЦЕНА (с использованием PHP функции) ==========
+                    // ========== ЦЕНА ==========
                     $product_price = get_field('product_price', $product_id);
                     $product_data->price = $product_price ? (float)$product_price : null;
                     
@@ -268,8 +268,7 @@ if (false) {
                     $product_sku = get_field('product_sku', $product_id);
                     $product_data->sku = $product_sku ? $product_sku : '';
                     
-                    // ========== ИЗОБРАЖЕНИЕ (с использованием PHP функции) ==========
-                    // Получаем HTML изображения через PHP функцию
+                    // ========== ИЗОБРАЖЕНИЕ ==========
                     ob_start();
                     echo get_product_image_html($product_id);
                     $product_data->thumbnail_html = ob_get_clean();
@@ -282,22 +281,23 @@ if (false) {
                         $product_data->thumbnail_medium = $no_img_url;
                     }
                     
-                    // ========== ХАРАКТЕРИСТИКИ ==========
-                    $product_specifications = get_field('product_specifications', $product_id);
-                    $product_data->specifications = array();
-                    if ($product_specifications && is_array($product_specifications)) {
-                        foreach ($product_specifications as $spec) {
-                            if (!empty($spec['product_spec_name']) && !empty($spec['product_spec_value'])) {
-                                $product_data->specifications[] = array(
-                                    'name' => $spec['product_spec_name'],
-                                    'value' => $spec['product_spec_value']
-                                );
-                            }
-                        }
+                    // ========== СТАТУС ТОВАРА (из product_status) ==========
+                    $product_status = get_field('product_status', $product_id);
+                    if (is_array($product_status)) {
+                        $product_data->stock_status_value = $product_status['value'] ?? 'instock';
+                        $product_data->stock_status_label = $product_status['label'] ?? 'В наличии';
+                    } else {
+                        $product_data->stock_status_value = 'instock';
+                        $product_data->stock_status_label = 'В наличии';
                     }
                     
-                    // ========== СТАТУС НАЛИЧИЯ ==========
-                    $product_data->stock_status = 'instock';
+                    // ========== ХАРАКТЕРИСТИКИ (product_characteristic - WYSIWYG) ==========
+                    $product_characteristic = get_field('product_characteristic', $product_id);
+                    $product_data->characteristic = $product_characteristic ? $product_characteristic : '';
+                    
+                    // ========== КОНТЕНТ (product_content - WYSIWYG) ==========
+                    $product_content = get_field('product_content', $product_id);
+                    $product_data->content = $product_content ? $product_content : '';
                     
                     // ========== МЕТКИ И КАТЕГОРИИ ==========
                     $tags = wp_get_post_terms($product_id, 'product_tag', array('fields' => 'names'));

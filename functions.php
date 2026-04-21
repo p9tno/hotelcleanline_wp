@@ -144,5 +144,48 @@ function complete_disable_comments() {
 add_action('init', 'complete_disable_comments', 100);
 
 
+/**
+ * Фильтр для kama_breadcrumbs: выбираем самую глубокую категорию
+ * Игнорируем родительскую категорию, если есть дочерняя
+ */
+add_filter('kama_breadcrumbs_term', function($term, $taxonomies = null){
+    global $post;
+    
+    // Применяем только для типа записи 'product' и таксономии 'product_category'
+    if( is_singular('product') && $post && isset($term->taxonomy) && $term->taxonomy === 'product_category' ){
+        
+        // Получаем ВСЕ категории товара
+        $all_terms = get_the_terms($post->ID, 'product_category');
+        
+        if( $all_terms && ! is_wp_error($all_terms) && count($all_terms) > 1 ){
+            
+            // Разделяем категории на корневые (parent=0) и дочерние (parent>0)
+            $root_terms = [];
+            $child_terms = [];
+            
+            foreach( $all_terms as $t ){
+                if( $t->parent == 0 ){
+                    $root_terms[] = $t;
+                } else {
+                    $child_terms[] = $t;
+                }
+            }
+            
+            // Если есть дочерние категории — выбираем первую из них
+            if( ! empty($child_terms) ){
+                // Сортируем дочерние по глубине (чем больше parent, тем глубже)
+                usort($child_terms, function($a, $b){
+                    return $b->parent - $a->parent;
+                });
+                
+                return $child_terms[0]; // возвращаем самую глубокую
+            }
+        }
+    }
+    
+    return $term;
+}, 10, 2);
+
+
 
 
