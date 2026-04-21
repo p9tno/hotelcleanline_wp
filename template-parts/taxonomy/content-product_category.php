@@ -223,121 +223,11 @@ if (false) {
 }
 ?>
 
-
-<script>
-    <?php
-    // Генерируем данные для всех комбинаций подкатегория + метка
-    $allProductsData = array();
-    $no_img_url = get_template_directory_uri() . '/assets/img/no_img.webp';
-    
-    if (!empty($structured_data)) {
-        foreach ($structured_data as $cat_id => $tags_data) {
-            $category = get_term($cat_id, 'product_category');
-            if (!$category || is_wp_error($category)) continue;
-            
-            foreach ($tags_data as $tag_id => $product_ids) {
-                $tag = get_term($tag_id, 'product_tag');
-                if (!$tag || is_wp_error($tag)) continue;
-                
-                $products_for_combo = array();
-                
-                foreach ($product_ids as $product_id) {
-                    $product = get_post($product_id);
-                    if (!$product) continue;
-                    
-                    $product_data = new stdClass();
-                    $product_data->id = $product_id;
-                    $product_data->title = get_the_title($product_id);
-                    $product_data->slug = $product->post_name;
-                    $product_data->permalink = get_permalink($product_id);
-                    
-                    // ========== ЦЕНА ==========
-                    $product_price = get_field('product_price', $product_id);
-                    $product_data->price = $product_price ? (float)$product_price : null;
-                    
-                    // Получаем отформатированную цену через PHP функцию
-                    if ($product_price) {
-                        ob_start();
-                        the_product_price($product_id, true);
-                        $product_data->price_formatted = ob_get_clean();
-                    } else {
-                        $product_data->price_formatted = '';
-                    }
-                    
-                    // ========== АРТИКУЛ ==========
-                    $product_sku = get_field('product_sku', $product_id);
-                    $product_data->sku = $product_sku ? $product_sku : '';
-                    
-                    // ========== ИЗОБРАЖЕНИЕ ==========
-                    ob_start();
-                    echo get_product_image_html($product_id);
-                    $product_data->thumbnail_html = ob_get_clean();
-                    
-                    // Дополнительно получаем URL для fallback
-                    $thumbnail_id = get_post_thumbnail_id($product_id);
-                    if ($thumbnail_id) {
-                        $product_data->thumbnail_medium = wp_get_attachment_image_url($thumbnail_id, 'medium');
-                    } else {
-                        $product_data->thumbnail_medium = $no_img_url;
-                    }
-                    
-                    // ========== СТАТУС ТОВАРА (из product_status) ==========
-                    $product_status = get_field('product_status', $product_id);
-                    if (is_array($product_status)) {
-                        $product_data->stock_status_value = $product_status['value'] ?? 'instock';
-                        $product_data->stock_status_label = $product_status['label'] ?? 'В наличии';
-                    } else {
-                        $product_data->stock_status_value = 'instock';
-                        $product_data->stock_status_label = 'В наличии';
-                    }
-                    
-                    // ========== ХАРАКТЕРИСТИКИ (product_characteristic - WYSIWYG) ==========
-                    $product_characteristic = get_field('product_characteristic', $product_id);
-                    $product_data->characteristic = $product_characteristic ? $product_characteristic : '';
-                    
-                    // ========== КОНТЕНТ (product_content - WYSIWYG) ==========
-                    $product_content = get_field('product_content', $product_id);
-                    $product_data->content = $product_content ? $product_content : '';
-                    
-                    // ========== МЕТКИ И КАТЕГОРИИ ==========
-                    $tags = wp_get_post_terms($product_id, 'product_tag', array('fields' => 'names'));
-                    $product_data->tags = !empty($tags) ? $tags : array();
-                    
-                    $categories = wp_get_post_terms($product_id, 'product_category', array('fields' => 'names'));
-                    $product_data->categories = !empty($categories) ? $categories : array();
-                    
-                    $products_for_combo[] = $product_data;
-                }
-                
-                // Создаём объект комбинации
-                $combination = new stdClass();
-                $combination->category_id = $cat_id;
-                $combination->category_name = $category->name;
-                $combination->category_slug = $category->slug;
-                $combination->tag_id = $tag_id;
-                $combination->tag_name = $tag->name;
-                $combination->tag_slug = $tag->slug;
-                $combination->tag_description = $tag->description;
-                $combination->products = $products_for_combo;
-                $combination->products_count = count($products_for_combo);
-                
-                // Получаем изображение метки (если есть ваша функция)
-                if (function_exists('get_taxonomy_image_html')) {
-                    $tag_image = get_taxonomy_image_html($tag_id, $tag->taxonomy);
-                    $combination->tag_image = $tag_image;
-                }
-                
-                $allProductsData[] = $combination;
-            }
-        }
-    }
-    ?>
-
-    // Данные всех комбинаций товаров по подкатегориям и меткам
-    const productsCombinations = <?php echo json_encode($allProductsData, JSON_UNESCAPED_UNICODE); ?>;
-    console.log('productsCombinations:', productsCombinations);
-    
-</script>
+<?php 
+// Выводим JavaScript данные
+require_once get_template_directory() . '/inc/product-data-generator.php';
+render_products_js_data($structured_data);
+?>
 
 <?php get_template_part( 'template-parts/sections/section', 'head' ); ?>
 
@@ -347,7 +237,7 @@ if (false) {
 <section id="subcategories" class="subcategories section">
     <div class="container_center">
 
-        <h1 class="section__title">Наборы</h1>
+        <h2 class="section__title">Наборы</h2>
         
         <div class="section__wrap">
 
