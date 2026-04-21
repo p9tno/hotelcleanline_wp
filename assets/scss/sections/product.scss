@@ -362,6 +362,25 @@
         }
     }
 
+    &__status {
+        display: inline-block;
+        padding: 0.25em 0.5em;
+        color: $color_white;
+        border-radius: 0.25em;
+
+        .instock & {
+            background: $color_success;
+        }
+
+        .outofstock & {
+            background: $color_warning;
+        }
+
+        .hidden & {
+            background:$color_danger;
+        }
+    }
+
 }
 
 .slProduct {
@@ -424,7 +443,7 @@
         flex-direction: column;
         gap: 1em;
         @media (min-width: 768px) {
-            gap: 2.5em;
+            gap: 1.5em;
             flex: 1;
         }
 
@@ -432,8 +451,8 @@
 
     &__row {
         display: flex;
-        flex-direction: column;
-        gap: 0.125em;
+        gap: 1em;
+        align-items: center;
     }
 
     &__tags {
@@ -464,44 +483,57 @@
     } 
 
     &__tabs {
-
         .section__content {
             margin-top: 0;
         }
-
-
     } 
 
-    &__specifications {
-        ul {
-            margin: 0;
-            padding: 0;
-            list-style: none;
+    &__characteristic {
+        > * {
+			&:first-child {
+				margin-top: 0;
+			}
 
-            
-            li {
-                display: flex;
-                align-items: center;
-                flex-direction: column;
-                // gap: 0.125em;
-                border-bottom: 1px solid $color_warning;
-                margin-bottom: 0.5em;
-                padding-bottom: 0.5em;
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
 
-                @media (min-width: 768px) {
-                    flex-direction: row;
-                    gap: 1.5em;
-                }
-
-                b {
-
-                    @media (min-width: 768px) {
-                        width: 20em;
-                    }
-                }
-
-            }
+        ol,ul {
+            padding-left: 1em;
         }
-    } 
+
+		a {
+			position: relative;
+			text-decoration: none;
+			color: $color_primary;
+
+			&:after {
+				content: '';
+				position: absolute;
+				display: inline-block;
+				width: 100%;
+				left: 0;
+				bottom: -0.0625em;
+				border-bottom: 1px solid;
+				border-color: inherit;
+
+				@media (min-width: 768px) {
+					transition: width 0.3s;
+				}
+			}
+
+			@media (min-width: 768px) {
+				&:hover {
+					&:after {
+						width: 65%;
+					}
+				}
+			}
+			
+		}
+    }
+
+
 
 }

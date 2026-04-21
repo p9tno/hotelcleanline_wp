@@ -529,3 +529,36 @@ function custom_info( $content = '', $tag = 'h4' ) {
         esc_attr( $tag )
     );
 }
+
+
+/**
+ * Получение всех данных продукта в простом массиве
+ * 
+ * @param int $product_id ID продукта
+ * @return array|false
+ */
+function get_product_data($product_id) {
+    $post = get_post($product_id);
+    if (!$post || $post->post_type !== 'product') {
+        return false;
+    }
+    
+    // Получаем статус
+    $status = get_field('product_status', $product_id);
+    
+    return [
+        'id' => $product_id,
+        'title' => $post->post_title,
+        'slug' => $post->post_name,
+        'permalink' => get_permalink($product_id),
+        'price' => get_field('product_price', $product_id),
+        'sku' => get_field('product_sku', $product_id),
+        'status_value' => is_array($status) ? $status['value'] : 'instock',
+        'status_label' => is_array($status) ? $status['label'] : 'В наличии',
+        'thumbnail' => get_the_post_thumbnail_url($product_id, 'medium'),
+        'categories' => wp_get_object_terms($product_id, 'product_category', ['fields' => 'names']),
+        'tags' => wp_get_object_terms($product_id, 'product_tag', ['fields' => 'names']),
+        'content' => get_field('product_content', $product_id),
+        'characteristic' => get_field('product_characteristic', $product_id),
+    ];
+}
