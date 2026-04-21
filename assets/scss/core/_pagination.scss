@@ -1,0 +1,52 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.75em;
+    
+    margin-top: 2.5em;
+    
+    @media (min-width: 768px) {
+        gap: 1.5em;
+    }
+
+
+    > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 2.5em;
+        height: 2.5em;
+        border-radius: 0.625em;
+
+        background: $color_warning;
+        color: $color_white;
+
+        text-decoration: none;
+        font-size: 0.75em;
+        @media (min-width: 768px) {
+            font-size: 1em;
+        }
+
+        &.dots {
+            background: transparent;
+            color: $main_color;
+        }
+
+        &.current {
+            background: $color_primary;
+        }
+    }
+    
+    i {
+        font-size: 0.75em;
+    }
+    
+    a {
+        &:hover {
+            background: $color_primary;
+          
+        }
+    }
+
+}

@@ -3083,6 +3083,48 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
   color: #333541;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.75em;
+  margin-top: 2.5em;
+}
+@media (min-width: 768px) {
+  .pagination {
+    gap: 1.5em;
+  }
+}
+.pagination > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 0.625em;
+  background: #CFA999;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.75em;
+}
+@media (min-width: 768px) {
+  .pagination > * {
+    font-size: 1em;
+  }
+}
+.pagination > *.dots {
+  background: transparent;
+  color: #333541;
+}
+.pagination > *.current {
+  background: #9F5434;
+}
+.pagination i {
+  font-size: 0.75em;
+}
+.pagination a:hover {
+  background: #9F5434;
+}
+
 .btn {
   display: inline-block;
   padding: 0.875em 2.25em;
