@@ -372,7 +372,19 @@ if (false) {
                             ?>
                                 <div class="tab__item <?php echo $index === 0 ? 'active' : ''; ?>" id="tab-<?php echo $child->term_id; ?>">
                                     <div class="tag__grid">
+
+                                    
                                         <?php if (!empty($cat_data)) : ?>
+                                            
+                                            <?php
+                                                // Сортируем ключи массива по названию метки
+                                                uksort($cat_data, function($a, $b) {
+                                                    $tag_a = get_term($a, 'product_tag');
+                                                    $tag_b = get_term($b, 'product_tag');
+                                                    return strcasecmp($tag_a->name, $tag_b->name);
+                                                });
+                                            ?>
+
                                             <?php foreach ($cat_data as $tag_id => $tag_product_ids) : 
                                                 $tag = get_term($tag_id, 'product_tag');
                                                 if (!$tag || is_wp_error($tag)) continue;
