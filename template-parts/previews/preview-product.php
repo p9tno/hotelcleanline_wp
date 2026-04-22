@@ -15,15 +15,14 @@
     <div class="product__footer product_padding">
         <div class="product__price"><?php the_product_price(); ?></div>
         <div class="product__button">
-            <?php 
-                the_add_to_cart_button($product_ID, array(
-                    'show_quantity' => true,
-                    'default_quantity' => 5000,
-                    'step' => 5000,
-                    'min' => 5000,
-                    'max' => 50000,
-                )); 
-            ?>
+            <!-- Только кнопка (количество = min из ACF) -->
+            <?php the_add_to_cart_button($product_ID); ?>
+
+            <!-- Блок с количеством (параметры из ACF) -->
+            <?php // the_quantity_selector($product_ID); ?>
+
+            <!-- Полный блок (количество + кнопка) -->
+            <?php // the_full_add_to_cart($product_ID, array('show_quantity' => true)); ?>
             <!-- <button class="btn btn-add-to-cart" data-product-id="<?php // echo $product_ID; ?>">
                 <span>Купить</span>
                 <i class="icon_basket"></i>

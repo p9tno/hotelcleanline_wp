@@ -104,9 +104,11 @@ $product_tags = wp_get_object_terms($product_id, 'product_tag');
                 </div>
 
                 <div class="slProduct__row">
-                    <div class="product__button">
+                    <?php the_full_add_to_cart($product_id, array('show_quantity' => true)); ?>
+
+                    <!-- <div class="product__button">
                         <button disabled class="btn">Купить</button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <?php if ($product_characteristic) { ?>

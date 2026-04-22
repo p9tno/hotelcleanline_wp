@@ -72,17 +72,27 @@ if (!empty($cart)) {
                                                 <?php endif; ?>
                                             </div>
                                         </td>
-                                        <td class="cart-price"><?php echo format_price($item['price']); ?></td>
-                                        <td class="cart-quantity">
-                                            <input type="number" name="quantity[<?php echo $item['id']; ?>]" 
-                                                   value="<?php echo $item['quantity']; ?>" min="1" step="1" 
-                                                   data-product-id="<?php echo $item['id']; ?>">
                                         </td>
+                                        <td class="cart-price"><?php echo format_price($item['price']); ?></td>
+
+                                        <td class="cart-quantity">
+                                            <?php 
+                                            // Временно для отладки - выведем значение
+                                            echo '<!-- quantity from cart: ' . $item['quantity'] . ' -->';
+                                            
+                                            the_quantity_selector($item['id'], array(
+                                                'use_cart_classes' => true,
+                                                'default_quantity' => $item['quantity'],
+                                            ));
+                                            ?>
+                                        </td>
+
+
                                         <td class="cart-subtotal"><?php echo format_price($item['price'] * $item['quantity']); ?></td>
                                         <td class="cart-remove">
                                             <button type="button" class="remove-item" data-product-id="<?php echo $item['id']; ?>">×</button>
                                         </td>
-                                    </tr>
+                                        </tr>
                                 <?php endforeach; ?>
                             </tbody>
                             <tfoot>
@@ -135,10 +145,6 @@ if (!empty($cart)) {
     height: 80px;
     object-fit: cover;
 }
-.cart-quantity input {
-    width: 70px;
-    padding: 5px;
-}
 .remove-item {
     background: none;
     border: none;
@@ -151,19 +157,51 @@ if (!empty($cart)) {
     display: flex;
     gap: 15px;
 }
-.cart-notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 15px 20px;
-    background: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    z-index: 9999;
-    display: none;
+
+/* Стили для кастомного селектора количества в корзине */
+.quantity-selector-cart {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
-.cart-notification.error {
-    background: #f44336;
+
+.quantity-selector-cart .quantity-btn-cart {
+    width: 30px;
+    height: 30px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.quantity-selector-cart .quantity-btn-cart:hover {
+    background: #e0e0e0;
+}
+
+.quantity-selector-cart .quantity-input-cart {
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0 5px;
+}
+
+/* Убираем стрелки у input number */
+.quantity-input-cart::-webkit-inner-spin-button,
+.quantity-input-cart::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input-cart {
+    -moz-appearance: textfield;
 }
 </style>
 
