@@ -124,7 +124,7 @@
                         }, 1500);
                     }
                     
-                    showGoToCartButton();
+                    // showGoToCartButton();
                 } else {
                     showToast(response.data || 'Ошибка при добавлении товара', 'danger', true, 4000);
                     if (buttonElement) {
@@ -330,7 +330,6 @@
         });
         
         // ===== КАТАЛОГ / КАРТОЧКА ТОВАРА (контролы для render_quantity_selector) =====
-        // ===== КАТАЛОГ / КАРТОЧКА ТОВАРА =====
 
         // Уменьшение количества
         $(document).on('click', '.quantity-selector .quantity-minus', function() {
