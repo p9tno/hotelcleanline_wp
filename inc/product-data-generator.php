@@ -135,6 +135,20 @@ function build_product_data($product_id, $no_img_url) {
         $product_data->stock_status_value = 'instock';
         $product_data->stock_status_label = 'В наличии';
     }
+
+    // ДОБАВЛЯЕМ ПАРАМЕТРЫ КОЛИЧЕСТВА
+    $quantity_params = get_product_quantity_params($product_id);
+    $product_data->quantity_params = array(
+        'step' => $quantity_params['step'],
+        'min' => $quantity_params['min'],
+        'max' => $quantity_params['max'],
+        'default' => $quantity_params['default']
+    );
+    
+    // ✅ ГЕНЕРИРУЕМ ГОТОВУЮ КНОПКУ "КУПИТЬ"
+    ob_start();
+    the_add_to_cart_button($product_id);
+    $product_data->add_to_cart_button_html = ob_get_clean();
     
     // Характеристики и контент
     $product_data->characteristic = get_field('product_characteristic', $product_id) ?: '';

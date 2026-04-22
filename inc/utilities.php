@@ -611,9 +611,9 @@ function render_quantity_selector($product_id, $args = array()) {
     $params = wp_parse_args($args, $defaults);
 
     // ВРЕМЕННАЯ ОТЛАДКА - удалить после проверки
-    error_log('=== render_quantity_selector ===');
-    error_log('product_id: ' . $product_id);
-    error_log('default_quantity from args: ' . $params['default_quantity']);
+    // error_log('=== render_quantity_selector ===');
+    // error_log('product_id: ' . $product_id);
+    // error_log('default_quantity from args: ' . $params['default_quantity']);
     
     // Получаем параметры количества для конкретного товара
     $quantity_params = get_product_quantity_params($product_id);
