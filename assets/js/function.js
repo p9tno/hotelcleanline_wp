@@ -37,6 +37,23 @@ console.log('origin: ', window.location.origin);
 
 window.onload = function () {
     console.log('onload');
+
+    // new Toast({
+    //     text: `danger`,
+    //     autohide: true,
+    //     theme: 'danger', // danger success primary
+    // });
+    // new Toast({
+    //     text: `success`,
+    //     autohide: true,
+    //     theme: 'success', // danger success primary
+    // });
+    // new Toast({
+    //     text: `primary`,
+    //     autohide: true,
+    //     theme: 'primary', // danger success primary
+    // });
+
     function preloader() {
         $(()=>{
 

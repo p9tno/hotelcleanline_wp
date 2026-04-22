@@ -15,10 +15,19 @@
     <div class="product__footer product_padding">
         <div class="product__price"><?php the_product_price(); ?></div>
         <div class="product__button">
-            <button class="btn" disabled>
+            <?php 
+                the_add_to_cart_button($product_ID, array(
+                    'show_quantity' => true,
+                    'default_quantity' => 5000,
+                    'step' => 5000,
+                    'min' => 5000,
+                    'max' => 50000,
+                )); 
+            ?>
+            <!-- <button class="btn btn-add-to-cart" data-product-id="<?php // echo $product_ID; ?>">
                 <span>Купить</span>
                 <i class="icon_basket"></i>
-            </button>
+            </button> -->
         </div>
     </div>
 </div>
