@@ -587,7 +587,7 @@ function get_product_quantity_params($product_id) {
         'step' => !empty($step) ? intval($step) : $defaults['step'],
         'min' => !empty($min) ? intval($min) : $defaults['min'],
         'max' => !empty($max) ? intval($max) : $defaults['max'],
-        'default' => !empty($min) ? intval($min) : $defaults['default'] // default = min
+        'default' => !empty($min) ? intval($min) : $defaults['default']
     );
 }
 
@@ -597,47 +597,30 @@ function get_product_quantity_params($product_id) {
  * @param int $product_id ID товара
  * @param array $args Параметры:
  *   - wrapper_class: string Дополнительный класс для обертки
- *   - use_cart_classes: bool Использовать классы для корзины (по умолчанию false)
+ *   - default_quantity: int|null Количество по умолчанию
  * 
  * @return string HTML блока выбора количества
  */
 function render_quantity_selector($product_id, $args = array()) {
     $defaults = array(
         'wrapper_class' => '',
-        'use_cart_classes' => false,
         'default_quantity' => null
     );
     
     $params = wp_parse_args($args, $defaults);
-
-    // ВРЕМЕННАЯ ОТЛАДКА - удалить после проверки
-    // error_log('=== render_quantity_selector ===');
-    // error_log('product_id: ' . $product_id);
-    // error_log('default_quantity from args: ' . $params['default_quantity']);
     
     // Получаем параметры количества для конкретного товара
     $quantity_params = get_product_quantity_params($product_id);
-
+    
     // Приоритет: переданное значение > значение из ACF
     if (!is_null($params['default_quantity'])) {
         $current_quantity = intval($params['default_quantity']);
     } else {
-        $current_quantity = $quantity_params['default']; // min из ACF
-    }
-
-    
-    // Определяем классы в зависимости от контекста
-    if ($params['use_cart_classes']) {
-        $btn_class = 'quantity-btn-cart';
-        $input_class = 'quantity-input-cart';
-        $wrapper_class = 'quantity-selector-cart';
-    } else {
-        $btn_class = 'quantity-btn';
-        $input_class = 'quantity-input';
-        $wrapper_class = 'quantity-selector';
+        $current_quantity = $quantity_params['default'];
     }
     
-    // Добавляем пользовательский класс если есть
+    // Единые классы
+    $wrapper_class = 'quantity-selector';
     if (!empty($params['wrapper_class'])) {
         $wrapper_class .= ' ' . $params['wrapper_class'];
     }
@@ -645,31 +628,26 @@ function render_quantity_selector($product_id, $args = array()) {
     ob_start();
     ?>
     <div class="<?php echo esc_attr($wrapper_class); ?>" data-product-id="<?php echo esc_attr($product_id); ?>">
-        <button 
-            type="button" class="<?php echo esc_attr($btn_class); ?> quantity-minus" 
-            data-step="<?php echo esc_attr($quantity_params['step']); ?>" 
-            data-min="<?php echo esc_attr($quantity_params['min']); ?>">
+        <button type="button" class="quantity-btn quantity-minus" 
+                data-step="<?php echo esc_attr($quantity_params['step']); ?>" 
+                data-min="<?php echo esc_attr($quantity_params['min']); ?>">
             -
         </button>
-        <input 
-            type="number" 
-            class="<?php echo esc_attr($input_class); ?>" 
-            value="<?php echo esc_attr($current_quantity); ?>" 
-            data-product-id="<?php echo esc_attr($product_id); ?>"
-            data-default="<?php echo esc_attr($quantity_params['default']); ?>"
-            data-step="<?php echo esc_attr($quantity_params['step']); ?>"
-            data-min="<?php echo esc_attr($quantity_params['min']); ?>"
-            data-max="<?php echo esc_attr($quantity_params['max']); ?>"
-            step="<?php echo esc_attr($quantity_params['step']); ?>"
-            min="<?php echo esc_attr($quantity_params['min']); ?>"
-            max="<?php echo esc_attr($quantity_params['max']); ?>"
-            readonly
-        >
-        <button 
-            type="button" 
-            class="<?php echo esc_attr($btn_class); ?> quantity-plus" 
-            data-step="<?php echo esc_attr($quantity_params['step']); ?>" 
-            data-max="<?php echo esc_attr($quantity_params['max']); ?>">
+        <input type="number" 
+               class="quantity-input" 
+               value="<?php echo esc_attr($current_quantity); ?>" 
+               data-product-id="<?php echo esc_attr($product_id); ?>"
+               data-default="<?php echo esc_attr($quantity_params['default']); ?>"
+               data-step="<?php echo esc_attr($quantity_params['step']); ?>"
+               data-min="<?php echo esc_attr($quantity_params['min']); ?>"
+               data-max="<?php echo esc_attr($quantity_params['max']); ?>"
+               step="<?php echo esc_attr($quantity_params['step']); ?>"
+               min="<?php echo esc_attr($quantity_params['min']); ?>"
+               max="<?php echo esc_attr($quantity_params['max']); ?>"
+               readonly>
+        <button type="button" class="quantity-btn quantity-plus" 
+                data-step="<?php echo esc_attr($quantity_params['step']); ?>" 
+                data-max="<?php echo esc_attr($quantity_params['max']); ?>">
             +
         </button>
     </div>
@@ -683,14 +661,12 @@ function render_quantity_selector($product_id, $args = array()) {
  * @param int $product_id ID товара
  * @param array $args Параметры:
  *   - button_class: string Дополнительный класс для кнопки
- *   - wrapper_class: string Дополнительный класс для обертки
  * 
  * @return string HTML кнопки
  */
 function render_add_to_cart_button($product_id, $args = array()) {
     $defaults = array(
-        'button_class' => '',
-        'wrapper_class' => ''
+        'button_class' => ''
     );
     
     $params = wp_parse_args($args, $defaults);
@@ -707,9 +683,7 @@ function render_add_to_cart_button($product_id, $args = array()) {
     // Если товар не в наличии или снят с продажи - показываем заглушку
     if ($status_value !== 'instock') {
         $status_label = is_array($status) ? $status['label'] : 'Нет в наличии';
-        return '<div class="add-to-cart-disabled ' . esc_attr($params['wrapper_class']) . '">
-            <span class="btn btn-disabled">' . esc_html($status_label) . '</span>
-        </div>';
+        return '<span class="btn btn-disabled">' . esc_html($status_label) . '</span>';
     }
     
     // Получаем минимальное количество для кнопки по умолчанию
@@ -718,14 +692,12 @@ function render_add_to_cart_button($product_id, $args = array()) {
     
     ob_start();
     ?>
-    <div class="add-to-cart-wrapper <?php echo esc_attr($params['wrapper_class']); ?>">
-        <button class="btn btn-add-to-cart <?php echo esc_attr($params['button_class']); ?>" 
-                data-product-id="<?php echo esc_attr($product_id); ?>"
-                data-quantity="<?php echo esc_attr($default_quantity); ?>">
-            <span>Купить</span>
-            <i class="icon_basket"></i>
-        </button>
-    </div>
+    <button class="btn btn-add-to-cart <?php echo esc_attr($params['button_class']); ?>" 
+            data-product-id="<?php echo esc_attr($product_id); ?>"
+            data-quantity="<?php echo esc_attr($default_quantity); ?>">
+        <span>Купить</span>
+        <i class="icon_basket"></i>
+    </button>
     <?php
     return ob_get_clean();
 }
@@ -735,7 +707,7 @@ function render_add_to_cart_button($product_id, $args = array()) {
  * 
  * @param int $product_id ID товара
  * @param array $args Параметры:
- *   - show_quantity: bool Показывать блок с количеством (по умолчанию false)
+ *   - show_quantity: bool Показывать блок с количеством (по умолчанию true)
  *   - button_class: string Дополнительный класс для кнопки
  *   - wrapper_class: string Дополнительный класс для обертки
  * 
@@ -743,7 +715,7 @@ function render_add_to_cart_button($product_id, $args = array()) {
  */
 function render_full_add_to_cart($product_id, $args = array()) {
     $defaults = array(
-        'show_quantity' => false,
+        'show_quantity' => true,
         'button_class' => '',
         'wrapper_class' => ''
     );
@@ -759,19 +731,18 @@ function render_full_add_to_cart($product_id, $args = array()) {
     $status = get_field('product_status', $product_id);
     $status_value = is_array($status) ? $status['value'] : $status;
     
-    // Если товар не в наличии или снят с продажи - показываем заглушку
     if ($status_value !== 'instock') {
         $status_label = is_array($status) ? $status['label'] : 'Нет в наличии';
-        return '<div class="add-to-cart-disabled ' . esc_attr($params['wrapper_class']) . '">
+        return '<div class="wrap-add-to-cart disabled ' . esc_attr($params['wrapper_class']) . '">
             <span class="btn btn-disabled">' . esc_html($status_label) . '</span>
         </div>';
     }
     
     ob_start();
     ?>
-    <div class="full-add-to-cart <?php echo esc_attr($params['wrapper_class']); ?>" data-product-id="<?php echo esc_attr($product_id); ?>">
+    <div class="wrap-add-to-cart <?php echo esc_attr($params['wrapper_class']); ?>" data-product-id="<?php echo esc_attr($product_id); ?>">
         <?php if ($params['show_quantity']) : ?>
-            <?php echo render_quantity_selector($product_id, array('use_cart_classes' => false)); ?>
+            <?php echo render_quantity_selector($product_id); ?>
         <?php endif; ?>
         <?php echo render_add_to_cart_button($product_id, array('button_class' => $params['button_class'])); ?>
     </div>
@@ -779,6 +750,22 @@ function render_full_add_to_cart($product_id, $args = array()) {
     return ob_get_clean();
 }
 
+/**
+ * Генерирует блок для страницы корзины (только количество, обертка wrap-add-to-cart)
+ * 
+ * @param int $product_id ID товара
+ * @param int $quantity Текущее количество в корзине
+ * @return string HTML блока
+ */
+function render_cart_quantity_selector($product_id, $quantity) {
+    ob_start();
+    ?>
+    <div class="wrap-add-to-cart">
+        <?php echo render_quantity_selector($product_id, array('default_quantity' => $quantity)); ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
 
 /**
  * Выводит блок выбора количества
@@ -799,4 +786,11 @@ function the_add_to_cart_button($product_id, $args = array()) {
  */
 function the_full_add_to_cart($product_id, $args = array()) {
     echo render_full_add_to_cart($product_id, $args);
+}
+
+/**
+ * Выводит блок для страницы корзины
+ */
+function the_cart_quantity_selector($product_id, $quantity) {
+    echo render_cart_quantity_selector($product_id, $quantity);
 }

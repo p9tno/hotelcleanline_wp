@@ -49,7 +49,7 @@
                     qty = quantity;
                 } else {
                     // Ищем input в этой строке
-                    var $input = $row.find('.quantity-input-cart');
+                    var $input = $row.find('.wrap-add-to-cart .quantity-input');
                     qty = $input.length ? $input.val() : $row.find('.cart-quantity input').val();
                 }
                 
@@ -124,8 +124,6 @@
                                 $btn.prop('disabled', false).html(originalText);
                             }, 1500);
                         }
-                        
-                        // showGoToCartButton();
                     } else {
                         showToast(response.data || 'Ошибка при добавлении товара', 'danger', true, 4000);
                         if (buttonElement) {
@@ -141,29 +139,6 @@
                 }
             });
         };
-        
-        // Плавающая кнопка "Перейти в корзину"
-        function showGoToCartButton() {
-            $('.floating-cart-button').remove();
-            
-            var $button = $('<div class="floating-cart-button">Перейти в корзину →</div>');
-            $('body').append($button);
-            
-            setTimeout(function() {
-                $button.addClass('show');
-            }, 100);
-            
-            $button.on('click', function() {
-                window.location.href = cart_ajax.cart_url;
-            });
-            
-            setTimeout(function() {
-                $button.removeClass('show');
-                setTimeout(function() {
-                    $button.remove();
-                }, 300);
-            }, 5000);
-        }
         
         // Обновление бейджа корзины (количество уникальных товаров)
         window.updateCartBadge = function(count) {
@@ -193,8 +168,6 @@
             var $btn = $(this);
             var productId = $btn.data('product-id');
             var quantity = $btn.data('quantity') || 1000;
-    
-            console.log('Quantity:', quantity);
             
             if (productId) {
                 window.addToCart(productId, quantity, this);
@@ -277,12 +250,13 @@
             });
         });
         
-        // Управление количеством на странице корзины (кастомные контролы)
+        // ===== УПРАВЛЕНИЕ КОЛИЧЕСТВОМ (единая структура) =====
+        
         // Уменьшение количества
-        $(document).on('click', '.quantity-selector-cart .quantity-minus', function() {
+        $(document).on('click', '.wrap-add-to-cart .quantity-minus', function() {
             var $btn = $(this);
-            var $wrapper = $btn.closest('.quantity-selector-cart');
-            var $input = $wrapper.find('.quantity-input-cart');
+            var $selector = $btn.closest('.quantity-selector');
+            var $input = $selector.find('.quantity-input');
             var currentVal = parseInt($input.val());
             var step = parseInt($btn.data('step'));
             var min = parseInt($btn.data('min'));
@@ -294,10 +268,10 @@
         });
         
         // Увеличение количества
-        $(document).on('click', '.quantity-selector-cart .quantity-plus', function() {
+        $(document).on('click', '.wrap-add-to-cart .quantity-plus', function() {
             var $btn = $(this);
-            var $wrapper = $btn.closest('.quantity-selector-cart');
-            var $input = $wrapper.find('.quantity-input-cart');
+            var $selector = $btn.closest('.quantity-selector');
+            var $input = $selector.find('.quantity-input');
             var currentVal = parseInt($input.val());
             var step = parseInt($btn.data('step'));
             var max = parseInt($btn.data('max'));
@@ -308,81 +282,23 @@
             }
         });
         
-        // Обновление при изменении input в корзине
-        $(document).on('change', '.quantity-selector-cart .quantity-input-cart', function() {
+        // Обновление при изменении количества
+        $(document).on('change', '.wrap-add-to-cart .quantity-input', function() {
             var $input = $(this);
-            var val = parseInt($input.val());
-            var min = parseInt($input.data('min'));
-            var max = parseInt($input.data('max'));
-            
-            if (isNaN(val) || val < min) {
-                val = min;
-                $input.val(min);
-            }
-            if (val > max) {
-                val = max;
-                $input.val(max);
-            }
-            
-            updateCartItem($input.data('product-id'), val);
-        });
-        
-        // ===== КАТАЛОГ / КАРТОЧКА ТОВАРА (контролы для render_quantity_selector) =====
-
-        // Уменьшение количества
-        $(document).on('click', '.quantity-selector .quantity-minus', function() {
-            console.log('Клик по минусу в каталоге');
-            var $btn = $(this);
-            var $wrapper = $btn.closest('.quantity-selector');
-            console.log('Wrapper:', $wrapper.length);
-            var $input = $wrapper.find('.quantity-input');
-            console.log('Input:', $input.length);
-            var currentVal = parseInt($input.val());
-            var step = parseInt($btn.data('step'));
-            var min = parseInt($btn.data('min'));
-            
-            console.log('currentVal:', currentVal, 'step:', step, 'min:', min);
-            
-            var newVal = currentVal - step;
-            if (newVal >= min) {
-                $input.val(newVal).trigger('change');
-                console.log('Новое значение:', newVal);
-            }
-        });
-
-        // Увеличение количества
-        $(document).on('click', '.quantity-selector .quantity-plus', function() {
-            console.log('Клик по плюсу в каталоге');
-            var $btn = $(this);
-            var $wrapper = $btn.closest('.quantity-selector');
-            var $input = $wrapper.find('.quantity-input');
-            var currentVal = parseInt($input.val());
-            var step = parseInt($btn.data('step'));
-            var max = parseInt($btn.data('max'));
-            
-            console.log('currentVal:', currentVal, 'step:', step, 'max:', max);
-            
-            var newVal = currentVal + step;
-            if (newVal <= max) {
-                $input.val(newVal).trigger('change');
-                console.log('Новое значение:', newVal);
-            }
-        });
-        
-        // Обновление data-quantity у кнопки при изменении количества
-        $(document).on('change', '.quantity-selector .quantity-input', function() {
-            var $input = $(this);
+            var $wrap = $input.closest('.wrap-add-to-cart');
             var val = parseInt($input.val());
             var min = parseInt($input.data('min'));
             var max = parseInt($input.data('max'));
             var step = parseInt($input.data('step'));
             
+            // Валидация
             if (isNaN(val) || val < min) {
+                val = min;
                 $input.val(min);
             } else if (val > max) {
+                val = max;
                 $input.val(max);
             } else {
-                // Округляем до шага
                 var remainder = val % step;
                 if (remainder !== 0) {
                     var rounded = Math.round(val / step) * step;
@@ -396,23 +312,18 @@
                 }
             }
             
-            // ИСПРАВЛЕНО: ищем кнопку в родительском .full-add-to-cart
-            var $fullBlock = $input.closest('.full-add-to-cart');
-            if ($fullBlock.length) {
-                var $cartBtn = $fullBlock.find('.btn-add-to-cart');
+            // Проверяем, есть ли кнопка внутри обертки
+            var $cartBtn = $wrap.find('.btn-add-to-cart');
+            if ($cartBtn.length) {
+                // Каталог - обновляем data-quantity у кнопки
                 $cartBtn.data('quantity', $input.val());
-                // console.log('Обновлен data-quantity у кнопки:', $input.val()); // Для отладки
             } else {
-                // Fallback для старой структуры
-                var $wrapper = $input.closest('.add-to-cart-wrapper');
-                if ($wrapper.length) {
-                    var $cartBtn = $wrapper.find('.btn-add-to-cart');
-                    $cartBtn.data('quantity', $input.val());
-                }
+                // Корзина - отправляем AJAX
+                updateCartItem($input.data('product-id'), $input.val());
             }
         });
         
-        // Экспорт в Excel
+        // ===== ЭКСПОРТ В EXCEL =====
         $('#export-excel').on('click', function() {
             var $btn = $(this);
             $btn.prop('disabled', true).text('Загрузка...');
@@ -432,7 +343,6 @@
                     var url = window.URL.createObjectURL(blob);
                     link.href = url;
                     
-                    // Формируем понятное имя файла
                     var now = new Date();
                     var day = String(now.getDate()).padStart(2, '0');
                     var month = String(now.getMonth() + 1).padStart(2, '0');
@@ -455,19 +365,14 @@
                 }
             });
         });
-    
-        // Функция для генерации HTML карточки товара (полностью соответствует PHP шаблону)
+        
+        // ===== ГЕНЕРАЦИЯ КАРТОЧЕК ДЛЯ МОДАЛЬНОГО ОКНА =====
+        
         function generateProductCard(product) {
-            // Используем готовый HTML изображения из PHP (уже содержит заглушку при необходимости)
             const imageHTML = product.thumbnail_html || '';
-            
-            // Используем готовую отформатированную цену из PHP
             const priceHTML = product.price_formatted || '';
+            const buyButtonHTML = product.add_to_cart_html || '';
             
-            // Используем готовую кнопку из PHP (уже содержит все атрибуты и статус товара)
-            const buyButtonHTML = product.add_to_cart_button_html || '';
-            
-            // Возвращаем HTML карточки (полностью соответствует PHP шаблону)
             return `
                 <div class="product" id="product-${product.id}">
                     <div class="product__header">
@@ -488,7 +393,6 @@
             `;
         }
         
-        // Функция для генерации контента модального окна
         function setModalContent(categoryName, tagName, products, tagDescription = '') {
             let productsHTML = '';
             
@@ -500,7 +404,6 @@
                 productsHTML = '<div class="no-products">В этой категории пока нет товаров</div>';
             }
             
-            // Формируем заголовок в формате "category_name"
             const titleText = categoryName || tagName;
             
             return `
@@ -511,17 +414,15 @@
             `;
         }
         
-        // Обработчик клика по .show_tag_products_js
+        // ===== МОДАЛЬНОЕ ОКНО =====
         const tagTriggers = document.querySelectorAll('.show_tag_products_js');
         
         if (tagTriggers.length > 0) {
             tagTriggers.forEach((trigger) => {
                 trigger.addEventListener('click', (e) => {
-                    // Получаем ID метки и категории
                     let tagId = null;
                     let categoryId = null;
                     
-                    // Из data-атрибутов
                     if (trigger.dataset.tagId) {
                         tagId = parseInt(trigger.dataset.tagId);
                     }
@@ -529,30 +430,21 @@
                         categoryId = parseInt(trigger.dataset.categoryId);
                     }
                     
-                    console.log('tagId: ', tagId);
-                    console.log('categoryId: ', categoryId);
-                    
-                    // Проверяем наличие productsCombinations
                     if (typeof productsCombinations === 'undefined') {
                         console.error('productsCombinations не определен');
                         return;
                     }
                     
-                    // Ищем комбинацию в данных
                     let combo = null;
                     if (tagId && categoryId) {
                         combo = productsCombinations.find(c => c.category_id === categoryId && c.tag_id === tagId);
                     }
                     
-                    console.log('combo: ', combo);
-                    
-                    // Если нашли комбинацию, вставляем данные в модальное окно
                     if (combo) {
                         const modal = document.querySelector('#tag-products');
                         const modalBody = modal ? modal.querySelector('.modal-body') : null;
                         
                         if (modalBody) {
-                            // Обновляем содержимое модального окна
                             modalBody.innerHTML = setModalContent(
                                 combo.category_name,
                                 combo.tag_name,
@@ -560,7 +452,6 @@
                                 combo.tag_description
                             );
                             
-                            // Показываем модальное окно (Bootstrap)
                             $(modal).modal('show');
                         } else {
                             console.error('Модальное окно #tag-products или его .modal-body не найдены');
@@ -570,11 +461,7 @@
                     }
                 });
             });
-        } else {
-            console.log('Элементы .show_tag_products_js не найдены');
         }
 
-    })
-    
-    
+    });
 })(jQuery);

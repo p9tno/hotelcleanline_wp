@@ -147,8 +147,8 @@ function build_product_data($product_id, $no_img_url) {
     
     // ✅ ГЕНЕРИРУЕМ ГОТОВУЮ КНОПКУ "КУПИТЬ"
     ob_start();
-    the_add_to_cart_button($product_id);
-    $product_data->add_to_cart_button_html = ob_get_clean();
+    the_full_add_to_cart($product_id, array('show_quantity' => false));
+    $product_data->add_to_cart_html = ob_get_clean();
     
     // Характеристики и контент
     $product_data->characteristic = get_field('product_characteristic', $product_id) ?: '';

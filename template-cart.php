@@ -76,15 +76,10 @@ if (!empty($cart)) {
                                         <td class="cart-price"><?php echo format_price($item['price']); ?></td>
 
                                         <td class="cart-quantity">
-                                            <?php 
-                                            // Временно для отладки - выведем значение
-                                            echo '<!-- quantity from cart: ' . $item['quantity'] . ' -->';
-                                            
-                                            the_quantity_selector($item['id'], array(
-                                                'use_cart_classes' => true,
-                                                'default_quantity' => $item['quantity'],
-                                            ));
-                                            ?>
+                                             <?php 
+                                                // Используем новую функцию для корзины
+                                                the_cart_quantity_selector($item['id'], $item['quantity']);
+                                                ?>
                                         </td>
 
 
