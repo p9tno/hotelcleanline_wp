@@ -2097,6 +2097,39 @@ body {
   }
 }
 
+.notfound {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notfound__wrap {
+  position: relative;
+}
+.notfound__content {
+  position: relative;
+}
+.notfound__404 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.notfound__404 span {
+  margin: 0;
+  font-family: "Oswald";
+  color: rgba(159, 84, 52, 0.1);
+  line-height: 1.1;
+  font-weight: 100;
+  font-size: 14em;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .notfound__404 span {
+    font-size: 20em;
+  }
+}
+
 .head {
   padding-top: 1em;
 }

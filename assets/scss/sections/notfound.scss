@@ -1,0 +1,36 @@
+.notfound {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__wrap {
+        position: relative;
+    }
+
+    &__content {
+        position: relative;
+    }
+
+    &__404 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        span {
+            margin: 0;
+            font-family: $second_font_family;
+            color: rgba($color_primary, 0.1);
+            line-height: 1.1;
+            font-weight: 100;
+            font-size: 14em;
+            text-align: center;
+            @media (min-width: 768px) {
+                font-size: 20em;
+            }
+        }
+    }
+
+
+}
