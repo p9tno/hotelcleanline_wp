@@ -416,5 +416,50 @@
         });
         
     });
+
+
+    // Экспорт в Excel
+    $('#export-excel').on('click', function() {
+        var $btn = $(this);
+        $btn.prop('disabled', true).text('Загрузка...');
+        
+        $.ajax({
+            url: cart_ajax.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'export_cart_excel',
+                nonce: cart_ajax.nonce
+            },
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function(blob) {
+                var link = document.createElement('a');
+                var url = window.URL.createObjectURL(blob);
+                link.href = url;
+                
+                // Формируем понятное имя файла
+                var now = new Date();
+                var day = String(now.getDate()).padStart(2, '0');
+                var month = String(now.getMonth() + 1).padStart(2, '0');
+                var year = now.getFullYear();
+                
+                link.download = 'Корзина_HotelCleanLine_' + day + '.' + month + '.' + year + '.csv';
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+                
+                showToast('Файл успешно скачан', 'success', true, 3000);
+            },
+            error: function() {
+                showToast('Ошибка при формировании файла', 'danger', true, 3000);
+            },
+            complete: function() {
+                $btn.prop('disabled', false).text('Скачать Excel');
+            }
+        });
+    });
     
 })(jQuery);

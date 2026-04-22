@@ -86,4 +86,87 @@ function ajax_clear_cart() {
     ));
 }
 
+/**
+ * Экспорт корзины в Excel
+ */
+add_action('wp_ajax_export_cart_excel', 'ajax_export_cart_excel');
+add_action('wp_ajax_nopriv_export_cart_excel', 'ajax_export_cart_excel');
 
+function ajax_export_cart_excel() {
+    check_ajax_referer('cart_nonce', 'nonce');
+    
+    $cart = get_user_cart();
+    
+    if (empty($cart)) {
+        wp_send_json_error('Корзина пуста');
+    }
+    
+    // Получаем товары
+    $product_ids = array_keys($cart);
+    $products = array();
+    
+    foreach ($product_ids as $id) {
+        $product = get_post($id);
+        if ($product && $product->post_type === 'product') {
+            $price = get_field('product_price', $id);
+            $quantity = $cart[$id]['quantity'];
+            $total = $price * $quantity;
+            
+            $products[] = array(
+                'title' => $product->post_title,
+                'sku' => get_field('product_sku', $id),
+                'price' => $price,
+                'quantity' => $quantity,
+                'total' => $total,
+                'link' => get_permalink($id)
+            );
+        }
+    }
+    
+    // Формируем данные для CSV
+    $excel_data = array();
+    
+    // Заголовки
+    $excel_data[] = array(
+        'Наименование',
+        'Артикул',
+        'Цена (₽)',
+        'Количество',
+        'Сумма (₽)',
+        'Ссылка на товар'
+    );
+    
+    // Данные товаров
+    foreach ($products as $item) {
+        $excel_data[] = array(
+            $item['title'],
+            $item['sku'] ?: '—',
+            $item['price'],
+            $item['quantity'],
+            $item['total'],
+            $item['link']
+        );
+    }
+    
+    // Итоговая строка
+    $total_sum = array_sum(array_column($products, 'total'));
+    $excel_data[] = array('', '', '', 'ИТОГО:', $total_sum, '');
+    
+    // Создаем CSV файл
+    $filename = 'Корзина_HotelCleanLine_' . date('d.m.Y') . '.csv';
+    
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    
+    $output = fopen('php://output', 'w');
+    
+    // Добавляем BOM для корректной работы с UTF-8 в Excel
+    fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+    
+    foreach ($excel_data as $row) {
+        fputcsv($output, $row, ';');
+    }
+    
+    fclose($output);
+    exit;
+}
