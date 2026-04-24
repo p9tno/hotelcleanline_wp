@@ -140,26 +140,16 @@
             });
         };
         
-        // Обновление бейджа корзины (количество уникальных товаров)
+        // Обновление бейджа корзины
         window.updateCartBadge = function(count) {
-            if ($('.cart-count-badge').length) {
-                $('.cart-count-badge').text(count);
-                
-                if (count === 0 || count === '0') {
-                    $('.cart-count-badge').hide();
-                } else {
-                    $('.cart-count-badge').show();
-                }
-            }
+            var $cartCount = $('.cart-count');
+            $cartCount.text(count);
             
-            $('.cart-badge, .cart-count, .header-cart-count').text(count);
-            if (count === 0 || count === '0') {
-                $('.cart-badge, .cart-count, .header-cart-count').hide();
+            if (count == 0) {
+                $cartCount.hide();
             } else {
-                $('.cart-badge, .cart-count, .header-cart-count').show();
+                $cartCount.show();
             }
-            
-            $('.cart-icon').attr('data-count', count);
         };
         
         // Обработчик клика для кнопок "Купить"

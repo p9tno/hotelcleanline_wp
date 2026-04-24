@@ -1176,6 +1176,39 @@ body {
     transform: rotate(-45deg);
   }
 }
+.header .cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  color: #333541;
+  font-size: 1.5em;
+  text-decoration: none;
+}
+@media (min-width: 768px) {
+  .header .cart:hover {
+    color: #9F5434;
+  }
+}
+.header .cart__count {
+  position: absolute;
+  top: -0.8em;
+  left: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5em;
+  padding: 0.25em;
+  border-radius: 0.25em;
+  font-family: "Oswald";
+  font-weight: 300;
+  background-color: #C05A5A;
+  color: #ffffff;
+  line-height: 1;
+  font-size: 0.5em;
+}
 
 .stiky {
   position: fixed;
