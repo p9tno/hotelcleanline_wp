@@ -42,16 +42,19 @@ window.onload = function () {
     //     text: `danger`,
     //     autohide: true,
     //     theme: 'danger', // danger success primary
+    //     autohide: false
     // });
     // new Toast({
     //     text: `success`,
     //     autohide: true,
     //     theme: 'success', // danger success primary
+    //     autohide: false
     // });
     // new Toast({
     //     text: `primary`,
     //     autohide: true,
     //     theme: 'primary', // danger success primary
+    //     autohide: false
     // });
 
     function preloader() {

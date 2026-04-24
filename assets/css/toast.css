@@ -1,11 +1,11 @@
 :root {
   --toast-width: 270px;
-  --toast-border-radius: 0.25em;
+  --toast-border-radius: 0.125em;
   --toast-theme-default: #fff;
-  --toast-theme-primary: #0085FF;
+  --toast-theme-primary: #5F8B9F;
   --toast-theme-secondary: #6c757d;
-  --toast-theme-success: #80D898;
-  --toast-theme-danger: #DC7F7F;
+  --toast-theme-success: #3A7B5A;
+  --toast-theme-danger: #C05A5A;
   --toast-theme-warning: #ffc107;
   --toast-theme-info: #0dcaf0;
   --toast-theme-light: #f8f9fa;
@@ -19,7 +19,6 @@
   z-index: 50;
   font-size: 0.5em;
   width: 26em;
-  font-family: "Mulish";
 }
 
 @media (min-width: 768px) {
@@ -39,8 +38,8 @@
   position: relative;
   overflow: hidden;
   transition: 0.3s opacity;
-  padding: 1.5625em;
-  border-radius: 1.5625em;
+  padding: 1.5em;
+  border-radius: 0.625em;
   /* border-radius: 0em 0em 1.5625em 1.5625em; */
 }
 
@@ -160,11 +159,11 @@
   }
 }
 
-.toast_success .toast__body:before {
+/* .toast_success .toast__body:before {
   font-family: "icon";
   font-size: 1.5em;
   content: "";
-}
+} */
 
 /* .toast_danger .toast__body:before {
   font-family: "icon";
