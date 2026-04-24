@@ -117,7 +117,7 @@
                     if (response.success) {
                         showToast(response.data.message, 'success', true, 3000);
                         updateCartBadge(response.data.total_items);
-                        
+            
                         if (buttonElement) {
                             $btn.html('<span>✓ Добавлено</span>');
                             setTimeout(function() {
