@@ -398,7 +398,7 @@
             
             return `
                 <div class="modal-title" id="myModalLabel">${titleText}</div>
-                <div class="product__grid scrolled">
+                <div class="product__grid">
                     ${productsHTML}
                 </div>
             `;

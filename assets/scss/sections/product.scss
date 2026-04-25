@@ -408,6 +408,8 @@
     &__tags {
         position: relative;
         z-index: 5;
+        display: flex;
+        gap: 0.5em;
 
         a {
           
