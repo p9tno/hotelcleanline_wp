@@ -1,7 +1,22 @@
 .tabs {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-gap: 1em;
+    @media (max-width: 767px) {
+        position: relative;
+        display: flex;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 0.75em;
+        margin-bottom: 1em;
+        margin-left: -1em;
+        margin-right: -1em;
+    }
+    
+    @media (min-width: 768px) {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-gap: 1em;
+      
+    }
 
     &__wrapper {}
 
@@ -9,7 +24,7 @@
         margin-top: 1em;
 
         .tax-product_category & {
-            margin-top: 2em;
+            margin-top: 0;
             @media (min-width: 768px) {
                 margin-top: 3.125em;
             }
@@ -44,6 +59,19 @@
 	
 	cursor: pointer;
 	transition: 0.5s;
+
+    @media (max-width: 767px) {
+        width: fit-content;
+        flex: none;
+        margin-right: 1em;
+        &:first-child {
+            padding-left: 1em;
+            margin-left: 1em;
+        }
+        &:last-child {
+            padding-right: 1em;
+        }
+    }
 	
 	@media (min-width: 768px) {
 		font-size: 1em;
