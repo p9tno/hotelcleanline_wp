@@ -16,7 +16,7 @@
   position: fixed;
   top: 1em;
   right: 1.875em;
-  z-index: 50;
+  z-index: 1050;
   font-size: 0.5em;
   width: 26em;
 }
