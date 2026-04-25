@@ -1,6 +1,22 @@
 .breadcrumbs {
 	padding-bottom: 0;
 
+	.breadcrumb__back {
+		@media (max-width: 767px) {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.375em;
+			font-size: 0.8125em;
+			color: $color_primary;
+			text-decoration: none;
+
+			i {
+				font-size: 0.75em;
+			}
+		}
+
+	}
+
 	.kama_breadcrumbs {
 		font-size: 0.75em;
 		@media (min-width: 768px) {

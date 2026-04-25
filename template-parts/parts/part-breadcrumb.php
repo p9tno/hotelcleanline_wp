@@ -10,7 +10,11 @@
         <!-- begin breadcrumbs -->
         <section id="breadcrumbs" class="breadcrumbs section">
             <div class="container_center">
-                <div class="breadcrumbs__content">
+                <a id="back-btn" class="breadcrumb__back mobile" href="#">
+                    <i class="icon_arrow_left_sm"></i>
+                   <span>Назад</span>
+                </a>
+                <div class="breadcrumbs__content desktop">
                     <?php kama_breadcrumbs(''); ?>
                 </div>
             </div>

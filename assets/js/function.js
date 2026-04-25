@@ -104,6 +104,14 @@ $(document).ready(function() {
         }
     }
 
+    function backHistory() {
+        $("#back-btn").click(function (e) {
+            e.preventDefault();
+            window.history.back();
+        });
+    }
+    backHistory();
+
     function scrollPage () {
         $(".toTop").on("click","a", function (event) {
             event.preventDefault();

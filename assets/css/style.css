@@ -2945,6 +2945,19 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
 .breadcrumbs {
   padding-bottom: 0;
 }
+@media (max-width: 767px) {
+  .breadcrumbs .breadcrumb__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375em;
+    font-size: 0.8125em;
+    color: #9F5434;
+    text-decoration: none;
+  }
+  .breadcrumbs .breadcrumb__back i {
+    font-size: 0.75em;
+  }
+}
 .breadcrumbs .kama_breadcrumbs {
   font-size: 0.75em;
 }
