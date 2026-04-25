@@ -3218,7 +3218,7 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
 
 .btn {
   display: inline-block;
-  padding: 0.875em 2.25em;
+  padding: 0.875em;
   border-radius: 0.625em;
   border: 1px solid;
   outline: none;

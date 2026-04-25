@@ -61,6 +61,33 @@ function ajax_clear_cart() {
     ));
 }
 
+// AJAX: обновить корзину
+add_action('wp_ajax_update_cart', 'ajax_update_cart');
+add_action('wp_ajax_nopriv_update_cart', 'ajax_update_cart');
+
+function ajax_update_cart() {
+    check_ajax_referer('cart_nonce', 'nonce');
+    
+    if (!isset($_POST['items']) || !is_array($_POST['items'])) {
+        wp_send_json_error('Некорректные данные');
+    }
+    
+    $items = array();
+    foreach ($_POST['items'] as $item) {
+        $items[intval($item['id'])] = intval($item['quantity']);
+    }
+    
+    update_cart_quantities($items);
+    $total_items = get_cart_total_items();
+    $cart = get_user_cart();
+    
+    wp_send_json_success(array(
+        'message' => 'Корзина обновлена',
+        'total_items' => $total_items,
+        'cart' => $cart
+    ));
+}
+
 /**
  * Экспорт корзины в Excel
  */

@@ -692,11 +692,12 @@ function render_add_to_cart_button($product_id, $args = array()) {
     
     ob_start();
     ?>
-    <button class="btn btn-add-to-cart <?php echo esc_attr($params['button_class']); ?>" 
-            data-product-id="<?php echo esc_attr($product_id); ?>"
-            data-quantity="<?php echo esc_attr($default_quantity); ?>">
-        <span>Купить</span>
-        <i class="icon_basket"></i>
+    <button 
+        class="btn btn-add-to-cart <?php echo esc_attr($params['button_class']); ?>" 
+        data-product-id="<?php echo esc_attr($product_id); ?>"
+        data-quantity="<?php echo esc_attr($default_quantity); ?>"
+    >
+        Купить
     </button>
     <?php
     return ob_get_clean();
