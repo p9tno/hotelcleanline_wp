@@ -627,14 +627,14 @@ function render_quantity_selector($product_id, $args = array()) {
     
     ob_start();
     ?>
-    <div class="<?php echo esc_attr($wrapper_class); ?>" data-product-id="<?php echo esc_attr($product_id); ?>">
-        <button type="button" class="quantity-btn quantity-minus" 
+    <div class="<?php echo esc_attr($wrapper_class); ?> quantity_wrap" data-product-id="<?php echo esc_attr($product_id); ?>">
+        <button type="button" class="quantity-btn quantity-minus btn btn_quantity" 
                 data-step="<?php echo esc_attr($quantity_params['step']); ?>" 
                 data-min="<?php echo esc_attr($quantity_params['min']); ?>">
-            -
+            &minus;
         </button>
         <input type="number" 
-               class="quantity-input" 
+               class="quantity-input quantity__input" 
                value="<?php echo esc_attr($current_quantity); ?>" 
                data-product-id="<?php echo esc_attr($product_id); ?>"
                data-default="<?php echo esc_attr($quantity_params['default']); ?>"
@@ -645,7 +645,7 @@ function render_quantity_selector($product_id, $args = array()) {
                min="<?php echo esc_attr($quantity_params['min']); ?>"
                max="<?php echo esc_attr($quantity_params['max']); ?>"
                readonly>
-        <button type="button" class="quantity-btn quantity-plus" 
+        <button type="button" class="quantity-btn quantity-plus btn btn_quantity" 
                 data-step="<?php echo esc_attr($quantity_params['step']); ?>" 
                 data-max="<?php echo esc_attr($quantity_params['max']); ?>">
             +
@@ -683,7 +683,7 @@ function render_add_to_cart_button($product_id, $args = array()) {
     // Если товар не в наличии или снят с продажи - показываем заглушку
     if ($status_value !== 'instock') {
         $status_label = is_array($status) ? $status['label'] : 'Нет в наличии';
-        return '<span class="btn btn-disabled">' . esc_html($status_label) . '</span>';
+        return '<span class="btn btn-disabled btn_disabled">' . esc_html($status_label) . '</span>';
     }
     
     // Получаем минимальное количество для кнопки по умолчанию
@@ -735,13 +735,13 @@ function render_full_add_to_cart($product_id, $args = array()) {
     if ($status_value !== 'instock') {
         $status_label = is_array($status) ? $status['label'] : 'Нет в наличии';
         return '<div class="wrap-add-to-cart disabled ' . esc_attr($params['wrapper_class']) . '">
-            <span class="btn btn-disabled">' . esc_html($status_label) . '</span>
+            <span class="btn btn-disabled btn_disabled">' . esc_html($status_label) . '</span>
         </div>';
     }
     
     ob_start();
     ?>
-    <div class="wrap-add-to-cart <?php echo esc_attr($params['wrapper_class']); ?>" data-product-id="<?php echo esc_attr($product_id); ?>">
+    <div class="wrap-add-to-cart add_to_cart_wrap <?php echo esc_attr($params['wrapper_class']); ?>" data-product-id="<?php echo esc_attr($product_id); ?>">
         <?php if ($params['show_quantity']) : ?>
             <?php echo render_quantity_selector($product_id); ?>
         <?php endif; ?>

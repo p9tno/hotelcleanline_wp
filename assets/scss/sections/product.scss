@@ -16,8 +16,8 @@
 
 /* Сумма */
 .price-amount {
-    // font-weight: bold;
-    // font-size: 1.2em;
+    font-weight: 300;
+    font-family: $second_font_family;
 }
 
 /* Для позиции с пробелом */
@@ -61,26 +61,6 @@
             }
         }
     }
-
-    // .product__grid:not(.list) & {
-    //     @media (max-width: 767px) {
-    //         padding: 0.625em 0.3125em;
-    //         gap: 0.5em;
-    //     }
-    // }
-
-    // .product__grid.list & {
-    //     padding: 0.625em 0.3125em 0.625em 9.25em;
-
-    //     min-height: 10em;
-
-    //     @media (min-width: 768px) {
-    //         padding: 1.875em 20em 1.875em 27.5em;
-
-    //         min-height: 20.625em;
-
-    //     }
-    // }
 
     &__section {
         overflow: hidden;
@@ -149,8 +129,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        // aspect-ratio: 1 / 1;
-
+      
         display: flex;
         align-items: center;
         justify-content: center;
@@ -192,56 +171,32 @@
         font-weight: 600;
         color: $color_success;
 
-        // .instock & {
-        //     &:before {
-        //         content: '\e925';
-        //         font-family: 'icon';
-        //         font-size: 0.675em;
-        //     }
-        // }
-
         .outofstock & {
             color: $color_danger;
         }
-
-        // .product__grid:not(.list) & {
-        //     @media (max-width: 767px) {
-        //         font-size: 0.75em;
-        //         margin-left: 0.125em;
-        //     }
-        // }
-
-        // .product__grid.list & {
-        //     @media (max-width: 767px) {
-        //         font-size: 0.75em;
-        //     }
-        // }
-
-        // .oneProduct & {
-        //     @media (min-width: 768px) {
-        //         font-size: 1.125em;
-        //         font-weight: 400;
-        //     }
-        // }
     }
 
     &__title {
         display: block;
         width: fit-content;
         font-family: $second_font_family;
-        font-size: 1.5em;
+        font-size: 1.25em;
         font-weight: 300;
-     
+        
         color: $color_primary;
         text-decoration: none;
         transition: none;
-
+        
         line-clamp: 1;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
+        
+        @media (min-width: 768px) {
+            font-size: 1.5em;
+        }
     }
 
     &__cat {
@@ -344,21 +299,20 @@
 
     &__price {
         font-size: 1em;
+
         .single-product & {
             font-size: 1.25em;
-            
             @media (min-width: 768px) {
                 font-size: 2em;
-              
             }
         }
     }
 
     &__button {
-        font-size: 0.8em;
+        font-size: 0.75em;
 
         .single-product & {
-            font-size: 1.25em;
+            font-size: 1em;
         }
     }
 
@@ -419,11 +373,8 @@
 
 
     &__img {
-        
         width: 100%;
         aspect-ratio: $aspect-ratio;
-
-       
 
         img {
             position: absolute;
@@ -434,7 +385,6 @@
             width: 60%;
             height: auto;
             object-fit: cover;
-
         }
     }
 

@@ -22,12 +22,13 @@
 	cursor: pointer;
 	transition: 0.5s;
 	
+	min-width: 9em;
 	@media (min-width: 768px) {
 		font-size: 1em;
 		min-width: 10em;
 	}
 
-	&:hover:not(:disabled) {
+	&:hover:not(:disabled, .btn_disabled) {
 		@media (min-width: 768px) {
 			color: $color_warning;
 			border-color: $color_warning;
@@ -35,7 +36,7 @@
 		}
 	}
 	
-	&:active:not(:disabled) {
+	&:active:not(:disabled, .btn_disabled) {
 		@media (min-width: 768px) {
 			color: $color_white;
 			border-color: $color_warning;
@@ -43,7 +44,7 @@
 		}
 	}
 
-	&:disabled {
+	&:disabled, &.btn_disabled {
 		cursor: not-allowed;
 		opacity: 0.5;
 	}
@@ -53,7 +54,7 @@
 		border-color: $color_warning;
 		background-color: transparent;
 
-		&:hover:not(:disabled) {
+		&:hover:not(:disabled, .btn_disabled) {
 			@media (min-width: 768px) {
 				color: $color_white;
 				border-color: $color_warning;
@@ -61,7 +62,7 @@
 			}
 		}
 		
-		&:active:not(:disabled) {
+		&:active:not(:disabled, .btn_disabled) {
 			@media (min-width: 768px) {
 				color: $color_warning;
 				border-color: $color_warning;
@@ -70,7 +71,31 @@
 		}
 	}
 
+	&_quantity {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.875em;
+		height: 2.875em;
+		min-width: auto;
+		padding: 0.25em;
+	}
 
+
+
+
+}
+
+.quantity_wrap {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.add_to_cart_wrap {
+	display: inline-flex;
+	gap: 1.5em;
+	align-items: center;
 }
 
 
