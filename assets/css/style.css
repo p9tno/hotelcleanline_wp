@@ -2586,17 +2586,28 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
-  padding: 1em;
+  padding: 0.75em;
   aspect-ratio: 1.5;
   border-radius: 0.625em;
   cursor: pointer;
   text-decoration: none;
   color: #333541;
 }
+@media (min-width: 768px) {
+  .tag {
+    padding: 1em;
+  }
+}
 .tag__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1em;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 768px) {
+  .tag__grid {
+    grid-gap: 1em;
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 .tag__img {
   position: absolute;
@@ -2607,8 +2618,13 @@ body {
 }
 .tag__content {
   position: relative;
-  padding: 1em;
+  padding: 0.75em;
   border-radius: 0.625em;
+}
+@media (min-width: 768px) {
+  .tag__content {
+    padding: 1em;
+  }
 }
 .tag__title {
   margin: 0;

@@ -2,22 +2,28 @@
     position: relative;
     overflow: hidden;
 
-
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
-    padding: 1em;
+    padding: 0.75em;
     aspect-ratio: $aspect-ratio;
     border-radius: 0.625em;
     cursor: pointer;
     text-decoration: none;
     color: $main_color;
+    @media (min-width: 768px) {
+        padding: 1em;
+    }
   
     &__grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 1em;
+        grid-gap: 0.5em;
+        grid-template-columns: repeat(2, 1fr);
+        @media (min-width: 768px) {
+            grid-gap: 1em;
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 
     &__img {
@@ -30,8 +36,11 @@
 
     &__content {
         position: relative;
-        padding: 1em;
+        padding: 0.75em;
         border-radius: 0.625em;
+        @media (min-width: 768px) {
+            padding: 1em;
+        }
     }
 
     &__title {
