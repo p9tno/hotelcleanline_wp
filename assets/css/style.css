@@ -1068,6 +1068,12 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 1em;
+  padding-right: 4em;
+}
+@media (min-width: 768px) {
+  .header__row {
+    padding-right: 0;
+  }
 }
 @media (min-width: 768px) {
   .header__col {
@@ -1101,9 +1107,11 @@ body {
   align-items: center;
   justify-content: center;
   gap: 1.5em;
+  font-size: 0.875em;
 }
 @media (min-width: 768px) {
   .header .action {
+    font-size: 1em;
     justify-content: flex-end;
     gap: 2.8125em;
   }

@@ -17,11 +17,11 @@
                             'container'=>'ul',
                         )); 
                     ?>
-                    <?php get_template_part( 'template-parts/parts/part', 'action-list', array('custom_class' => 'mobile') ); ?>
+                    <?php // get_template_part( 'template-parts/parts/part', 'action-list', array('custom_class' => 'mobile') ); ?>
                 </nav>
             </div>
 
-            <div class="header__col desktop">
+            <div class="header__col">
                 <?php get_template_part( 'template-parts/parts/part', 'action-list' ); ?>
             </div>
 
