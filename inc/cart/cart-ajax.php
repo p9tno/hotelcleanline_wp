@@ -17,9 +17,14 @@ function ajax_add_to_cart() {
         wp_send_json_error('Товар не найден');
     }
     
-    add_to_cart($product_id, $quantity);
+    // ✅ ИСПРАВЛЕНО: проверяем результат
+    $result = add_to_cart($product_id, $quantity);
+    
+    if (is_wp_error($result)) {
+        wp_send_json_error($result->get_error_message());
+    }
+    
     $total_items = get_cart_total_items();
-
     $product_title = get_the_title($product_id);
     
     wp_send_json_success(array(

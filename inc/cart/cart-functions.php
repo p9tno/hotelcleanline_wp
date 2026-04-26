@@ -3,6 +3,8 @@
  * Функции корзины
  */
 
+define('CART_MAX_ITEMS', 50);
+
 // Запуск сессии
 add_action('init', 'cart_start_session');
 function cart_start_session() {
@@ -62,6 +64,11 @@ function add_to_cart($product_id, $quantity = 1) {
     $product_id = intval($product_id);
     $quantity = max(1, intval($quantity));
     
+    // Проверка лимита разных товаров (только при добавлении нового)
+    if (!isset($cart[$product_id]) && count($cart) >= CART_MAX_ITEMS) {
+        return new WP_Error('cart_full', 'Слишком много разных товаров. Максимум ' . CART_MAX_ITEMS);
+    }
+    
     if (isset($cart[$product_id])) {
         $cart[$product_id]['quantity'] += $quantity;
     } else {
@@ -89,20 +96,20 @@ function remove_from_cart($product_id) {
     return $cart;
 }
 
-// Обновить количества
+// Обновить количества (без проверки лимита)
 function update_cart_quantities($items) {
-    $cart = array();
+    $cart = get_user_cart();
     
     foreach ($items as $product_id => $quantity) {
         $product_id = intval($product_id);
         $quantity = max(0, intval($quantity));
         
-        if ($quantity > 0 && get_post_status($product_id) === 'publish') {
-            $cart[$product_id] = array(
-                'id' => $product_id,
-                'quantity' => $quantity,
-                'added_at' => current_time('timestamp')
-            );
+        if (isset($cart[$product_id])) {
+            if ($quantity > 0) {
+                $cart[$product_id]['quantity'] = $quantity;
+            } else {
+                unset($cart[$product_id]);
+            }
         }
     }
     
