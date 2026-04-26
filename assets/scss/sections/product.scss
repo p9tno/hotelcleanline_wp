@@ -370,8 +370,6 @@
         }
     } 
 
-
-
     &__img {
         width: 100%;
         aspect-ratio: $aspect-ratio;
@@ -441,6 +439,10 @@
     } 
 
     &__characteristic {
+        font-size: 0.875em;
+        @media (min-width: 768px) {
+          font-size: 1em;
+        }
         > * {
 			&:first-child {
 				margin-top: 0;

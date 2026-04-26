@@ -691,10 +691,12 @@ body {
 .section__content {
   margin-top: 1.5em;
   text-align: center;
+  font-size: 0.875em;
 }
 @media (min-width: 768px) {
   .section__content {
     margin-top: 2em;
+    font-size: 1em;
   }
 }
 .section__content.ta_l {
@@ -2545,6 +2547,14 @@ body {
 }
 .slProduct__tabs .section__content {
   margin-top: 0;
+}
+.slProduct__characteristic {
+  font-size: 0.875em;
+}
+@media (min-width: 768px) {
+  .slProduct__characteristic {
+    font-size: 1em;
+  }
 }
 .slProduct__characteristic > *:first-child {
   margin-top: 0;

@@ -134,8 +134,10 @@ body {
 	&__content  {
 		margin-top: 1.5em;
 		text-align: center;
+		font-size: 0.875em;
 		@media (min-width: 768px) {
 			margin-top: 2em;
+			font-size: 1em;
 		}
 
 		&.ta_l {
