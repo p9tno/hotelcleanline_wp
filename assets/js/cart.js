@@ -222,13 +222,19 @@
                         if (response.data.total_items !== undefined) {
                             updateCartBadge(response.data.total_items);
                         }
+                        
+                        // Сначала удаляем строку
                         $row.fadeOut(300, function() {
-                            if ($('.cart-table tbody tr').length === 1) {
+                            $(this).remove();
+                            
+                            // После удаления пересчитываем сумму
+                            if ($('.cart-table tbody tr').length === 0) {
+                                // Корзина пуста - перезагружаем страницу
                                 location.reload();
                             } else {
+                                // Пересчитываем общую сумму
                                 updateTotalSum();
                             }
-                            $(this).remove();
                         });
                     } else {
                         showToast('Ошибка удаления', 'danger', true, 3000);

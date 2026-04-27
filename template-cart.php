@@ -37,90 +37,81 @@ if (!empty($cart)) {
 <!-- begin cart -->
 <section id="cart" class="cart section">
     <div class="container_center">
-        <div class="cart-page">
-            <div class="container">
-                <h1>Корзина товаров</h1>
-                
-                <?php if (empty($cart_items)) : ?>
-                    <div class="cart-empty">
-                        <p>Ваша корзина пуста</p>
-                        <a href="/" class="btn">Вернуться к покупкам</a>
-                    </div>
-                <?php else : ?>
-                    <form id="cart-form">
-                        <table class="cart-table">
-                            <thead>
-                                <tr>
-                                    <th>Товар</th>
-                                    <th>Цена</th>
-                                    <th>Количество</th>
-                                    <th>Сумма</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($cart_items as $item) : ?>
-                                    <tr data-product-id="<?php echo $item['id']; ?>">
-                                        <td class="cart-product">
-                                            <?php if ($item['thumbnail']) : ?>
-                                                <img src="<?php echo $item['thumbnail']; ?>" alt="<?php echo $item['title']; ?>">
-                                            <?php endif; ?>
-                                            <div>
-                                                <a href="<?php echo get_permalink($item['id']); ?>"><?php echo $item['title']; ?></a>
-                                                <?php if ($item['sku']) : ?>
-                                                    <small>Артикул: <?php echo $item['sku']; ?></small>
-                                                <?php endif; ?>
-                                            </div>
-                                        </td>
-                                        </td>
-                                        <td class="cart-price"><?php echo format_price($item['price']); ?></td>
-
-                                        <td class="cart-quantity">
-                                             <?php 
-                                                // Используем новую функцию для корзины
-                                                the_cart_quantity_selector($item['id'], $item['quantity']);
-                                                ?>
-                                        </td>
-
-
-                                        <td class="cart-subtotal"><?php echo format_price($item['price'] * $item['quantity']); ?></td>
-                                        <td class="cart-remove">
-                                            <button type="button" class="remove-item" data-product-id="<?php echo $item['id']; ?>">×</button>
-                                        </td>
-                                        </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="3" class="cart-total-label">Итого:</td>
-                                    <td class="cart-total" id="cart-total">
-                                        <?php 
-                                        $total = 0;
-                                        foreach ($cart_items as $item) {
-                                            $total += $item['price'] * $item['quantity'];
-                                        }
-                                        echo format_price($total);
-                                        ?>
+        <h1 class="section__title ta_l"><?php the_title(); ?></h1>
+        <div class="section__wrap">
+            <?php if (empty($cart_items)) : ?>
+                <div class="cart__empty">
+                    <p>Ваша корзина пуста</p>
+                    <a href="/" class="btn">Вернуться к покупкам</a>
+                </div>
+            <?php else : ?>
+                <div id="cart-form" class="cart__form">
+    
+                    <table class="cart-table cart__table">
+                        <thead>
+                            <tr>
+                                <th class="cart__thumbnail"></th>
+                                <th class="cart__info"></th>
+                                <th class="cart__price">Цена</th>
+                                <th class="cart__quantity">Количество</th>
+                                <th class="cart__subtotal">Сумма</th>
+                                <th class="cart__remove"></th>
+                            </tr>
+                        </thead>
+    
+                        <tbody>
+                            <?php foreach ($cart_items as $item) : ?>
+                                <tr data-product-id="<?php echo $item['id']; ?>">
+                                    <td class="cart__thumbnail" data-label="">
+                                        <a href="<?php echo get_permalink($item['id']); ?>" target="_blank">
+                                            <?php echo get_product_image_html($item['id'], 'thumbnail'); ?>
+                                        </a>
                                     </td>
-                                    <td></td>
+                                    <td class="cart__info" data-label="">
+                                        <a class="product__title" href="<?php echo get_permalink($item['id']); ?>" target="_blank"><?php echo $item['title']; ?></a>
+                                        <?php if ($item['sku']) : ?>
+                                            <span class="product__sku">Артикул: <?php echo $item['sku']; ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="cart-price cart__price product__price" data-label="Цена"><?php echo format_price($item['price']); ?></td>
+                                    <td class="cart-quantity cart__quantity" data-label="Количество">
+                                        <?php the_cart_quantity_selector($item['id'], $item['quantity']); ?>
+                                    </td>
+                                    <td class="cart-subtotal cart__subtotal" data-label="Сумма"><?php echo format_price($item['price'] * $item['quantity']); ?></td>
+                                    <td class="cart__remove" data-label="">
+                                        <button type="button" class="remove-item" data-product-id="<?php echo $item['id']; ?>">×</button>
+                                    </td>
                                 </tr>
-                            </tfoot>
-                        </table>
-                        
-                        <div class="cart-actions">
-                            <button type="button" id="clear-cart" class="btn btn-outline">Очистить корзину</button>
-                            <button type="button" id="export-excel" class="btn btn-primary">Скачать Excel</button>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <div class="cart__total" id="cart-total">
+                            Итого:
+                            <?php 
+                                $total = 0;
+                                foreach ($cart_items as $item) {
+                                    $total += $item['price'] * $item['quantity'];
+                                }
+                                echo format_price($total);
+                            ?>
                         </div>
-                    </form>
-                <?php endif; ?>
-            </div>
+    
+
+                    </table>
+                    
+                    <div class="cart__actions">
+                        <button type="button" id="clear-cart" class="btn">Очистить корзину</button>
+                        <button type="button" id="export-excel" class="btn btn_border">Скачать Excel</button>
+                    </div>
+                </div>
+            <?php endif; ?>
+
         </div>
     </div>
 </section>
 <!-- end cart -->
 
 
-<style>
+<!-- <style>
 .cart-table {
     width: 100%;
     border-collapse: collapse;
@@ -198,6 +189,6 @@ if (!empty($cart)) {
 .quantity-input-cart {
     -moz-appearance: textfield;
 }
-</style>
+</style> -->
 
 <?php get_footer(); ?>
