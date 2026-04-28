@@ -25,7 +25,7 @@ $status_label = $product_status['label'] ?? 'В наличии';    // 'В на�
 $status_class = $status_value;
 
 
-// $product_bundle = get_field('product_bundle');
+$product_bundle = get_field('product_bundle');
 // $product_related_products = get_field('product_related_products');
 // $product_cross_sell = get_field('product_cross_sell');
 // $product_up_sell = get_field('product_up_sell');
@@ -127,6 +127,41 @@ $product_tags = wp_get_object_terms($product_id, 'product_tag');
                 </div>
             </div>
         <?php } ?> 
+
+        <?php if ($product_bundle && is_array($product_bundle)) : ?>
+            <div class="section__wrap">
+                <div class="product__related">
+                    <h3 class="section__title ta_l">Набор состоит из:</h3>
+                    <div class="product__grid">
+                        <?php foreach ($product_bundle as $related_id) : 
+                            $related_id = intval($related_id);
+                            if (!$related_id) continue;
+                            
+                            $related_title = get_the_title($related_id);
+                            $related_link = get_permalink($related_id);
+                            $thumbnail_id = get_post_thumbnail_id($related_id);
+                            $thumbnail_url = $thumbnail_id ? wp_get_attachment_image_url($thumbnail_id, 'thumbnail') : '';
+                            $no_img_url = get_template_directory_uri() . '/assets/img/no-image.png';
+                        ?>
+                            <div class="product__related-item">
+                                <a class="img" href="<?php echo esc_url($related_link); ?>">
+                                    <?php if ($thumbnail_url) : ?>
+                                        <img src="<?php echo esc_url($thumbnail_url); ?>" 
+                                            alt="<?php echo esc_attr($related_title); ?>"
+                                            loading="lazy">
+                                    <?php else : ?>
+                                        <img src="<?php echo esc_url($no_img_url); ?>" 
+                                            alt="<?php echo esc_attr($related_title); ?>"
+                                            loading="lazy">
+                                    <?php endif; ?>
+                                </a>
+                                <h4><?php echo esc_html($related_title); ?></h4>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
 
     </div>
 </section>

@@ -1300,74 +1300,74 @@ function my_template_acf_mataboxes(){
 
 
     // BEGIN дополнительная вкладка "Связанные товары"
-    // acf_add_local_field_group(array(
-    //     'key' => 'acf_product_related',
-    //     'title' => 'Связанные товары',
-    //     'fields' => array(
-    //         array(
-    //             'key' => 'product_bundle',
-    //             'label' => 'Комплект товара',
-    //             'name' => 'product_bundle',
-    //             'type' => 'relationship',
-    //             'instructions' => 'Выберите товары',
-    //             'post_type' => array('product'),
-    //             'filters' => array('search', 'taxonomy'),
-    //             'return_format' => 'id',
-    //             'min' => 0,
-    //             'max' => 10,
-    //             'elements' => array('featured_image'),
-    //         ),
-    //         array(
-    //             'key' => 'product_related_products',
-    //             'label' => 'Рекомендуемые товары',
-    //             'name' => 'product_related_products',
-    //             'type' => 'relationship',
-    //             'instructions' => 'Выберите товары, которые рекомендуете вместе с этим',
-    //             'post_type' => array('product'),
-    //             'filters' => array('search', 'taxonomy'),
-    //             'return_format' => 'id',
-    //             'min' => 0,
-    //             'max' => 10,
-    //             'elements' => array('featured_image'),
-    //         ),
-    //         array(
-    //             'key' => 'product_cross_sell',
-    //             'label' => 'Сопутствующие товары (cross-sell)',
-    //             'name' => 'product_cross_sell',
-    //             'type' => 'relationship',
-    //             'instructions' => 'Товары, которые часто покупают вместе (аксессуары)',
-    //             'post_type' => array('product'),
-    //             'filters' => array('search', 'taxonomy'),
-    //             'return_format' => 'id',
-    //             'min' => 0,
-    //             'max' => 10,
-    //             'elements' => array('featured_image'),
-    //         ),
-    //         array(
-    //             'key' => 'product_up_sell',
-    //             'label' => 'Более дорогие альтернативы (up-sell)',
-    //             'name' => 'product_up_sell',
-    //             'type' => 'relationship',
-    //             'instructions' => 'Товары, которые можно предложить вместо этого (более дорогие)',
-    //             'post_type' => array('product'),
-    //             'filters' => array('search', 'taxonomy'),
-    //             'return_format' => 'id',
-    //             'min' => 0,
-    //             'max' => 10,
-    //             'elements' => array('featured_image'),
-    //         ),
-    //     ),
-    //     'location' => array(
-    //         array(
-    //             array(
-    //                 'param' => 'post_type',
-    //                 'operator' => '==',
-    //                 'value' => 'product',
-    //             )
-    //         ),
-    //     ),
-    //     'menu_order' => 3,
-    // ));
+    acf_add_local_field_group(array(
+        'key' => 'acf_product_related',
+        'title' => 'Связанные товары',
+        'fields' => array(
+            array(
+                'key' => 'product_bundle',
+                'label' => 'Комплект товара',
+                'name' => 'product_bundle',
+                'type' => 'relationship',
+                'instructions' => 'Выберите товары',
+                'post_type' => array('product'),
+                'filters' => array('search', 'taxonomy'),
+                'return_format' => 'id',
+                'min' => 0,
+                'max' => 10,
+                'elements' => array('featured_image'),
+            ),
+            // array(
+            //     'key' => 'product_related_products',
+            //     'label' => 'Рекомендуемые товары',
+            //     'name' => 'product_related_products',
+            //     'type' => 'relationship',
+            //     'instructions' => 'Выберите товары, которые рекомендуете вместе с этим',
+            //     'post_type' => array('product'),
+            //     'filters' => array('search', 'taxonomy'),
+            //     'return_format' => 'id',
+            //     'min' => 0,
+            //     'max' => 10,
+            //     'elements' => array('featured_image'),
+            // ),
+            // array(
+            //     'key' => 'product_cross_sell',
+            //     'label' => 'Сопутствующие товары (cross-sell)',
+            //     'name' => 'product_cross_sell',
+            //     'type' => 'relationship',
+            //     'instructions' => 'Товары, которые часто покупают вместе (аксессуары)',
+            //     'post_type' => array('product'),
+            //     'filters' => array('search', 'taxonomy'),
+            //     'return_format' => 'id',
+            //     'min' => 0,
+            //     'max' => 10,
+            //     'elements' => array('featured_image'),
+            // ),
+            // array(
+            //     'key' => 'product_up_sell',
+            //     'label' => 'Более дорогие альтернативы (up-sell)',
+            //     'name' => 'product_up_sell',
+            //     'type' => 'relationship',
+            //     'instructions' => 'Товары, которые можно предложить вместо этого (более дорогие)',
+            //     'post_type' => array('product'),
+            //     'filters' => array('search', 'taxonomy'),
+            //     'return_format' => 'id',
+            //     'min' => 0,
+            //     'max' => 10,
+            //     'elements' => array('featured_image'),
+            // ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                )
+            ),
+        ),
+        'menu_order' => 3,
+    ));
 
     // // BEGIN дополнительная вкладка "Файлы"
     // acf_add_local_field_group(array(
