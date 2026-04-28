@@ -236,88 +236,80 @@ render_products_js_data($structured_data);
 <!-- begin subcategories -->
 <section id="subcategories" class="subcategories section">
     <div class="container_center">
+        <div class="subcategories__content">
 
-        <h2 class="section__title">Наборы</h2>
-        
-        <div class="section__wrap">
-
-            <div class="subcategories__content">
-
-                <div class="subcategories__tabs">
-                    <div class="tabs__wrapper">
-                        
-                        <!-- Заголовки табов -->
-                        <div class="tabs">
-                            <?php foreach ($child_categories as $index => $child) : ?>
-                                <div class="tab <?php echo $index === 0 ? 'active' : ''; ?>" data-tab="tab-<?php echo $child->term_id; ?>">
-                                    <?php echo esc_html($child->name); ?>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        
-                        <!-- Контент табов -->
-                        <div class="tabs__content">
-                            <?php foreach ($child_categories as $index => $child) : 
-                                $cat_data = isset($structured_data[$child->term_id]) ? $structured_data[$child->term_id] : array();
-                            ?>
-                                <div class="tab__item <?php echo $index === 0 ? 'active' : ''; ?>" id="tab-<?php echo $child->term_id; ?>">
-                                    <div class="tag__grid">
-
-                                    
-                                        <?php if (!empty($cat_data)) : ?>
-                                            
-                                            <?php
-                                                // Сортируем ключи массива по названию метки
-                                                uksort($cat_data, function($a, $b) {
-                                                    $tag_a = get_term($a, 'product_tag');
-                                                    $tag_b = get_term($b, 'product_tag');
-                                                    return strcasecmp($tag_a->name, $tag_b->name);
-                                                });
-                                            ?>
-
-                                            <?php foreach ($cat_data as $tag_id => $tag_product_ids) : 
-                                                $tag = get_term($tag_id, 'product_tag');
-                                                if (!$tag || is_wp_error($tag)) continue;
-                                                // get_pr($tag);
-                                                $tag_link = get_term_link($tag);
-                                                $tag_name = $tag->name;
-                                                $tag_taxonomy = $tag->taxonomy;
-                                                $tag_slug = $tag->slug;
-                                                $tag_description = $tag->description;
-                                                $tag_image = get_taxonomy_image_html($tag_id, $tag_taxonomy);
-                                            ?>
-                                                <div 
-                                                    class="tag show_tag_products_js"
-                                                    data-tag-id="<?php echo $tag_id; ?>" 
-                                                    data-category-id="<?php echo $child->term_id; ?>"
-                                                >
-                                                    
-                                                
-                                                    <div class="tag__img img"><?php echo $tag_image; ?></div>
-                                                    <div class="tag__content glass_card">
-                                                        <div class="tag__title"><?php echo esc_html($tag_name); ?></div>
-                                                        <?php if ($tag_description) { ?>
-                                                            <div class="tag__desc"><?php echo esc_html($tag_description); ?></div>
-                                                        <?php } ?>
-                                                    </div>
-                                                  
-                                                   
-                                                </div>
-                                            <?php endforeach; ?>
-                                        <?php else : ?>
-                                            <?php custom_info('! В этой подкатегории нет товаров с метками.'); ?>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-    
+            <div class="subcategories__tabs">
+                <div class="tabs__wrapper">
+                    
+                    <!-- Заголовки табов -->
+                    <div class="tabs">
+                        <?php foreach ($child_categories as $index => $child) : ?>
+                            <div class="tab <?php echo $index === 0 ? 'active' : ''; ?>" data-tab="tab-<?php echo $child->term_id; ?>">
+                                <?php echo esc_html($child->name); ?>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
+                    
+                    <!-- Контент табов -->
+                    <div class="tabs__content">
+                        <?php foreach ($child_categories as $index => $child) : 
+                            $cat_data = isset($structured_data[$child->term_id]) ? $structured_data[$child->term_id] : array();
+                        ?>
+                            <div class="tab__item <?php echo $index === 0 ? 'active' : ''; ?>" id="tab-<?php echo $child->term_id; ?>">
+                                <div class="tag__grid">
+
+                                
+                                    <?php if (!empty($cat_data)) : ?>
+                                        
+                                        <?php
+                                            // Сортируем ключи массива по названию метки
+                                            uksort($cat_data, function($a, $b) {
+                                                $tag_a = get_term($a, 'product_tag');
+                                                $tag_b = get_term($b, 'product_tag');
+                                                return strcasecmp($tag_a->name, $tag_b->name);
+                                            });
+                                        ?>
+
+                                        <?php foreach ($cat_data as $tag_id => $tag_product_ids) : 
+                                            $tag = get_term($tag_id, 'product_tag');
+                                            if (!$tag || is_wp_error($tag)) continue;
+                                            // get_pr($tag);
+                                            $tag_link = get_term_link($tag);
+                                            $tag_name = $tag->name;
+                                            $tag_taxonomy = $tag->taxonomy;
+                                            $tag_slug = $tag->slug;
+                                            $tag_description = $tag->description;
+                                            $tag_image = get_taxonomy_image_html($tag_id, $tag_taxonomy);
+                                        ?>
+                                            <div 
+                                                class="tag show_tag_products_js"
+                                                data-tag-id="<?php echo $tag_id; ?>" 
+                                                data-category-id="<?php echo $child->term_id; ?>"
+                                            >
+                                                
+                                            
+                                                <div class="tag__img img"><?php echo $tag_image; ?></div>
+                                                <div class="tag__content glass_card">
+                                                    <div class="tag__title"><?php echo esc_html($tag_name); ?></div>
+                                                    <?php if ($tag_description) { ?>
+                                                        <div class="tag__desc"><?php echo esc_html($tag_description); ?></div>
+                                                    <?php } ?>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <?php custom_info('! В этой подкатегории нет товаров с метками.'); ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
                 </div>
             </div>
-
         </div>
-        
     </div>
 </section>
 <!-- end subcategories -->
