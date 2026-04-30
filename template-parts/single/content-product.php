@@ -53,19 +53,16 @@ $product_tags = wp_get_object_terms($product_id, 'product_tag');
 <section id="slProduct-<?php echo esc_attr($product_id); ?>" class="slProduct section <?php echo esc_attr($status_class); ?>">
     <div class="container_center">
         <div class="slProduct__head">
+            <!-- <div class="slProduct__left">
+                <div class="slProduct__img no_interaction">
+                    <?php // echo get_product_second_image_html($product_id); ?>
+                </div>
+            </div> -->
+
             <div class="slProduct__left">
                 <div class="slProduct__img no_interaction">
-                    <?php // echo get_product_image_html($product_id); ?>
-                    <!-- Основное изображение -->
-                    <?php if ( has_post_thumbnail() ) { ?>
-                        <?php the_post_thumbnail( 'medium' ); ?>
-                    <?php } else { ?>
-                        <?php echo $no_img; ?> 
-                    <?php } ?>
+                    <?php echo get_product_image_html($product_id); ?>
                 </div>
-
-                <!-- <div class="slProduct__thumb"></div> -->
-
                 <!-- Метки -->
                 <?php if ($product_tags && !is_wp_error($product_tags)) : ?>
                     <div class="slProduct__tags">

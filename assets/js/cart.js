@@ -366,30 +366,51 @@
         
         function generateProductCard(product) {
             const imageHTML = product.thumbnail_html || '';
+            const imageSecondHTML = product.thumbnail_second_html || '';
             const priceHTML = product.price_formatted || '';
             const buyButtonHTML = product.add_to_cart_html || '';
             
+            // Генерируем HTML для товаров в комплекте
+            let bundleHTML = '';
+            if (product.has_bundle && product.bundle_products && product.bundle_products.length > 0) {
+                product.bundle_products.forEach(bundleItem => {
+                    bundleHTML += bundleItem.html || '';
+                });
+            }
+            
             return `
-                <div class="product" id="product-${product.id}">
-                    <div class="product__header">
-                        <a class="product__img" href="${product.permalink}">
-                            ${imageHTML}
-                        </a>
-                    </div>
-                    <div class="product__body product_padding">
-                        <a class="product__title" href="${product.permalink}">${product.title}</a>
-                    </div>
-                    <div class="product__footer product_padding">
-                        <div class="product__price">${priceHTML}</div>
-                        <div class="product__button">
-                            ${buyButtonHTML}
+                <div class="mProduct" id="mProduct-${product.id}">
+                    <div class="mProduct__row">
+                        <div class="mProduct__col">
+                            <div class="mProduct__img img">
+                                ${imageSecondHTML}
+                                <div class="mProduct__label glass_card">
+                                    <div class="mProduct__title product__title">Упаковка товара</div>
+                                </div>
+                            </div>
                         </div>
+                        <div class="mProduct__col">
+                            <a class="mProduct__img img" href="${product.permalink}" target="_blank">
+                                ${imageHTML}
+                                <div class="mProduct__label glass_card">
+                                    <div class="mProduct__title product__title">${product.title}</div>
+                                    <div class="mProduct__sku product__sku"><strong>Артикул:</strong> ${product.sku || '—'}</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="mProduct__col">
+                            ${bundleHTML ? `<div class="mProduct__bundle">${bundleHTML}</div>` : ''}
+                        </div>
+                    </div>
+                    <div class="mProduct__bottom">
+                        <div class="mProduct__price"><strong>Цена: </strong>${priceHTML}</div>
+                        <div class="mProduct__button">${buyButtonHTML}</div>
                     </div>
                 </div>
             `;
         }
         
-        function setModalContent(categoryName, tagName, products, tagDescription = '') {
+        function setModalContent(products) {
             let productsHTML = '';
             
             if (products && products.length > 0) {
@@ -399,15 +420,7 @@
             } else {
                 productsHTML = '<div class="no-products">В этой категории пока нет товаров</div>';
             }
-            
-            const titleText = categoryName || tagName;
-            
-            return `
-                <div class="modal-title" id="myModalLabel">${titleText}</div>
-                <div class="product__grid">
-                    ${productsHTML}
-                </div>
-            `;
+            return productsHTML;
         }
         
         // ===== МОДАЛЬНОЕ ОКНО =====
@@ -441,12 +454,9 @@
                         const modalBody = modal ? modal.querySelector('.modal-body') : null;
                         
                         if (modalBody) {
-                            modalBody.innerHTML = setModalContent(
-                                combo.category_name,
-                                combo.tag_name,
-                                combo.products,
-                                combo.tag_description
-                            );
+                          
+
+                            modalBody.innerHTML = setModalContent(combo.products);
                             
                             $(modal).modal('show');
                         } else {

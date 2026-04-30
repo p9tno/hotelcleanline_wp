@@ -117,10 +117,15 @@ function build_product_data($product_id, $no_img_url) {
     // Артикул
     $product_data->sku = get_field('product_sku', $product_id) ?: '';
     
-    // Изображение
+    // Первое изображение
     ob_start();
     echo get_product_image_html($product_id);
     $product_data->thumbnail_html = ob_get_clean();
+    
+    // Второе изображение (новая функция)
+    ob_start();
+    echo get_product_second_image_html($product_id);
+    $product_data->thumbnail_second_html = ob_get_clean();
     
     $thumbnail_id = get_post_thumbnail_id($product_id);
     $product_data->thumbnail_medium = $thumbnail_id ? 
@@ -147,7 +152,7 @@ function build_product_data($product_id, $no_img_url) {
     
     // Готовая кнопка "Купить"
     ob_start();
-    the_full_add_to_cart($product_id, array('show_quantity' => false));
+    the_full_add_to_cart($product_id, array('show_quantity' => true));
     $product_data->add_to_cart_html = ob_get_clean();
     
     // Характеристики и контент

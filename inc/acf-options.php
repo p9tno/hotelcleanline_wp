@@ -1124,7 +1124,7 @@ function my_template_acf_mataboxes(){
                 'media_upload' => 0,
                 'delay' => 0,
                 'wrapper' => array(
-                    'width' => '50',
+                    'width' => '33',
                 ),
             ),
             array(
@@ -1138,7 +1138,19 @@ function my_template_acf_mataboxes(){
                 'media_upload' => 0,
                 'delay' => 0,
                 'wrapper' => array(
-                    'width' => '50',
+                    'width' => '33',
+                ),
+            ),
+            array(
+                'key' => 'thumbnail_second',
+                'label' => 'Второе изображение',
+                'name' => 'thumbnail_second',
+                'type' => 'image',
+                'preview_size' => 'medium',
+                'return_format' => 'id', // Возвращает массив с информацией об изображении
+                'required' => 0,
+                'wrapper' => array(
+                    'width' => '33',
                 ),
             ),
             // ------------------------------- tab_product_specifications

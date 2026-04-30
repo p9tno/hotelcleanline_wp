@@ -2309,12 +2309,6 @@ body {
     transition: 0.5s;
   }
 }
-.product__img img {
-  display: block;
-  width: 40%;
-  height: auto;
-  object-fit: cover;
-}
 .product__head {
   display: flex;
   align-items: center;
@@ -2506,8 +2500,8 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  width: 60%;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 .slProduct__right {
@@ -2612,6 +2606,11 @@ body {
   border: 1px solid rgba(207, 169, 153, 0.05);
   box-shadow: 0 8px 32px rgba(207, 169, 153, 0.2);
 }
+@media (min-width: 768px) {
+  .bdProduct:hover .bdProduct__img img {
+    transform: scale(1.1);
+  }
+}
 .bdProduct__img {
   position: absolute;
   top: 0;
@@ -2621,6 +2620,12 @@ body {
   border-radius: 0.625em;
   overflow: hidden;
 }
+@media (min-width: 768px) {
+  .bdProduct__img img {
+    transform: scale(1);
+    transition: 0.5s;
+  }
+}
 .bdProduct__content {
   position: relative;
   padding: 0.5em;
@@ -2628,6 +2633,80 @@ body {
   color: #333541;
 }
 
+.mProduct {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.mProduct:first-child {
+  margin-top: 0;
+}
+.mProduct__row {
+  display: flex;
+  gap: 1em;
+  flex-wrap: nowrap;
+}
+.mProduct__col {
+  width: 33.3%;
+}
+.mProduct__img {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+  border-radius: 0.625em;
+  aspect-ratio: 1/1;
+  text-decoration: none;
+}
+.mProduct__img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+@media (min-width: 768px) {
+  .mProduct__img img {
+    transform: scale(1);
+    transition: 0.5s;
+  }
+  .mProduct__img img:hover {
+    transform: scale(1.1);
+  }
+}
+.mProduct__label {
+  position: relative;
+  padding: 1em;
+  border-radius: 0.625em;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  pointer-events: none;
+}
+.mProduct__sku {
+  margin-top: 0.5em;
+}
+.mProduct__bundle {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 0.5em;
+}
+.mProduct__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+}
+.mProduct__price {
+  font-size: 1.25em;
+}
+.mProduct__price strong {
+  font-weight: 500;
+  color: #9F5434;
+}
 .cart__form {
   position: relative;
 }
@@ -3763,7 +3842,7 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
 }
 @media (min-width: 768px) {
   .modal-body.scrolled {
-    max-height: 28em;
+    max-height: 36em;
   }
 }
 .modal-title {

@@ -467,6 +467,30 @@ function get_product_image_html($product_id, $size = 'medium') {
     return '<img src="' . esc_url($no_img_url) . '" alt="' . esc_attr($alt) . '">';
 }
 
+/**
+ * Получение HTML второго изображения продукта
+ * 
+ * @param int $product_id ID продукта
+ * @param string $size Размер изображения (thumbnail, medium, large, full)
+ * @return string HTML изображения
+ */
+function get_product_second_image_html($product_id, $size = 'medium') {
+    // Получаем ID второго изображения из ACF
+    $image_id = get_field('thumbnail_second', $product_id);
+    
+    // Если второе изображение есть — выводим его
+    if ($image_id && is_numeric($image_id)) {
+        return wp_get_attachment_image($image_id, $size);
+    }
+    
+    // Если второго изображения нет — заглушка
+    $no_img_url = get_template_directory_uri() . '/assets/img/no_img.webp';
+    $product = get_post($product_id);
+    $alt = $product ? $product->post_title : 'Изображение товара';
+    
+    return '<img src="' . esc_url($no_img_url) . '" alt="' . esc_attr($alt) . '">';
+}
+
 // Добавляем колонки в список продуктов
 add_filter('manage_product_posts_columns', function($columns) {
     $columns['thumbnail'] = 'Миниатюра';
