@@ -210,3 +210,96 @@ add_action('wp_footer', function() {
     }
 });
 
+// Добавляем колонку SKU в список товаров
+add_filter('manage_product_posts_columns', function($columns) {
+    $new_columns = [];
+    
+    foreach($columns as $key => $value) {
+        // Добавляем миниатюру после чекбокса
+        if($key == 'cb') {
+            $new_columns['cb'] = $value;
+            $new_columns['thumbnail'] = 'Миниатюра';
+            continue;
+        }
+        
+        // Добавляем SKU после заголовка (названия)
+        if($key == 'title') {
+            $new_columns['title'] = 'Название';
+            $new_columns['sku'] = 'Артикул (SKU)';
+            continue;
+        }
+        
+        $new_columns[$key] = $value;
+    }
+    
+    return $new_columns;
+});
+
+// Заполняем данными колонку SKU
+add_action('manage_product_posts_custom_column', function($column, $post_id) {
+    switch($column) {
+        case 'thumbnail':
+            echo get_the_post_thumbnail($post_id, array(50, 50));
+            break;
+            
+        case 'sku':
+            // Получаем SKU из вашего ACF поля
+            $sku = get_field('product_sku', $post_id);
+            echo !empty($sku) ? esc_html($sku) : '—';
+            break;
+    }
+}, 10, 2);
+
+// // Делаем колонку SKU сортируемой
+// add_filter('manage_edit-product_sortable_columns', function($columns) {
+//     $columns['sku'] = 'product_sku';
+//     return $columns;
+// });
+
+// // Обрабатываем сортировку по SKU
+// add_action('pre_get_posts', function($query) {
+//     if(!is_admin() || !$query->is_main_query() || $query->get('post_type') != 'product') {
+//         return;
+//     }
+    
+//     $orderby = $query->get('orderby');
+    
+//     if($orderby == 'product_sku') {
+//         $query->set('meta_key', 'product_sku');
+//         $query->set('orderby', 'meta_value');
+//     }
+// });
+
+// Добавляем стили для фиксированной ширины колонок
+add_action('admin_head', function() {
+    $current_screen = get_current_screen();
+    if($current_screen && $current_screen->id == 'edit-product') {
+        echo '<style>
+            .column-thumbnail { width: 80px !important; }
+            .column-title { width: 25% !important; }
+            .column-sku { width: 120px !important; }
+        </style>';
+    }
+});
+
+// Добавляем поиск по SKU (опционально)
+add_action('pre_get_posts', function($query) {
+    if(!is_admin() || !$query->is_main_query() || $query->get('post_type') != 'product') {
+        return;
+    }
+    
+    $search = $query->get('s');
+    if(!empty($search)) {
+        $meta_query = $query->get('meta_query') ?: [];
+        $meta_query[] = [
+            'relation' => 'OR',
+            [
+                'key' => 'product_sku',
+                'value' => $search,
+                'compare' => 'LIKE'
+            ]
+        ];
+        $query->set('meta_query', $meta_query);
+    }
+});
+

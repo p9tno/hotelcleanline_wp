@@ -491,42 +491,6 @@ function get_product_second_image_html($product_id, $size = 'medium') {
     return '<img src="' . esc_url($no_img_url) . '" alt="' . esc_attr($alt) . '">';
 }
 
-// Добавляем колонки в список продуктов
-add_filter('manage_product_posts_columns', function($columns) {
-    $columns['thumbnail'] = 'Миниатюра';
-    // $columns['price'] = 'Цена';
-    // $columns['product_category'] = 'Категории';
-    return $columns;
-});
-
-// Заполняем колонки
-add_action('manage_product_posts_custom_column', function($column, $post_id) {
-    switch($column) {
-        case 'thumbnail':
-            echo get_the_post_thumbnail($post_id, array(50, 50));
-            break;
-        // case 'price':
-        //     echo get_field('price', $post_id) . ' ₽';
-        //     break;
-        // case 'product_category':
-        //     $terms = get_the_terms($post_id, 'product_category');
-        //     if($terms && !is_wp_error($terms)) {
-        //         $terms_list = array();
-        //         foreach($terms as $term) {
-        //             $terms_list[] = $term->name;
-        //         }
-        //         echo implode(', ', $terms_list);
-        //     }
-        //     break;
-    }
-}, 10, 2);
-
-// Делаем колонку с миниатюрой сортируемой
-add_filter('manage_edit-product_sortable_columns', function($columns) {
-    $columns['price'] = 'price';
-    return $columns;
-});
-
 /**
  * Выводит информационное сообщение
  *
