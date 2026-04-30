@@ -1306,16 +1306,11 @@ function my_template_acf_mataboxes(){
         'fields' => array(
             array(
                 'key' => 'product_bundle',
-                'label' => 'Комплект товара',
+                'label' => 'Артикулы (SKU), комплекта товаров',
                 'name' => 'product_bundle',
-                'type' => 'relationship',
-                'instructions' => 'Выберите товары',
-                'post_type' => array('product'),
-                'filters' => array('search', 'taxonomy'),
-                'return_format' => 'id',
-                'min' => 0,
-                'max' => 10,
-                'elements' => array('featured_image'),
+                'type' => 'text',
+                'instructions' => 'Уникальный артикул товаров. Вводить через запятую.',
+                'placeholder' => 'PRD-001,PRD-002,PRD-003',
             ),
             // array(
             //     'key' => 'product_related_products',

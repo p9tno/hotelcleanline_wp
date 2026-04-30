@@ -136,7 +136,7 @@ function build_product_data($product_id, $no_img_url) {
         $product_data->stock_status_label = 'В наличии';
     }
 
-    // ДОБАВЛЯЕМ ПАРАМЕТРЫ КОЛИЧЕСТВА
+    // Параметры количества
     $quantity_params = get_product_quantity_params($product_id);
     $product_data->quantity_params = array(
         'step' => $quantity_params['step'],
@@ -145,7 +145,7 @@ function build_product_data($product_id, $no_img_url) {
         'default' => $quantity_params['default']
     );
     
-    // ✅ ГЕНЕРИРУЕМ ГОТОВУЮ КНОПКУ "КУПИТЬ"
+    // Готовая кнопка "Купить"
     ob_start();
     the_full_add_to_cart($product_id, array('show_quantity' => false));
     $product_data->add_to_cart_html = ob_get_clean();
@@ -153,6 +153,56 @@ function build_product_data($product_id, $no_img_url) {
     // Характеристики и контент
     $product_data->characteristic = get_field('product_characteristic', $product_id) ?: '';
     $product_data->content = get_field('product_content', $product_id) ?: '';
+    
+    // КОМПЛЕКТ ТОВАРОВ (product_bundle)
+    $product_bundle_str = get_field('product_bundle', $product_id);
+
+    if (!empty($product_bundle_str)) {
+        // Преобразуем строку SKU в массив
+        $bundle_skus = array_map('trim', explode(',', $product_bundle_str));
+        $product_data->bundle_skus = $bundle_skus;
+        
+        // Получаем ID и данные товаров по SKU
+        $bundle_ids = array();
+        $bundle_products = array();
+        
+        foreach ($bundle_skus as $sku) {
+            if (empty($sku)) continue;
+            
+            // Ищем товар по SKU
+            $args = array(
+                'post_type'      => 'product',
+                'meta_key'       => 'product_sku',
+                'meta_value'     => $sku,
+                'posts_per_page' => 1,
+                'fields'         => 'ids'
+            );
+            $found = get_posts($args);
+            
+            if (!empty($found)) {
+                $bundle_id = $found[0];
+                $bundle_ids[] = $bundle_id;
+                
+                // Готовый HTML через функцию render_bundle_product
+                $bundle_products[] = array(
+                    'id'    => $bundle_id,
+                    'title' => get_the_title($bundle_id),
+                    'sku'   => $sku,
+                    'permalink' => get_permalink($bundle_id),
+                    'html'  => render_bundle_product($bundle_id)
+                );
+            }
+        }
+        
+        $product_data->bundle_ids = $bundle_ids;
+        $product_data->bundle_products = $bundle_products;
+        $product_data->has_bundle = !empty($bundle_ids);
+    } else {
+        $product_data->bundle_skus = array();
+        $product_data->bundle_ids = array();
+        $product_data->bundle_products = array();
+        $product_data->has_bundle = false;
+    }
     
     // Метки и категории (для JS)
     $tags = wp_get_post_terms($product_id, 'product_tag', array('fields' => 'names'));

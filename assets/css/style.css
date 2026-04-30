@@ -2599,6 +2599,35 @@ body {
   }
 }
 
+.bdProduct {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  border-radius: 0.625em;
+  padding: 0.5em;
+  aspect-ratio: 1/1;
+  text-decoration: none;
+  border: 1px solid rgba(207, 169, 153, 0.05);
+  box-shadow: 0 8px 32px rgba(207, 169, 153, 0.2);
+}
+.bdProduct__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0.625em;
+  overflow: hidden;
+}
+.bdProduct__content {
+  position: relative;
+  padding: 0.5em;
+  border-radius: 0.625em;
+  color: #333541;
+}
+
 .cart__form {
   position: relative;
 }

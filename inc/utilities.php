@@ -795,3 +795,70 @@ function the_full_add_to_cart($product_id, $args = array()) {
 function the_cart_quantity_selector($product_id, $quantity) {
     echo render_cart_quantity_selector($product_id, $quantity);
 }
+
+
+
+/**
+ * Генерирует HTML для товара в комплекте (bundle product)
+ * 
+ * @param int $product_id ID товара
+ * @param array $args Параметры:
+ *   - wrapper_class: string Дополнительный класс для обертки
+ *   - show_sku: bool Показывать артикул (по умолчанию true)
+ * 
+ * @return string HTML блока товара для комплекта
+ */
+function render_bundle_product($product_id, $args = array()) {
+    $defaults = array(
+        'wrapper_class' => '',
+        'show_sku' => true
+    );
+    
+    $params = wp_parse_args($args, $defaults);
+    
+    $product = get_post($product_id);
+    if (!$product || $product->post_type !== 'product') {
+        return '';
+    }
+    
+    $product_sku = get_field('product_sku', $product_id);
+    
+    // Формируем классы
+    $wrapper_class = 'bdProduct';
+    if (!empty($params['wrapper_class'])) {
+        $wrapper_class .= ' ' . $params['wrapper_class'];
+    }
+    
+    ob_start();
+    ?>
+    <a 
+        class="<?php echo esc_attr($wrapper_class); ?>" 
+        href="<?php echo get_permalink($product_id); ?>" 
+        id="bdProduct-<?php echo esc_attr($product_id); ?>"
+        target="_blank"
+    >
+        <div class="bdProduct__img img">
+            <?php echo get_product_image_html($product_id, 'medium'); ?>
+        </div>
+        <div class="bdProduct__content glass_card">
+            <div class="bdProduct__title"><?php echo esc_html(get_the_title($product_id)); ?></div>
+            <?php if ($params['show_sku'] && $product_sku) : ?>
+                <div class="bdProduct__sku">
+                    <strong>Артикул:</strong> <?php echo esc_html($product_sku); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </a>
+    <?php
+    return ob_get_clean();
+}
+
+/**
+ * Выводит HTML для товара в комплекте
+ * 
+ * @param int $product_id ID товара
+ * @param array $args Параметры
+ */
+function the_bundle_product($product_id, $args = array()) {
+    echo render_bundle_product($product_id, $args);
+}
