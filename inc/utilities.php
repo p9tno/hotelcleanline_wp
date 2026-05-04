@@ -828,10 +828,10 @@ function render_bundle_product($product_id, $args = array()) {
         <div class="bdProduct__img img">
             <?php echo get_product_image_html($product_id, 'medium'); ?>
         </div>
-        <div class="bdProduct__content glass_card">
-            <div class="bdProduct__title"><?php echo esc_html(get_the_title($product_id)); ?></div>
+        <div class="bdProduct__content">
+            <div class="bdProduct__title product__title"><?php echo esc_html(get_the_title($product_id)); ?></div>
             <?php if ($params['show_sku'] && $product_sku) : ?>
-                <div class="bdProduct__sku">
+                <div class="bdProduct__sku product__sku">
                     <strong>Артикул:</strong> <?php echo esc_html($product_sku); ?>
                 </div>
             <?php endif; ?>
