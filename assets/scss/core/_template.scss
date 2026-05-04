@@ -377,6 +377,20 @@ body {
   }
 }
 
+.line_clamp {
+	line-clamp: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box!important;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	
+	&.line_2 {
+		line-clamp: 2;
+		-webkit-line-clamp: 2;
+	}
+}
+
 
 // * {
 // 	border: 1px solid #000;

@@ -136,7 +136,7 @@ $product_tags = wp_get_object_terms($product_id, 'product_tag');
             <div class="section__wrap">
                 <div class="product__related">
                     <h3 class="section__title ta_l">Набор состоит из:</h3>
-                    <div class="product__grid col_2 section__wrap">
+                    <div class="product__grid section__wrap">
                         <?php 
                         foreach ($product_bundle_skus as $sku) :
                             $args = array(

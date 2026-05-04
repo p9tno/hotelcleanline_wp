@@ -68,7 +68,7 @@ if (!empty($cart)) {
                                         </a>
                                     </td>
                                     <td class="cart__info" data-label="">
-                                        <a class="product__title" href="<?php echo get_permalink($item['id']); ?>" target="_blank"><?php echo $item['title']; ?></a>
+                                        <a class="product__title line_clamp" href="<?php echo get_permalink($item['id']); ?>" target="_blank"><?php echo $item['title']; ?></a>
                                         <?php if ($item['sku']) : ?>
                                             <span class="product__sku">Артикул: <?php echo $item['sku']; ?></span>
                                         <?php endif; ?>

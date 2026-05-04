@@ -10,7 +10,7 @@
         </a>
     </div>
     <div class="product__body product_padding">
-        <a class="product__title" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+        <a class="product__title line_clamp" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
     </div>
     <div class="product__footer product_padding">
         <div class="product__price"><?php the_product_price(); ?></div>

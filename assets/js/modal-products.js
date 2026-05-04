@@ -44,7 +44,7 @@
 
                     <div class="mProduct__row">
                         <div class="mProduct__col flex">
-                            <a href="${product.permalink}" target="_blank" class="mProduct__title product__title">${product.title}</a>
+                            <a href="${product.permalink}" target="_blank" class="mProduct__title product__title line_clamp">${product.title}</a>
                             <div class="mProduct__sku product__sku"><strong>Артикул:</strong> ${product.sku || '—'}</div>
                         </div>
               
