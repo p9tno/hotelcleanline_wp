@@ -309,13 +309,14 @@
         gap: 1em;
 
         padding: 2em;
+        aspect-ratio: 1;
         
         border-radius: 0.625em;
         background: $color_white;
         box-shadow: rgba($color_primary, 0.1) 0 2px 4px 0;
         
         @media (min-width: 768px) {
-            width: 40em;
+            width: 25em;
             min-width: 0;
         }
     } 
