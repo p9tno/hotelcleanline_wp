@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( '_S_VERSION' ) ) {
-	define( '_S_VERSION', '1.0.14' );
+	define( '_S_VERSION', '1.0.15' );
 }
 
 function hotelcleanline_scripts() {

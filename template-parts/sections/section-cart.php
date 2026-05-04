@@ -108,7 +108,7 @@ if (!empty($cart)) {
                             <?php endforeach; ?>
                         </tbody>
                         <div class="cart__total" id="cart-total">
-                            Итого:
+                            
                             <?php 
                                 $total = 0;
                                 foreach ($cart_items as $item) {
