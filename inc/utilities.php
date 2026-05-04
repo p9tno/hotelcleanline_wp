@@ -720,11 +720,14 @@ function render_full_add_to_cart($product_id, $args = array()) {
     $status = get_field('product_status', $product_id);
     $status_value = is_array($status) ? $status['value'] : $status;
     
+    // if ($status_value !== 'instock') {
+    //     $status_label = is_array($status) ? $status['label'] : 'Нет в наличии';
+    //     return '<div class="wrap-add-to-cart disabled ' . esc_attr($params['wrapper_class']) . '">
+    //         <span class="btn btn-disabled btn_disabled">' . esc_html($status_label) . '</span>
+    //     </div>';
+    // }
     if ($status_value !== 'instock') {
-        $status_label = is_array($status) ? $status['label'] : 'Нет в наличии';
-        return '<div class="wrap-add-to-cart disabled ' . esc_attr($params['wrapper_class']) . '">
-            <span class="btn btn-disabled btn_disabled">' . esc_html($status_label) . '</span>
-        </div>';
+        return '';
     }
     
     ob_start();
