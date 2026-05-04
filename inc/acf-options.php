@@ -3,14 +3,14 @@
 if( function_exists('acf_add_options_page') ) {
 
 	
-	acf_add_options_page(array(
-		'page_title' 	=> 'Магазин',
-		'menu_title'	=> 'Магазин',
-		'menu_slug' 	=> 'theme-shop',
-		'capability'	=> 'edit_posts',
-		'redirect'		=> false,
-        'icon_url' => 'dashicons-screenoptions',
-	));	
+	// acf_add_options_page(array(
+	// 	'page_title' 	=> 'Магазин',
+	// 	'menu_title'	=> 'Магазин',
+	// 	'menu_slug' 	=> 'theme-shop',
+	// 	'capability'	=> 'edit_posts',
+	// 	'redirect'		=> false,
+    //     'icon_url' => 'dashicons-screenoptions',
+	// ));	
 	acf_add_options_page(array(
 		'page_title' 	=> 'Настройки контента',
 		'menu_title'	=> 'Контент сайта',
@@ -22,56 +22,29 @@ if( function_exists('acf_add_options_page') ) {
 }
 
 function my_template_acf_mataboxes(){
-    // BEGIN GLOBAL SHOP
-    acf_add_local_field_group(array(
-        'key' => 'acf_global_shop',
-        'title' => 'Настройки магазина',
-        'fields' => array(
-            // ------------------------------- Настройки валюты (НОВАЯ ВКЛАДКА)
-            array(
-                'key' => 'tab_content_currency',
-                'label' => 'Валюта', 
-                'type' => 'tab',
-            ),
-            array(
-                'key' => 'currency_position',
-                'label' => 'Позиция валюты',
-                'name' => 'currency_position',
-                'type' => 'select',
-                'default_value' => 'after',
-                'choices' => array(
-                    'before' => 'Перед ценой (₽100)',
-                    'after' => 'После цены (100₽)',
-                    'before_space' => 'Перед ценой с пробелом (₽ 100)',
-                    'after_space' => 'После цены с пробелом (100 ₽)',
-                ),
-                'instructions' => 'Где отображать символ валюты относительно цены',
-            ),
-            array(
-                'key' => 'currency_thousand_separator',
-                'label' => 'Разделитель тысяч',
-                'name' => 'currency_thousand_separator',
-                'type' => 'select',
-                'default_value' => 'space',
-                'choices' => array(
-                    'space' => 'Пробел (1 000)',
-                    'comma' => 'Запятая (1,000)',
-                    'dot' => 'Точка (1.000)',
-                    'none' => 'Без разделителя (1000)',
-                ),
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'options_page',
-                    'operator' => '==',
-                    'value' => 'theme-shop',
-                )
-            )
-        ),
-    ));
-    // END GLOBAL SHOP
+    // // BEGIN GLOBAL SHOP
+    // acf_add_local_field_group(array(
+    //     'key' => 'acf_global_shop',
+    //     'title' => 'Настройки магазина',
+    //     'fields' => array(
+    //         // ------------------------------- Настройки валюты (НОВАЯ ВКЛАДКА)
+    //         array(
+    //             'key' => 'tab_content_currency',
+    //             'label' => 'Валюта', 
+    //             'type' => 'tab',
+    //         ),
+    //     ),
+    //     'location' => array(
+    //         array(
+    //             array(
+    //                 'param' => 'options_page',
+    //                 'operator' => '==',
+    //                 'value' => 'theme-shop',
+    //             )
+    //         )
+    //     ),
+    // ));
+    // // END GLOBAL SHOP
 
     // BEGIN GLOBAL CONTENT
     acf_add_local_field_group(array(

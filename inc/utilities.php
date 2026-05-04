@@ -760,9 +760,36 @@ function render_cart_quantity_selector($product_id, $quantity) {
 }
 
 /**
+ * Проверяет, можно ли добавлять товар в корзину
+ * 
+ * @param int $product_id ID товара
+ * @return bool
+ */
+function is_product_addable_to_cart($product_id) {
+    // Проверяем наличие цены
+    $price = get_field('product_price', $product_id);
+    if (empty($price) && $price !== 0) {
+        return false;
+    }
+    
+    // Проверяем статус товара
+    $status = get_field('product_status', $product_id);
+    $status_value = is_array($status) ? $status['value'] : $status;
+    if ($status_value !== 'instock') {
+        return false;
+    }
+    
+    return true;
+}
+
+/**
  * Выводит блок выбора количества
  */
 function the_quantity_selector($product_id, $args = array()) {
+    if (!is_product_addable_to_cart($product_id)) {
+        return;
+    }
+    
     echo render_quantity_selector($product_id, $args);
 }
 
@@ -770,6 +797,10 @@ function the_quantity_selector($product_id, $args = array()) {
  * Выводит кнопку "Добавить в корзину"
  */
 function the_add_to_cart_button($product_id, $args = array()) {
+    if (!is_product_addable_to_cart($product_id)) {
+        return;
+    }
+    
     echo render_add_to_cart_button($product_id, $args);
 }
 
@@ -777,6 +808,10 @@ function the_add_to_cart_button($product_id, $args = array()) {
  * Выводит полный блок (количество + кнопка)
  */
 function the_full_add_to_cart($product_id, $args = array()) {
+    if (!is_product_addable_to_cart($product_id)) {
+        return;
+    }
+    
     echo render_full_add_to_cart($product_id, $args);
 }
 
@@ -784,6 +819,10 @@ function the_full_add_to_cart($product_id, $args = array()) {
  * Выводит блок для страницы корзины
  */
 function the_cart_quantity_selector($product_id, $quantity) {
+    if (!is_product_addable_to_cart($product_id)) {
+        return;
+    }
+    
     echo render_cart_quantity_selector($product_id, $quantity);
 }
 
@@ -853,3 +892,59 @@ function render_bundle_product($product_id, $args = array()) {
 function the_bundle_product($product_id, $args = array()) {
     echo render_bundle_product($product_id, $args);
 }
+
+/**
+ * Формат вывода: "1 000 ₽" (число с пробелом как разделитель тысяч, затем символ валюты)
+ */
+
+/**
+ * Получить отформатированную цену товара
+ * 
+ * @param int|string $post_id ID поста (опционально, по умолчанию текущий пост)
+ * @param bool $echo Выводить или возвращать
+ * @return string|void
+ */
+function the_product_price($post_id = null, $echo = true) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    $price = get_field('product_price', $post_id);
+    
+    // Проверяем наличие цены
+    if (empty($price) && $price !== 0) {
+        return '';
+    }
+    
+    $price = floatval($price);
+    $result = format_price($price);
+    
+    if ($echo) {
+        echo $result;
+    }
+    
+    return $result;
+}
+
+/**
+ * Отформатировать любую цену
+ * Формат: "1 000 ₽"
+ * 
+ * @param float|int|string $price Цена
+ * @return string
+ */
+function format_price($price) {
+    // Проверяем наличие цены
+    if (empty($price) && $price !== 0) {
+        return '—';
+    }
+    
+    $price = floatval($price);
+    
+    // Форматируем с пробелом как разделитель тысяч
+    $formatted_price = number_format($price, 0, '', ' ');
+    $currency_symbol = '₽';
+    
+    return '<span class="product-price"><span class="price-amount">' . $formatted_price . '</span> <span class="currency-symbol">' . $currency_symbol . '</span></span>';
+}
+?>

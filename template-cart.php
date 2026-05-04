@@ -10,28 +10,59 @@ $cart_items = array();
 
 if (!empty($cart)) {
     $product_ids = array_keys($cart);
+    
     $products_query = new WP_Query(array(
         'post_type' => 'product',
         'post__in' => $product_ids,
-        'posts_per_page' => -1
+        'posts_per_page' => -1,
+        'meta_query' => array(
+            array(
+                'key' => 'product_status',
+                'value' => 'instock',
+                'compare' => '='
+            )
+        )
     ));
     
+    $valid_products = array();
     while ($products_query->have_posts()) {
         $products_query->the_post();
-        $id = get_the_ID();
-        if (isset($cart[$id])) {
+        $valid_products[] = get_the_ID();
+    }
+    wp_reset_postdata();
+    
+    // Удаляем товары, которых нет в списке валидных
+    $invalid_products = array_diff($product_ids, $valid_products);
+    foreach ($invalid_products as $invalid_id) {
+        remove_from_cart($invalid_id);
+    }
+    
+    // Получаем обновленную корзину
+    $updated_cart = get_user_cart();
+    
+    // Формируем массив для отображения
+    foreach ($valid_products as $id) {
+        if (isset($updated_cart[$id])) {
+            $price = get_field('product_price', $id);
+            
+            // Защита от некорректной цены
+            if (!is_numeric($price) || $price < 0) {
+                remove_from_cart($id);
+                continue;
+            }
+            
             $cart_items[] = array(
                 'id' => $id,
                 'title' => get_the_title(),
-                'price' => get_field('product_price', $id),
-                'sku' => get_field('product_sku', $id),
-                'quantity' => $cart[$id]['quantity'],
+                'price' => floatval($price),
+                'sku' => get_field('product_sku', $id) ?: '',
+                'quantity' => intval($updated_cart[$id]['quantity']),
                 'thumbnail' => get_the_post_thumbnail_url($id, 'thumbnail')
             );
         }
     }
-    wp_reset_postdata();
 }
+
 ?>
 
 <!-- begin cart -->
@@ -77,7 +108,15 @@ if (!empty($cart)) {
                                     <td class="cart-quantity cart__quantity" data-label="Количество">
                                         <?php the_cart_quantity_selector($item['id'], $item['quantity']); ?>
                                     </td>
-                                    <td class="cart-subtotal cart__subtotal" data-label="Сумма"><?php echo format_price($item['price'] * $item['quantity']); ?></td>
+                                    <td class="cart-subtotal cart__subtotal" data-label="Сумма">
+                                        <?php 
+                                        
+                                            // echo format_price($item['price'] * $item['quantity']); 
+                                            $subtotal = $item['price'] * $item['quantity'];
+                                            echo format_price($subtotal);
+                                            
+                                        ?>
+                                    </td>
                                     <td class="cart__remove" data-label="">
                                         <button type="button" class="remove-item" data-product-id="<?php echo $item['id']; ?>">×</button>
                                     </td>
