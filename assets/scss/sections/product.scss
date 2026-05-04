@@ -506,17 +506,8 @@
 
     display: flex;
     align-items: center;
-    gap: 1em;
-    // flex-direction: column;
-    // justify-content: flex-end;
-    // align-items: flex-end;
-    // border-radius: 0.625em;
-    // padding: 0.5em;
-    // aspect-ratio: 1 / 1;
-
+    gap: 0.5em;
     text-decoration: none;
-
-   
 
     @media (min-width: 768px) {
         &:hover {
@@ -530,7 +521,7 @@
 
     &__img {
         overflow: hidden;
-        width: 30%;
+        width: 50%;
         aspect-ratio: 1;
         flex: none;
         border-radius: 0.625em;
@@ -548,7 +539,6 @@
     &__content {
         flex-grow: 1;
         position: relative;
-        // color: $main_color;
     }
 
 }
@@ -563,14 +553,34 @@
     flex-direction: column;
     gap: 1em;
 
+    @media (min-width: 768px) {
+        gap: 2.5em;
+    }
+
     &__row {
         display: flex;
-        gap: 1em;
+        gap: 0.5em;
         flex-wrap: nowrap;
     }
 
     &__col {
-        width: 33.3%;
+        flex: 1 1 0;
+        min-width: 0;
+
+        &:last-child {
+            flex: 0 0 36.8em;
+            // flex: 2 1 0;
+        }
+
+        &.flex {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+        }
+
+        &.jc_sb {
+            justify-content: space-between;
+        }
     }
     
     &__img {

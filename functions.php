@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( '_S_VERSION' ) ) {
-	define( '_S_VERSION', '1.0.11' );
+	define( '_S_VERSION', '1.0.12' );
 }
 
 function hotelcleanline_scripts() {
@@ -33,6 +33,8 @@ function hotelcleanline_scripts() {
         'nonce' => wp_create_nonce('cart_nonce'),
         'cart_url' => home_url('/cart/')
     ));
+
+	wp_enqueue_script( 'hotelcleanline-modal-products', get_template_directory_uri() . '/assets/js/modal-products.js', array(), _S_VERSION, true );
 
 	wp_enqueue_script( 'hotelcleanline-function', get_template_directory_uri() . '/assets/js/function.js', array(), _S_VERSION, true );
 }
