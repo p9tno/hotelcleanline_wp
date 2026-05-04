@@ -10,30 +10,20 @@ $cart_items = array();
 
 if (!empty($cart)) {
     $product_ids = array_keys($cart);
-    
-    $products_query = new WP_Query(array(
-        'post_type' => 'product',
-        'post__in' => $product_ids,
-        'posts_per_page' => -1,
-        'meta_query' => array(
-            array(
-                'key' => 'product_status',
-                'value' => 'instock',
-                'compare' => '='
-            )
-        )
-    ));
-    
     $valid_products = array();
-    while ($products_query->have_posts()) {
-        $products_query->the_post();
-        $valid_products[] = get_the_ID();
-    }
-    wp_reset_postdata();
+    $products_to_remove = array();
     
-    // Удаляем товары, которых нет в списке валидных
-    $invalid_products = array_diff($product_ids, $valid_products);
-    foreach ($invalid_products as $invalid_id) {
+    // Проверяем каждый товар из корзины
+    foreach ($product_ids as $id) {
+        if (is_product_addable_to_cart($id)) {
+            $valid_products[] = $id;
+        } else {
+            $products_to_remove[] = $id;
+        }
+    }
+    
+    // Удаляем невалидные товары
+    foreach ($products_to_remove as $invalid_id) {
         remove_from_cart($invalid_id);
     }
     
@@ -45,7 +35,7 @@ if (!empty($cart)) {
         if (isset($updated_cart[$id])) {
             $price = get_field('product_price', $id);
             
-            // Защита от некорректной цены
+            // Дополнительная защита от некорректной цены
             if (!is_numeric($price) || $price < 0) {
                 remove_from_cart($id);
                 continue;
@@ -62,7 +52,6 @@ if (!empty($cart)) {
         }
     }
 }
-
 ?>
 
 <!-- begin cart -->
@@ -99,7 +88,7 @@ if (!empty($cart)) {
                                         </a>
                                     </td>
                                     <td class="cart__info" data-label="">
-                                        <a class="product__title line_clamp" href="<?php echo get_permalink($item['id']); ?>" target="_blank"><?php echo $item['title']; ?></a>
+                                        <a class="product__title line_clamp" href="<?php echo get_permalink($item['id']); ?>" target="_blank"><?php echo get_the_title($item['id']); ?></a>
                                         <?php if ($item['sku']) : ?>
                                             <span class="product__sku">Артикул: <?php echo $item['sku']; ?></span>
                                         <?php endif; ?>
@@ -148,86 +137,5 @@ if (!empty($cart)) {
     </div>
 </section>
 <!-- end cart -->
-
-
-<!-- <style>
-.cart-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.cart-table th, .cart-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-.cart-product {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-.cart-product img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-}
-.remove-item {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #ff4444;
-}
-.cart-actions {
-    margin-top: 30px;
-    display: flex;
-    gap: 15px;
-}
-
-/* Стили для кастомного селектора количества в корзине */
-.quantity-selector-cart {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.quantity-selector-cart .quantity-btn-cart {
-    width: 30px;
-    height: 30px;
-    background: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.quantity-selector-cart .quantity-btn-cart:hover {
-    background: #e0e0e0;
-}
-
-.quantity-selector-cart .quantity-input-cart {
-    width: 60px;
-    height: 30px;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 0 5px;
-}
-
-/* Убираем стрелки у input number */
-.quantity-input-cart::-webkit-inner-spin-button,
-.quantity-input-cart::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.quantity-input-cart {
-    -moz-appearance: textfield;
-}
-</style> -->
 
 <?php get_footer(); ?>
