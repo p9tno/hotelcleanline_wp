@@ -40,11 +40,11 @@ function hotelcleanline_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'hotelcleanline_scripts' );
 
-// function admin_styles_scripts() {
-// 	wp_enqueue_style("hotelcleanline-admin-css", get_template_directory_uri() . '/assets/css/wp-admin.css');
-// 	wp_enqueue_script("hotelcleanline-admin-js", get_template_directory_uri() . '/assets/js/wp-admin.js');
-// }
-// add_action('admin_enqueue_scripts', 'admin_styles_scripts');
+function admin_styles_scripts() {
+	wp_enqueue_style("hotelcleanline-admin-css", get_template_directory_uri() . '/assets/css/wp-admin.css');
+	// wp_enqueue_script("hotelcleanline-admin-js", get_template_directory_uri() . '/assets/js/wp-admin.js');
+}
+add_action('admin_enqueue_scripts', 'admin_styles_scripts');
 
 
 function hotelcleanline_setup() {

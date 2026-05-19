@@ -238,7 +238,7 @@ $(document).ready(function() {
     // collapsedActiveOne();
 
     function doTabs () {
-        $('.tabs__wrapper').each(function() {
+        $('.init-tabs').each(function() {
             let ths = $(this);
             ths.find('.tab__item').not(':first').hide();
             ths.find('.tab').click(function() {

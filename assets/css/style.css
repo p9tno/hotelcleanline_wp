@@ -2217,6 +2217,18 @@ body {
 .subcategories {
   padding-top: 0;
 }
+.taxGallery__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1em;
+}
+
+.taxInfo__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+}
+
 /* Базовые стили для цены */
 .product-price {
   display: inline-flex;

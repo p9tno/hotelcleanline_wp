@@ -1401,10 +1401,10 @@ function my_template_acf_mataboxes(){
 
     // *********************************************************
     // *********************************************************
-    // КАТЕГОРИЙ ПРОДУКТОВ
+    // КАТЕГОРИЙ ПРОДУКТОВ product_category
     acf_add_local_field_group(array(
         'key' => 'acf_product_category_settings',
-        'title' => 'Изображение категории',
+        'title' => 'Настройки категории',
         'fields' => array(
             array(
                 'key' => 'product_category_image',
@@ -1418,6 +1418,58 @@ function my_template_acf_mataboxes(){
                     'width' => '100',
                 ),
                 'instructions' => 'Загрузите изображение для категории (рекомендуемый размер: 1440x800px)',
+            ),
+            array(
+                'key' => 'product_category_gallery',
+                'label' => 'Галерея категории',
+                'name' => 'product_category_gallery',
+                'type' => 'repeater',
+                'layout' => 'table',  // 'block' || 'row' || 'table'
+                'button_label' => 'Добавить',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'gallery_img_id',
+                        'label' => 'Изображение',
+                        'name' => 'gallery_img_id',
+                        'type' => 'image',
+                        'return_format' => 'id',  // 'id' || 'url' || 'array'
+                        'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'product_category_info',
+                'label' => 'Дополнительная информация категории',
+                'name' => 'product_category_info',
+                'type' => 'repeater',
+                'layout' => 'block',  // 'block' || 'row' || 'table'
+                'button_label' => 'Добавить',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'category_info_img_id',
+                        'label' => 'Изображение',
+                        'name' => 'category_info_img_id',
+                        'type' => 'image',
+                        'return_format' => 'id',  // 'id' || 'url' || 'array'
+                        'preview_size' => 'thumbnail', // (thumbnail, medium, large, full or custom size)
+                        'wrapper' => array(
+                            'width' => '50',
+                        ),
+                    ),
+                    array(
+                        'key' => 'category_info_content',
+                        'label' => 'Контент',
+                        'name' => 'category_info_content',
+                        'type' => 'wysiwyg',
+                        'tabs' => 'all',  // 'visual' || 'text' || 'all'
+                        'toolbar' => 'basic',  // 'basic' \\ 'full'
+                        'media_upload' => 0,
+                        'delay' => 0,
+                        'wrapper' => array(
+                            'width' => '50',
+                        ),
+                    ),
+                ),
             ),
         ),
         'location' => array(
