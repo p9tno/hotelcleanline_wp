@@ -439,6 +439,25 @@
 		}
     }
 
+    .product__grid {
+        grid-template-columns: 1fr;
+        @media (min-width: 768px) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .bdProduct {
+            @media (min-width: 768px) {
+                gap: 1em;
+            }
+        }
+
+        .bdProduct__img {
+            @media (min-width: 768px) {
+              width: 30%;
+            }
+        }
+    }
+
 
 
 }
@@ -463,12 +482,16 @@
 
     &__img {
         overflow: hidden;
-        width: 50%;
+        width: 30%;
         aspect-ratio: 1;
         flex: none;
         border-radius: 0.625em;
         border: 1px solid rgba($color_warning, 0.05);
         box-shadow: 0 8px 32px rgba($color_warning, 0.2);
+        
+        @media (min-width: 768px) {
+            width: 50%;
+        }
 
         img {
             @media (min-width: 768px) {
@@ -510,25 +533,51 @@
     &__row {
         display: flex;
         gap: 0.5em;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
+        
+        @media (min-width: 768px) {
+            display: flex;
+            // gap: 0.5em;
+            flex-wrap: nowrap;
+          
+        }
     }
 
     &__col {
-        flex: 1 1 0;
+        width: calc(50% - 0.25em);
         min-width: 0;
+        @media (min-width: 768px) {
+            flex: 1 1 0;
+        }
 
         &:last-child {
-            flex: 0 0 36.8em;
+            flex: 0 0 100%;
+            @media (min-width: 768px) {
+                flex: 0 0 36.8em;
+            }
         }
 
         &.flex {
             display: flex;
-            align-items: center;
-            gap: 1em;
+            flex-direction: column;
+            gap: 0.5em;
+
+            @media (max-width: 767px) {
+              width: 100%;
+            }
+            
+            @media (min-width: 768px) {
+                flex-direction: row;
+                gap: 1em;
+                align-items: center;
+              
+            }
         }
 
         &.jc_sb {
-            justify-content: space-between;
+            @media (min-width: 768px) {
+                justify-content: space-between;
+            }
         }
     }
     
@@ -581,8 +630,12 @@
 
     &__bundle {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         grid-gap: 0.5em;
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(2, 1fr);
+          
+        }
     }
 
     &__bottom {

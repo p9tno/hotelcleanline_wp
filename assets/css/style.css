@@ -2660,6 +2660,24 @@ body {
     width: 65%;
   }
 }
+.slProduct .product__grid {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .slProduct .product__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 768px) {
+  .slProduct .product__grid .bdProduct {
+    gap: 1em;
+  }
+}
+@media (min-width: 768px) {
+  .slProduct .product__grid .bdProduct__img {
+    width: 30%;
+  }
+}
 
 .bdProduct {
   position: relative;
@@ -2675,12 +2693,17 @@ body {
 }
 .bdProduct__img {
   overflow: hidden;
-  width: 50%;
+  width: 30%;
   aspect-ratio: 1;
   flex: none;
   border-radius: 0.625em;
   border: 1px solid rgba(207, 169, 153, 0.05);
   box-shadow: 0 8px 32px rgba(207, 169, 153, 0.2);
+}
+@media (min-width: 768px) {
+  .bdProduct__img {
+    width: 50%;
+  }
 }
 @media (min-width: 768px) {
   .bdProduct__img img {
@@ -2719,22 +2742,52 @@ body {
 .mProduct__row {
   display: flex;
   gap: 0.5em;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+}
+@media (min-width: 768px) {
+  .mProduct__row {
+    display: flex;
+    flex-wrap: nowrap;
+  }
 }
 .mProduct__col {
-  flex: 1 1 0;
+  width: calc(50% - 0.25em);
   min-width: 0;
 }
+@media (min-width: 768px) {
+  .mProduct__col {
+    flex: 1 1 0;
+  }
+}
 .mProduct__col:last-child {
-  flex: 0 0 36.8em;
+  flex: 0 0 100%;
+}
+@media (min-width: 768px) {
+  .mProduct__col:last-child {
+    flex: 0 0 36.8em;
+  }
 }
 .mProduct__col.flex {
   display: flex;
-  align-items: center;
-  gap: 1em;
+  flex-direction: column;
+  gap: 0.5em;
 }
-.mProduct__col.jc_sb {
-  justify-content: space-between;
+@media (max-width: 767px) {
+  .mProduct__col.flex {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .mProduct__col.flex {
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+  }
+}
+@media (min-width: 768px) {
+  .mProduct__col.jc_sb {
+    justify-content: space-between;
+  }
 }
 .mProduct__img {
   position: relative;
@@ -2777,8 +2830,13 @@ body {
 }
 .mProduct__bundle {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   grid-gap: 0.5em;
+}
+@media (min-width: 768px) {
+  .mProduct__bundle {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .mProduct__bottom {
   display: flex;
@@ -3664,30 +3722,19 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
   display: block;
 }
 
-@media (max-width: 767px) {
-  .tabs {
-    position: relative;
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 0.75em;
-    margin-bottom: 1em;
-    margin-left: -1em;
-    margin-right: -1em;
-  }
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 0.25em;
 }
 @media (min-width: 768px) {
   .tabs {
-    display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 1em;
   }
 }
 .tabs__content {
   margin-top: 1em;
-}
-.tax-product_category .tabs__content {
-  margin-top: 0;
 }
 @media (min-width: 768px) {
   .tax-product_category .tabs__content {
@@ -3697,7 +3744,7 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
 
 .tab {
   display: inline-block;
-  padding: 0.875em;
+  padding: 0.75em;
   border-radius: 0.625em;
   border: 1px solid;
   outline: none;
@@ -3717,22 +3764,6 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
 }
 .tab:first-letter {
   text-transform: uppercase;
-}
-@media (max-width: 767px) {
-  .tab {
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
-    flex: none;
-    margin-right: 1em;
-  }
-  .tab:first-child {
-    padding-left: 1em;
-    margin-left: 1em;
-  }
-  .tab:last-child {
-    padding-right: 1em;
-  }
 }
 @media (min-width: 768px) {
   .tab {
@@ -3886,7 +3917,7 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
   border-radius: 0;
   background-clip: padding-box;
   outline: 0;
-  padding: 1em 0.5em;
+  padding: 1.75em 0.5em 1em;
   border-radius: 0.625em;
 }
 @media (min-width: 768px) {
@@ -3924,7 +3955,7 @@ input[type=checkbox]:disabled:checked:before, input[type=checkbox]:disabled:inde
   }
 }
 .modal-body.scrolled {
-  max-height: 24em;
+  max-height: 30em;
 }
 @media (min-width: 768px) {
   .modal-body.scrolled {

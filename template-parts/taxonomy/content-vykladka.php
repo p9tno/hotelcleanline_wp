@@ -230,6 +230,8 @@ render_products_js_data($structured_data);
 ?>
 
 <?php get_template_part( 'template-parts/sections/section', 'head' ); ?>
+<?php get_template_part( 'template-parts/sections/section', 'taxGallery' ); ?>
+<?php get_template_part( 'template-parts/sections/section', 'taxInfo' ); ?>
 
 <?php if (!empty($child_categories) && !is_wp_error($child_categories)) : ?>
 

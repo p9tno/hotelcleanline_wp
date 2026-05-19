@@ -88,7 +88,7 @@
         border-radius: 0;
         background-clip: padding-box;
         outline: 0;
-        padding: 1em 0.5em;
+        padding: 1.75em 0.5em 1em;
         border-radius: 0.625em;
         
         @media (min-width: 768px) {
@@ -130,7 +130,7 @@
 
         &.scrolled {
             @extend %scrollbar;
-            max-height: 24em;
+            max-height: 30em;
             @media (min-width: 768px) {
                 max-height: 36em;
             }
