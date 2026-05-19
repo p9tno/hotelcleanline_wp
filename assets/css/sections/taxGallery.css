@@ -1,0 +1,11 @@
+.taxGallery__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1em;
+}
+.taxGallery__item {
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 0.625em;
+}

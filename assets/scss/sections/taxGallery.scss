@@ -1,5 +1,24 @@
-.taxGallery__grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1em;
+.taxGallery {
+
+    padding: 1em 0;
+	@media (min-width: 768px) {
+	  padding: 1.5em 0;
+	}
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5em;
+        @media (min-width: 768px) {
+            gap: 1em;
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+
+    &__item {
+        overflow: hidden;
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 0.625em;
+    }
 }

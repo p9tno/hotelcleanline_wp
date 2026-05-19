@@ -2217,16 +2217,64 @@ body {
 .subcategories {
   padding-top: 0;
 }
+.taxGallery {
+  padding: 1em 0;
+}
+@media (min-width: 768px) {
+  .taxGallery {
+    padding: 1.5em 0;
+  }
+}
 .taxGallery__grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1em;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5em;
+}
+@media (min-width: 768px) {
+  .taxGallery__grid {
+    gap: 1em;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+.taxGallery__item {
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 0.625em;
 }
 
 .taxInfo__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5em;
+}
+@media (min-width: 768px) {
+  .taxInfo__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+  }
+}
+.taxInfo__item {
+  display: flex;
+  align-items: center;
   gap: 1em;
+}
+@media (min-width: 768px) {
+  .taxInfo__item {
+    gap: 2em;
+  }
+}
+.taxInfo__img {
+  flex: none;
+  width: 5em;
+  height: 5em;
+  border-radius: 100%;
+  overflow: hidden;
+  box-shadow: rgba(159, 84, 52, 0.1) 0 2px 4px 0;
+}
+.taxInfo__content {
+  flex-grow: 1;
+  margin-top: 0;
 }
 
 /* Базовые стили для цены */
