@@ -1,5 +1,42 @@
-.taxInfo__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1em;
+.taxInfo {
+
+    // padding: 1em 0;
+	// @media (min-width: 768px) {
+	//   padding: 1.5em 0;
+	// }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 0.5em;
+        
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1em;
+        }
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        @media (min-width: 768px) {
+            gap: 2em;
+        }
+    }
+
+    &__img {
+        flex: none;
+        width: 5em;
+        height: 5em;
+        border-radius: 100%;
+        overflow: hidden;
+        box-shadow: rgba($color_primary, 0.1) 0 2px 4px 0;
+    }
+
+    &__content {
+        flex-grow: 1;
+        margin-top: 0;
+    }
+
 }

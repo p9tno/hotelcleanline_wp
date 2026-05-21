@@ -8,16 +8,17 @@ $taxonomy_prefix = 'product_category_' . $term_id;
     <!-- begin taxGallery -->
     <section id="taxGallery" class="taxGallery section">
         <div class="container_center">
-            <div class="section__wrap">
-                <div class="taxGallery__grid">
-                    <?php while (have_rows('product_category_gallery', $taxonomy_prefix)) : the_row();
-                        $image_id = get_sub_field('gallery_img_id');
-                    ?>
+            <div class="taxGallery__grid">
+                <?php while (have_rows('product_category_gallery', $taxonomy_prefix)) : the_row();
+                    $image_id = get_sub_field('gallery_img_id');
+                    // get_pr($image_id);
+                ?>
+                    <?php if ($image_id) { ?>
                         <div class="taxGallery__item img">
                             <?php echo wp_get_attachment_image($image_id, 'medium'); ?>
                         </div>
-                    <?php endwhile; ?>
-                </div>
+                    <?php } ?>
+                <?php endwhile; ?>
             </div>
         </div>
     </section>
