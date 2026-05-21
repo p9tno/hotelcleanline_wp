@@ -1,9 +1,8 @@
 <?php
 /**
- * AJAX обработчики фильтрации товаров по атрибутам
- */
+* AJAX обработчики фильтрации товаров по атрибутам
+*/
 
-// AJAX: фильтрация товаров по атрибутам
 add_action('wp_ajax_filter_products', 'ajax_filter_products_by_attributes');
 add_action('wp_ajax_nopriv_filter_products', 'ajax_filter_products_by_attributes');
 
@@ -47,6 +46,9 @@ function ajax_filter_products_by_attributes() {
         'posts_per_page' => get_option('posts_per_page'),
         'paged' => $paged,
         'tax_query' => $tax_query,
+        'orderby' => 'date', // Добавить сортировку
+        'order' => 'DESC',
+        'post_status' => 'publish', // Только опубликованные
     );
 
     $products_query = new WP_Query($args);
