@@ -117,6 +117,25 @@ if ($show_products) : ?>
                     
                     <!-- Пагинация -->
                     <?php the_paginate($products_query); ?>
+
+                    <!-- Пагинация -->
+                    <?php // if ($products_query->max_num_pages > 1) : ?>
+                        <!-- <nav class="pagination"> -->
+                            <?php
+                                // $big = 999999999;
+                                // echo paginate_links(array(
+                                //     'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
+                                //     'format' => '?paged=%#%',
+                                //     'current' => max(1, $paged),
+                                //     'total' => $products_query->max_num_pages,
+                                //     'prev_text' => '<i class="icon_arrow_left"></i>',
+                                //     'next_text' => '<i class="icon_arrow_right"></i>',
+                                //     'end_size' => 1,
+                                //     'mid_size' => 1,
+                                // ));
+                            ?>
+                        <!-- </nav> -->
+                    <?php // endif; ?>
                 
                 <?php else : ?>
                     <?php custom_info('Товаров в этой категории нет'); ?>

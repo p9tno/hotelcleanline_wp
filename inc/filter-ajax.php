@@ -62,13 +62,25 @@ function ajax_filter_products_by_attributes() {
     endif;
     $products_html = ob_get_clean();
 
-    // Генерация пагинации с использованием функции the_paginate
+    // Генерация пагинации
     $pagination_html = '';
     if ($products_query->max_num_pages > 1) {
-        // Используем буферизацию для захвата вывода the_paginate()
-        ob_start();
-        the_paginate($products_query);
-        $pagination_html = ob_get_clean();
+        $big = 999999999;
+        $pagination_html = paginate_links(array(
+            'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
+            'format' => '?paged=%#%',
+            'current' => $paged,
+            'total' => $products_query->max_num_pages,
+            'prev_text' => '<i class="icon_arrow_left"></i>',
+            'next_text' => '<i class="icon_arrow_right"></i>',
+            'end_size' => 1,
+            'mid_size' => 1,
+            'type' => 'array',
+        ));
+        // Обернём в nav
+        if (!empty($pagination_html)) {
+            $pagination_html = implode('', $pagination_html);
+        }
     }
 
     wp_reset_postdata();
