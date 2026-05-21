@@ -169,39 +169,3 @@ function register_product_izdeliya_tags() {
 }
 add_action( 'init', 'register_product_izdeliya_tags' );
 
-
-/**
- * Создание таксономии "Атрибуты" для фильтрации продуктов
- */
-function register_attributes() {
-    $labels = array(
-        'name'              => 'Атрибуты',
-        'singular_name'     => 'Атрибут',
-        'menu_name'         => 'Атрибуты',
-        'all_items'         => 'Все атрибуты',
-        'edit_item'         => 'Редактировать атрибут',
-        'update_item'       => 'Обновить атрибут',
-        'add_new_item'      => 'Добавить новый атрибут',
-        'new_item_name'     => 'Название атрибута',
-        'search_items'      => 'Искать атрибуты',
-        'parent_item'       => 'Родительский атрибут',
-        'parent_item_colon' => 'Родительский атрибут:',
-        'not_found'         => 'Атрибуты не найдены',
-    );
-
-    $args = array(
-        'hierarchical'      => true,
-        'labels'            => $labels,
-        'public'            => false,          // Скрываем от публичного доступа
-        'publicly_queryable'=> false,          // Отключаем возможность просмотра архива
-        'show_ui'           => true,           // Показываем в админке
-        'show_admin_column' => true,           // Показываем колонку в списке товаров
-        'show_in_rest'      => true,           // Поддержка REST API (для админки)
-        'query_var'         => false,          // Отключаем query var
-        'rewrite'           => false,          // Полностью отключаем генерацию URL
-    );
-
-    register_taxonomy( 'product_attr', 'product', $args );
-}
-add_action( 'init', 'register_attributes' );
-
