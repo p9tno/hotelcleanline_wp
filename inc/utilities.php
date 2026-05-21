@@ -947,4 +947,70 @@ function format_price($price) {
     
     return '<span class="product-price"><span class="price-amount">' . $formatted_price . '</span> <span class="currency-symbol">' . $currency_symbol . '</span></span>';
 }
-?>
+
+/**
+ * Выводит атрибуты товара списком
+ * 
+ * @param int $product_id ID товара (опционально)
+ */
+function the_product_attributes($product_id = null) {
+    if (!$product_id) {
+        $product_id = get_the_ID();
+    }
+    
+    // Проверяем тип поста
+    if (get_post_type($product_id) !== 'product') {
+        return;
+    }
+    
+    // Получаем все группы атрибутов (родительские термины)
+    $groups = get_terms(array(
+        'taxonomy'   => 'product_attr',
+        'parent'     => 0,
+        'hide_empty' => false
+    ));
+    
+    if (empty($groups) || is_wp_error($groups)) {
+        return;
+    }
+    
+    // Получаем ID атрибутов, назначенных товару
+    $product_attrs = wp_get_post_terms($product_id, 'product_attr', array('fields' => 'ids'));
+    
+    if (empty($product_attrs)) {
+        return;
+    }
+    
+    echo '<ul class="attributes">';
+    
+    foreach ($groups as $group) {
+        // Получаем значения для этой группы
+        $values = get_terms(array(
+            'taxonomy'   => 'product_attr',
+            'parent'     => $group->term_id,
+            'hide_empty' => false
+        ));
+        
+        if (empty($values) || is_wp_error($values)) {
+            continue;
+        }
+        
+        // Собираем названия значений, которые назначены товару
+        $assigned = array();
+        foreach ($values as $value) {
+            if (in_array($value->term_id, $product_attrs)) {
+                $assigned[] = $value->name;
+            }
+        }
+        
+        // Если есть значения - выводим
+        if (!empty($assigned)) {
+            echo '<li class="attribute">';
+            echo '<span class="attribute__label">' . esc_html($group->name) . ':</span> ';
+            echo '<span class="attribute__value">'. esc_html(implode(', ', $assigned)). '</span>';
+            echo '</li>';
+        }
+    }
+    
+    echo '</ul>';
+}

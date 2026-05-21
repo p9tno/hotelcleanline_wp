@@ -57,8 +57,8 @@ $is_child_category = ($term->parent != 0);
 
 <?php endif; ?>
 
-<?php get_template_part( 'template-parts/sections/section', 'taxGallery' ); ?>
-<?php get_template_part( 'template-parts/sections/section', 'taxInfo' ); ?>
+<?php // get_template_part( 'template-parts/sections/section', 'taxGallery' ); ?>
+<?php // get_template_part( 'template-parts/sections/section', 'taxInfo' ); ?>
 
 <!-- Выводим товары -->
 <?php

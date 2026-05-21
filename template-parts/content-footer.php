@@ -2,12 +2,12 @@
     <div class="footer__content">
 
         <?php if (get_field('footer_img', 'option')) { ?>
-            <div class="footer__row">
-                <a class="footer__logo" href="<?php echo esc_url(home_url("/")); ?>">
-                    <?php echo wp_get_attachment_image(get_field('footer_img', 'option'), 'full'); ?>
-                </a>
-            </div>
-        <?php } ?> 
+        <div class="footer__row">
+            <a class="footer__logo" href="<?php echo esc_url(home_url("/")); ?>">
+                <?php echo wp_get_attachment_image(get_field('footer_img', 'option'), 'full'); ?>
+            </a>
+        </div>
+        <?php } ?>
 
 
         <div class="footer__row">
