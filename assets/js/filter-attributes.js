@@ -19,6 +19,9 @@
     var $paginationContainer = $('.pagination');
     var $resetButton = $('.filter-reset-js');
 
+    // Флаг для блокировки запросов
+    var isFiltering = false;
+
     // Инициализация
     function init() {
         bindEvents();
@@ -28,22 +31,28 @@
     function bindEvents() {
         // Изменение радио-кнопок
         $filterRadios.on('change', function() {
-            scrollToFilter();
-            filterProducts();
+            if (!isFiltering) {
+                scrollToFilter();
+                filterProducts();
+            }
         });
 
         // Кнопка сброса
         $resetButton.on('click', function() {
-            resetFilters();
+            if (!isFiltering) {
+                resetFilters();
+            }
         });
 
         // Пагинация (делегирование, т.к. пагинация может обновляться)
         $(document).on('click', '#products .pagination a', function(e) {
-            e.preventDefault();
-            scrollToFilter();
-            var href = $(this).attr('href');
-            var paged = extractPagedFromUrl(href);
-            filterProducts(paged);
+            if (!isFiltering) {
+                e.preventDefault();
+                scrollToFilter();
+                var href = $(this).attr('href');
+                var paged = extractPagedFromUrl(href);
+                filterProducts(paged);
+            }
         });
     }
 
@@ -78,6 +87,7 @@
         return attributes;
     }
 
+    // Функции для работы с контентом
     function hideContent() {
         $productGrid.hide();
         $paginationContainer.hide();
@@ -93,8 +103,21 @@
         $paginationContainer.fadeIn(400);
     }
 
+    // Функции для блокировки элементов
+    function disableRadios() {
+        $filterRadios.prop('disabled', true);
+        $resetButton.prop('disabled', true);
+    }
+
+    function enableRadios() {
+        $filterRadios.prop('disabled', false);
+        $resetButton.prop('disabled', false);
+    }
+
     // AJAX-запрос на фильтрацию
     function filterProducts(paged) {
+        if (isFiltering) return;
+        
         paged = paged || 1;
         var attributes = getSelectedAttributes();
 
@@ -110,25 +133,31 @@
             },
             dataType: 'json',
 
-            beforeSend: function () {
+            beforeSend: function() {
+                isFiltering = true;
+                disableRadios();
                 hideContent();
             },
-            complete: function() {},
+            
+            complete: function() {
+                isFiltering = false;
+                enableRadios();
+            },
+            
             success: function(response) {
                 if (response.success) {
                     updateProducts(response.data.html, response.data.pagination);
                     showContentWithFade();
-                 
                 } else {
                     console.error('Ошибка фильтрации:', response.data);
                     showContent();
                 }
             },
+            
             error: function(xhr, status, error) {
                 console.error('AJAX ошибка:', error);
                 showContent();
             },
-         
         });
     }
 

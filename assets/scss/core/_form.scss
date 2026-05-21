@@ -160,7 +160,7 @@ input[type=radio] {
 	}
 
 	&:disabled {
-		opacity: 0.4;
+		// opacity: 0.4;
 	}
 }
 
@@ -170,6 +170,6 @@ input[type=radio] {
 	}
 
 	&:disabled:checked:before {
-		opacity: 0.4;
+		// opacity: 0.4;
 	}
 }

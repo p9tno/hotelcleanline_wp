@@ -3510,17 +3510,9 @@ input[type=radio]:before {
   opacity: 0;
   transition: 0.5s;
 }
-input[type=radio]:disabled {
-  opacity: 0.4;
-}
-
 input[type=radio]:checked:before {
   opacity: 1;
 }
-input[type=radio]:disabled:checked:before {
-  opacity: 0.4;
-}
-
 .breadcrumbs {
   padding-bottom: 0;
 }
