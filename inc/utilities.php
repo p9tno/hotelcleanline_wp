@@ -927,6 +927,75 @@ function the_product_price($post_id = null, $echo = true) {
 }
 
 /**
+ * Вывести фильтры атрибутов для категории товаров
+ *
+ * @param int $category_id ID термина категории product_category
+ * @param string $category_slug Slug категории (опционально)
+ */
+function the_category_attribute_filters($category_id, $category_slug = '') {
+    if (empty($category_slug)) {
+        $term = get_term($category_id, 'product_category');
+        if ($term && !is_wp_error($term)) {
+            $category_slug = $term->slug;
+        } else {
+            $category_slug = '';
+        }
+    }
+
+    $attributes = get_category_attributes($category_id);
+    if (empty($attributes)) {
+        return;
+    }
+
+    foreach ($attributes as $attr_group) {
+        $group = $attr_group['group'];
+        $values = $attr_group['values'];
+        ?>
+        <!-- begin category__unit-->
+        <div class="category__unit collapse" data-collapse-wrapper="">
+            <div class="category__title collapse__title" data-collapse=""><?php echo esc_html($group->name); ?></div>
+            <div class="category__body collapse__body" data-collapse-body="">
+                <ul class="category__list product_list_js">
+                    <!-- start sub_term -->
+                    <li class="category__item radio_js">
+                        <label>
+                            <input
+                                type="radio"
+                                name="attr_<?php echo esc_attr($group->slug); ?>"
+                                data-category="<?php echo esc_attr($category_slug); ?>"
+                                data-attribute="<?php echo esc_attr($group->slug); ?>"
+                                value=""
+                                checked="checked"
+                            />
+                            <span>Все</span>
+                        </label>
+                    </li>
+                    <!-- end sub_term -->
+                    <?php foreach ($values as $value) { ?>
+                        <!-- start sub_term -->
+                        <li class="category__item radio_js">
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="attr_<?php echo esc_attr($group->slug); ?>"
+                                    data-category="<?php echo esc_attr($category_slug); ?>"
+                                    data-attribute="<?php echo esc_attr($group->slug); ?>"
+                                    value="<?php echo esc_attr($value->term_id); ?>"
+                                />
+                                <span><?php echo esc_html($value->name); ?></span>
+                            </label>
+                        </li>
+                        <!-- end sub_term -->
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+        <!-- end category__unit-->
+        <?php
+    }
+}
+
+/**
  * Отформатировать любую цену
  * Формат: "1 000 ₽"
  * 
@@ -1013,4 +1082,75 @@ function the_product_attributes($product_id = null) {
     }
     
     echo '</ul>';
+}
+
+/**
+ * Получить атрибуты для категории товаров
+ *
+ * @param int $category_id ID термина категории product_category
+ * @return array Массив групп атрибутов с их значениями
+ */
+function get_category_attributes($category_id) {
+    // Получаем ID товаров в данной категории
+    $product_ids = get_posts(array(
+        'post_type' => 'product',
+        'posts_per_page' => -1,
+        'fields' => 'ids',
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'product_category',
+                'field' => 'term_id',
+                'terms' => $category_id,
+            ),
+        ),
+    ));
+
+    if (empty($product_ids)) {
+        return array();
+    }
+
+    // Получаем все группы атрибутов (родительские термины)
+    $groups = get_terms(array(
+        'taxonomy' => 'product_attr',
+        'parent' => 0,
+        'hide_empty' => false,
+    ));
+
+    if (empty($groups) || is_wp_error($groups)) {
+        return array();
+    }
+
+    $result = array();
+    foreach ($groups as $group) {
+        // Получаем значения этой группы
+        $values = get_terms(array(
+            'taxonomy' => 'product_attr',
+            'parent' => $group->term_id,
+            'hide_empty' => false,
+        ));
+
+        if (empty($values) || is_wp_error($values)) {
+            continue;
+        }
+
+        // Фильтруем только те значения, которые есть у товаров категории
+        $filtered_values = array();
+        foreach ($values as $value) {
+            // Используем get_objects_in_term для подсчета товаров с этим атрибутом в данной категории
+            $objects = get_objects_in_term($value->term_id, 'product_attr');
+            $intersect = array_intersect($objects, $product_ids);
+            if (!empty($intersect)) {
+                $filtered_values[] = $value;
+            }
+        }
+
+        if (!empty($filtered_values)) {
+            $result[] = array(
+                'group' => $group,
+                'values' => $filtered_values,
+            );
+        }
+    }
+
+    return $result;
 }

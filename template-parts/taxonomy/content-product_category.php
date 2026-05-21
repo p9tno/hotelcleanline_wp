@@ -71,14 +71,32 @@ if (!empty($child_categories) && !$is_child_category) {
     $show_products = false;
 }
 
+get_pr($show_products);
+
 if ($show_products) : ?>
+
+    <section id="filters" class="filters section">
+        <div class="container_center">
+            <div class="filters__content">
+                <div class="filters__list">
+                    <?php the_category_attribute_filters($term_id, $term->slug); ?>
+                </div>
+                <div class="filters__actions">
+                    <button type="button" class="btn btn--secondary filter-reset-js">Сбросить фильтры</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="products" class="products section">
         <div class="container_center">
             <div class="products__content">
                 <?php
+                $paged = get_query_var('paged') ? get_query_var('paged') : 1;
                 $args = array(
                     'post_type' => 'product',
-                    'posts_per_page' => -1,
+                    'posts_per_page' => get_option('posts_per_page'),
+                    'paged' => $paged,
                     'tax_query' => array(
                         array(
                             'taxonomy' => 'product_category',
@@ -91,11 +109,15 @@ if ($show_products) : ?>
                 $products_query = new WP_Query($args);
                 
                 if ($products_query->have_posts()) : ?>
-                    <div class="product__grid">
+                    <div class="product__grid filter__content">
                         <?php while ($products_query->have_posts()) : $products_query->the_post(); ?>
                             <?php get_template_part('template-parts/previews/preview', 'product'); ?>
                         <?php endwhile; ?>
                     </div>
+                    
+                    <!-- Пагинация -->
+                    <?php the_paginate($products_query); ?>
+                
                 <?php else : ?>
                     <?php custom_info('Товаров в этой категории нет'); ?>
                 <?php endif;

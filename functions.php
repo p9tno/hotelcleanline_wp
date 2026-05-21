@@ -34,7 +34,19 @@ function hotelcleanline_scripts() {
         'cart_url' => home_url('/cart/')
     ));
 
-	wp_enqueue_script( 'hotelcleanline-modal-products', get_template_directory_uri() . '/assets/js/modal-products.js', array(), _S_VERSION, true );
+    // Подключение скрипта фильтрации по атрибутам только на страницах категорий товаров
+    if (is_tax('product_category')) {
+        wp_enqueue_script('filter-attributes', get_template_directory_uri() . '/assets/js/filter-attributes.js', array('jquery'), '1.0', true);
+        $term = get_queried_object();
+        wp_localize_script('filter-attributes', 'filter_ajax', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('filter_nonce'),
+            'category_id' => $term->term_id,
+            'category_slug' => $term->slug,
+        ));
+    }
+
+    wp_enqueue_script( 'hotelcleanline-modal-products', get_template_directory_uri() . '/assets/js/modal-products.js', array(), _S_VERSION, true );
 
 	wp_enqueue_script( 'hotelcleanline-function', get_template_directory_uri() . '/assets/js/function.js', array(), _S_VERSION, true );
 }
@@ -200,6 +212,9 @@ add_filter('kama_breadcrumbs_term', function($term, $taxonomies = null){
 // Подключение функций корзины
 require get_template_directory() . '/inc/cart/cart-functions.php';
 require get_template_directory() . '/inc/cart/cart-ajax.php';
+
+// Подключение AJAX фильтрации по атрибутам
+require get_template_directory() . '/inc/filter-ajax.php';
 
 // Инициализация бейджа корзины
 add_action('wp_footer', function() {
