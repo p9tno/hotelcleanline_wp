@@ -57,8 +57,8 @@ $is_child_category = ($term->parent != 0);
 
 <?php endif; ?>
 
-<?php // get_template_part( 'template-parts/sections/section', 'taxGallery' ); ?>
-<?php // get_template_part( 'template-parts/sections/section', 'taxInfo' ); ?>
+<?php get_template_part( 'template-parts/sections/section', 'taxGallery' ); ?>
+<?php get_template_part( 'template-parts/sections/section', 'taxInfo' ); ?>
 
 <!-- Выводим товары -->
 <?php
@@ -109,7 +109,7 @@ if ($show_products) : ?>
                     </div>
                 <?php } ?>
 
-                <div class="products__content">
+                <div class="products__content" id="scrol-to">
                     <?php
                     if ($has_products) : ?>
                         <div class="products__grid filter-content">
@@ -122,16 +122,6 @@ if ($show_products) : ?>
                         <?php custom_info('Товаров в этой категории нет'); ?>
                     <?php endif;
                     wp_reset_postdata(); ?>
-
-                    <?php // if ($has_products) { ?>
-                        <!-- <div class="products__preloader products-preloader">
-                            <div class="preloader">
-                                <div></div><div></div><div></div>
-                                <div></div><div></div><div></div>
-                                <div></div><div></div><div></div>
-                            </div>
-                        </div> -->
-                    <?php //} ?>
                 </div>
 
             </div>

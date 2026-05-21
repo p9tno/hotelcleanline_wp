@@ -25,6 +25,7 @@
     // Инициализация
     function init() {
         bindEvents();
+        updateResetButtonState(); // Проверяем состояние при загрузке
     }
 
     // Навешивание событий
@@ -32,6 +33,7 @@
         // Изменение радио-кнопок
         $filterRadios.on('change', function() {
             if (!isFiltering) {
+                updateResetButtonState(); // Обновляем состояние кнопки
                 scrollToFilter();
                 filterProducts();
             }
@@ -39,7 +41,7 @@
 
         // Кнопка сброса
         $resetButton.on('click', function() {
-            if (!isFiltering) {
+            if (!isFiltering && !$resetButton.prop('disabled')) {
                 resetFilters();
             }
         });
@@ -56,9 +58,33 @@
         });
     }
 
+    // Проверка, есть ли активные фильтры (не стандартные)
+    function hasActiveFilters() {
+        var hasFilter = false;
+        $('.atribut-unit').each(function() {
+            var $checkedRadio = $(this).find('input[type="radio"]:checked');
+            var selectedValue = $checkedRadio.val();
+            // Если выбранное значение не пустое (не "Все" или стандартный фильтр)
+            if (selectedValue && selectedValue !== '') {
+                hasFilter = true;
+                return false; // break each
+            }
+        });
+        return hasFilter;
+    }
+
+    // Обновление состояния кнопки сброса
+    function updateResetButtonState() {
+        if (hasActiveFilters()) {
+            $resetButton.prop('disabled', false);
+        } else {
+            $resetButton.prop('disabled', true);
+        }
+    }
+
     // Прокрутка к фильтрам
     function scrollToFilter() {
-        var top = $('#products').offset().top - 100;
+        var top = $('#scrol-to').offset().top - 100;
         $('body, html').animate({scrollTop: top}, 700);
     }
 
@@ -111,7 +137,7 @@
 
     function enableRadios() {
         $filterRadios.prop('disabled', false);
-        $resetButton.prop('disabled', false);
+        updateResetButtonState(); // Восстанавливаем состояние кнопки после запроса
     }
 
     // AJAX-запрос на фильтрацию
@@ -170,6 +196,7 @@
                 $(this).prop('checked', false);
             }
         });
+        updateResetButtonState(); // Обновляем состояние кнопки после сброса
         filterProducts(1);
     }
 
