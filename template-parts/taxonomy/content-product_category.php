@@ -44,7 +44,7 @@ $is_child_category = ($term->parent != 0);
                                 $is_active = ($child_category->term_id == $term_id);
                             ?>
                                 <a href="<?php echo get_term_link($child_category); ?>" class="tab <?php echo $is_active ? 'active' : ''; ?>">
-                                    <?php echo $child_category->name; ?>
+                                    <?php echo esc_html($child_category->name); ?>
                                 </a>
                             <?php endforeach; ?>
                         </div>
@@ -71,76 +71,69 @@ if (!empty($child_categories) && !$is_child_category) {
     $show_products = false;
 }
 
-get_pr($show_products);
-
 if ($show_products) : ?>
 
-    <section id="filters" class="filters section">
-        <div class="container_center">
-            <div class="filters__content">
-                <div class="filters__list">
-                    <?php the_category_attribute_filters($term_id, $term->slug); ?>
-                </div>
-                <div class="filters__actions">
-                    <button type="button" class="btn btn--secondary filter-reset-js">Сбросить фильтры</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <?php
+        $paged = get_query_var('paged') ? get_query_var('paged') : 1;
+        $args = array(
+            'post_type' => 'product',
+            'posts_per_page' => get_option('posts_per_page'),
+            'paged' => $paged,
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'product_category',
+                    'field' => 'term_id',
+                    'terms' => $products_term_id,
+                ),
+            ),
+        );
+        
+        $products_query = new WP_Query($args);
+        $has_products = $products_query->have_posts();
+    ?>
     <section id="products" class="products section">
         <div class="container_center">
-            <div class="products__content">
-                <?php
-                $paged = get_query_var('paged') ? get_query_var('paged') : 1;
-                $args = array(
-                    'post_type' => 'product',
-                    'posts_per_page' => get_option('posts_per_page'),
-                    'paged' => $paged,
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'product_category',
-                            'field' => 'term_id',
-                            'terms' => $products_term_id,
-                        ),
-                    ),
-                );
-                
-                $products_query = new WP_Query($args);
-                
-                if ($products_query->have_posts()) : ?>
-                    <div class="product__grid filter__content">
-                        <?php while ($products_query->have_posts()) : $products_query->the_post(); ?>
-                            <?php get_template_part('template-parts/previews/preview', 'product'); ?>
-                        <?php endwhile; ?>
+            <div class="products__wrap">
+                <?php if ($has_products) { ?>
+                    <div class="products__filters">
+                        <div class="filters">
+                            <div class="filters__content">
+                                <div class="filters__list">
+                                    <?php the_category_attribute_filters($term_id, $term->slug); ?>
+                                </div>
+                                <div class="filters__actions">
+                                    <button type="button" class="btn btn_border filter-reset-js">Сбросить фильтры</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <!-- Пагинация -->
-                    <?php the_paginate($products_query); ?>
+                <?php } ?>
 
-                    <!-- Пагинация -->
-                    <?php // if ($products_query->max_num_pages > 1) : ?>
-                        <!-- <nav class="pagination"> -->
-                            <?php
-                                // $big = 999999999;
-                                // echo paginate_links(array(
-                                //     'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
-                                //     'format' => '?paged=%#%',
-                                //     'current' => max(1, $paged),
-                                //     'total' => $products_query->max_num_pages,
-                                //     'prev_text' => '<i class="icon_arrow_left"></i>',
-                                //     'next_text' => '<i class="icon_arrow_right"></i>',
-                                //     'end_size' => 1,
-                                //     'mid_size' => 1,
-                                // ));
-                            ?>
-                        <!-- </nav> -->
-                    <?php // endif; ?>
-                
-                <?php else : ?>
-                    <?php custom_info('Товаров в этой категории нет'); ?>
-                <?php endif;
-                wp_reset_postdata(); ?>
+                <div class="products__content">
+                    <?php
+                    if ($has_products) : ?>
+                        <div class="products__grid filter-content">
+                            <?php while ($products_query->have_posts()) : $products_query->the_post(); ?>
+                                <?php get_template_part('template-parts/previews/preview', 'product'); ?>
+                            <?php endwhile; ?>
+                        </div>
+                        <?php the_paginate($products_query); ?>
+                    <?php else : ?>
+                        <?php custom_info('Товаров в этой категории нет'); ?>
+                    <?php endif;
+                    wp_reset_postdata(); ?>
+
+                    <?php // if ($has_products) { ?>
+                        <!-- <div class="products__preloader products-preloader">
+                            <div class="preloader">
+                                <div></div><div></div><div></div>
+                                <div></div><div></div><div></div>
+                                <div></div><div></div><div></div>
+                            </div>
+                        </div> -->
+                    <?php //} ?>
+                </div>
+
             </div>
         </div>
     </section>

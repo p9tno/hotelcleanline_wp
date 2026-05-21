@@ -14,11 +14,10 @@
     };
 
     // Элементы DOM
-    var $filterRadios = $('.category__list input[type="radio"]');
-    var $productGrid = $('.filter__content');
+    var $filterRadios = $('.category-list input[type="radio"]');
+    var $productGrid = $('.filter-content');
     var $paginationContainer = $('.pagination');
     var $resetButton = $('.filter-reset-js');
-    var $preloader = $('.preloaderFilter-js');
 
     // Инициализация
     function init() {
@@ -39,7 +38,7 @@
         });
 
         // Пагинация (делегирование, т.к. пагинация может обновляться)
-        $(document).on('click', '.pagination a', function(e) {
+        $(document).on('click', '#products .pagination a', function(e) {
             e.preventDefault();
             scrollToFilter();
             var href = $(this).attr('href');
@@ -50,7 +49,7 @@
 
     // Прокрутка к фильтрам
     function scrollToFilter() {
-        var top = $('#filters').offset().top - 100;
+        var top = $('#products').offset().top - 100;
         $('body, html').animate({scrollTop: top}, 700);
     }
 
@@ -68,7 +67,7 @@
     // Сбор выбранных атрибутов
     function getSelectedAttributes() {
         var attributes = {};
-        $('.category__unit').each(function() {
+        $('.atribut-unit').each(function() {
             var $group = $(this);
             var attributeSlug = $group.find('input[type="radio"]').first().data('attribute');
             var selectedValue = $group.find('input[type="radio"]:checked').val();
@@ -79,12 +78,25 @@
         return attributes;
     }
 
+    function hideContent() {
+        $productGrid.hide();
+        $paginationContainer.hide();
+    }
+
+    function showContent() {
+        $productGrid.show();
+        $paginationContainer.show();
+    }
+
+    function showContentWithFade() {
+        $productGrid.fadeIn(400);
+        $paginationContainer.fadeIn(400);
+    }
+
     // AJAX-запрос на фильтрацию
     function filterProducts(paged) {
         paged = paged || 1;
         var attributes = getSelectedAttributes();
-
-        showPreloader();
 
         $.ajax({
             type: 'POST',
@@ -97,19 +109,26 @@
                 paged: paged,
             },
             dataType: 'json',
+
+            beforeSend: function () {
+                hideContent();
+            },
+            complete: function() {},
             success: function(response) {
                 if (response.success) {
                     updateProducts(response.data.html, response.data.pagination);
+                    showContentWithFade();
+                 
                 } else {
                     console.error('Ошибка фильтрации:', response.data);
+                    showContent();
                 }
             },
             error: function(xhr, status, error) {
                 console.error('AJAX ошибка:', error);
+                showContent();
             },
-            complete: function() {
-                hidePreloader();
-            }
+         
         });
     }
 
@@ -137,23 +156,6 @@
                 $paginationContainer.empty();
             }
         }
-    }
-
-    // Показать прелоадер
-    function showPreloader() {
-        if (!$preloader.length) {
-            // Создаём прелоадер, если его нет
-            $preloader = $('<div class="preloaderFilter-js"></div>');
-            $productGrid.before($preloader);
-        }
-        $preloader.addClass('active');
-    }
-
-    // Скрыть прелоадер
-    function hidePreloader() {
-        setTimeout(function() {
-            $preloader.removeClass('active');
-        }, 300);
     }
 
     // Запуск при готовности DOM

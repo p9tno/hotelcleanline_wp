@@ -951,13 +951,15 @@ function the_category_attribute_filters($category_id, $category_slug = '') {
         $group = $attr_group['group'];
         $values = $attr_group['values'];
         ?>
-        <!-- begin category__unit-->
-        <div class="category__unit collapse" data-collapse-wrapper="">
-            <div class="category__title collapse__title" data-collapse=""><?php echo esc_html($group->name); ?></div>
-            <div class="category__body collapse__body" data-collapse-body="">
-                <ul class="category__list product_list_js">
+        <!-- begin atribut-unit -->
+        <div class="collapse atribut-unit user_select_none" data-collapse-wrapper="">
+            <div class="collapse__title open" data-collapse="">
+                <span><?php echo esc_html($group->name); ?></span>
+            </div>
+            <div class="collapse__body open" data-collapse-body="">
+                <ul class="category-list">
                     <!-- start sub_term -->
-                    <li class="category__item radio_js">
+                    <li>
                         <label>
                             <input
                                 type="radio"
@@ -973,7 +975,7 @@ function the_category_attribute_filters($category_id, $category_slug = '') {
                     <!-- end sub_term -->
                     <?php foreach ($values as $value) { ?>
                         <!-- start sub_term -->
-                        <li class="category__item radio_js">
+                        <li>
                             <label>
                                 <input
                                     type="radio"
@@ -990,7 +992,7 @@ function the_category_attribute_filters($category_id, $category_slug = '') {
                 </ul>
             </div>
         </div>
-        <!-- end category__unit-->
+        <!-- end atribut-unit -->
         <?php
     }
 }

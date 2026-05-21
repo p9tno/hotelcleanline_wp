@@ -1,32 +1,96 @@
 .collapse {
+    overflow: hidden;
+    border: 1px solid rgba($color_primary, 0.1);
+    background: $color_white;
+    box-shadow: 0 2px 4px -2px rgba($color_primary, 0.125);
+    border-radius: 0.625em;
+
+    font-size: 0.75em;
+    @media (min-width: 768px) {
+        font-size: 1em;
+      
+    }
+
     &__title {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
+        gap: 1em;
+        border-radius: 0.625em;
         line-height: 1;
+        cursor: pointer;
+        text-transform: uppercase;
+        padding: 1em 0.875em;
+        color: $color_white;
+        background-color: $color_warning;
 
         span {
-            cursor: pointer;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.875em;
         }
 
         &:after {
-            content: '\ea36';
-            font-family: 'icomoon';
+            display: inline-block;
+            transform: scale(1);
+            content: '\e911';
+            font-family: 'icon';
+            font-size: 0.75em;
             transition: 0.5s;
-            cursor: pointer;
+        }
+        
+        &.open {
+            background-color: $color_primary;
+            &:after {
+                transform: scale(-1);
+            }
         }
 
-        &.open {
-            &:after {
-                color: red;
+        @media (min-width: 768px) {
+            transition: 0.5s;
+            &:hover {
+                background-color: $color_primary;
             }
         }
     }
 
     &__body {
         display: none;
+        padding: 1em 0.875em;
+
         &.open {
             display: block;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+        }
+
+        li {}
+
+        label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            font-size: 1em;
+            min-width: 0;
+            max-width: 100%;
+            cursor: pointer;
+
+            span {
+                font-size: 1em;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
     }
 }

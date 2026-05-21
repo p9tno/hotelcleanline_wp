@@ -58,7 +58,7 @@ function ajax_filter_products_by_attributes() {
             get_template_part('template-parts/previews/preview', 'product');
         endwhile;
     else :
-        custom_info('Товаров с выбранными атрибутами не найдено');
+        custom_info('Товары не найдены');
     endif;
     $products_html = ob_get_clean();
 
