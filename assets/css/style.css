@@ -2315,6 +2315,7 @@ body {
   justify-content: space-between;
   gap: 0.625em;
   width: 100%;
+  min-width: 0;
   border-radius: 0.625em;
   background: #ffffff;
   box-shadow: rgba(159, 84, 52, 0.1) 0 2px 4px 0;
@@ -2918,6 +2919,29 @@ body {
   .filters__list {
     gap: 1em;
   }
+}
+
+.attributes {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125em;
+}
+.attributes .attribute {
+  display: flex;
+  gap: 0.5em;
+}
+.attributes .attribute span {
+  font-size: 0.875em;
+}
+.attributes .attribute__label {
+  width: 50%;
+}
+.attributes .attribute__value {
+  color: #9F5434;
+  font-weight: 500;
+  width: calc(50% - 0.5em);
 }
 
 .cart__form {

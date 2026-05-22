@@ -36,6 +36,7 @@
     gap: 0.625em;
 
     width: 100%;
+    min-width: 0;
     border-radius: 0.625em;
 
     background: $color_white;
@@ -722,6 +723,46 @@
         gap: 0.5em;
         @media (min-width: 768px) {
             gap: 1em;
+        }
+    }
+}
+
+.attributes {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125em;
+    
+    // width: 100%;           
+    // max-width: 100%;       
+    // overflow-x: hidden; 
+
+    .attribute {
+        display: flex;
+        gap: 0.5em;
+        // min-width: 0;       
+        // max-width: 100%;    
+        // overflow: hidden; 
+
+        span {
+            font-size: 0.875em;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            // white-space: nowrap;
+            // min-width: 0;   
+            // flex-shrink: 1;   
+            // min-width: 0;  
+        }
+        
+        &__label {
+            width: 50%;
+        }
+
+        &__value {
+            color: $color_primary;
+            font-weight: 500;
+            width: calc(50% - 0.5em);
         }
     }
 }
