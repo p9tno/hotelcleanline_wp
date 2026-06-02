@@ -50,48 +50,5 @@ $(document).ready(function() {
     } else {
         console.warn('Firstscreen container not found');
     }
-    
-    // 2. Media Swiper
-    let speed = 3000;
-    let delay = 8000;
-    
-    // 4. Banner Swiper
-    const bannerContainer = document.querySelector('.banner');
-    if (bannerContainer) {
-        initSwiper('.banner_swiper_js', {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            speed: speed,
-            loop: false,
-            autoplay: {
-                delay: delay,
-            },
-            effect: "creative",
-            creativeEffect: {
-                prev: {
-                    shadow: true,
-                    translate: [0, 0, -400],
-                },
-                next: {
-                    translate: ["100%", 0, 0],
-                },
-            },
-            navigation: {
-                nextEl: safeGetElement('.icon_arrow_right_sm', bannerContainer),
-                prevEl: safeGetElement('.icon_arrow_left_sm', bannerContainer),
-            },
-            pagination: {
-                el: safeGetElement('.swiper-pagination', bannerContainer),
-                clickable: true,
-            },
-            breakpoints: {
-                768: {
-                    simulateTouch: false,
-                },
-            }
-        });
-    } else {
-        console.warn('Banner container not found');
-    }
-    
+        
 });

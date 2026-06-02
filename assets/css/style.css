@@ -1724,69 +1724,6 @@ body {
   }
 }
 
-.banner__slide {
-  position: relative;
-  overflow: hidden;
-  border-radius: 0.625em;
-  height: 100%;
-  background: #f5f2ee;
-}
-.banner__slide .section__btns {
-  justify-content: flex-start;
-}
-.banner__img {
-  height: 12em;
-}
-@media (min-width: 768px) {
-  .banner__img {
-    flex: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 56%;
-    height: 100%;
-  }
-}
-.banner__content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 8em;
-  padding: 1em;
-}
-@media (min-width: 768px) {
-  .banner__content {
-    min-height: 25em;
-    padding: 2.5em 45em 2.5em 5em;
-  }
-}
-.banner__pagination {
-  width: auto !important;
-}
-.banner__title {
-  margin: 0;
-  line-height: 1.1;
-  font-family: "Oswald";
-  color: #9F5434;
-  font-weight: 200;
-  font-size: 1.25em;
-}
-@media (min-width: 768px) {
-  .banner__title {
-    font-size: 2em;
-  }
-}
-.banner__desc {
-  margin-top: 1em;
-  font-size: 0.875em;
-}
-@media (min-width: 768px) {
-  .banner__desc {
-    font-size: 1em;
-  }
-}
-
 .pageContent__thumbnail {
   position: relative;
   overflow: hidden;
