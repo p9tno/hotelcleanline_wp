@@ -55,36 +55,6 @@ $(document).ready(function() {
     let speed = 3000;
     let delay = 8000;
     
-    const mediaContainer = document.querySelector('.media');
-    if (mediaContainer) {
-        initSwiper('.media_swiper_js', {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            speed: speed,
-            loop: false,
-            autoplay: {
-                delay: delay,
-            },
-            navigation: {
-                nextEl: safeGetElement('.icon_arrow_right_sm', mediaContainer),
-                prevEl: '.icon_arrow_left_sm',
-            },
-            pagination: {
-                el: safeGetElement('.swiper-pagination', mediaContainer),
-                clickable: true,
-            },
-            breakpoints: {
-                768: {
-                    spaceBetween: 24,
-                    slidesPerView: 2,
-                    simulateTouch: false,
-                },
-            }
-        });
-    } else {
-        console.warn('Media container not found');
-    }
-      
     // 4. Banner Swiper
     const bannerContainer = document.querySelector('.banner');
     if (bannerContainer) {
