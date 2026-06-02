@@ -235,7 +235,7 @@ $transition: 0.5s;
 
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		// align-items: center;
 		justify-content: center;
 		gap: 3em;
 
@@ -254,136 +254,255 @@ $transition: 0.5s;
 	}
 }
 
-
-
-.menu {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	text-align: center;
-
-	@media (min-width: 768px) {
-		display: flex;
-		justify-content: center;
-		gap: 4.6875em;
-	}
-
-	&-item {
-		margin-top: 1em;
-		
-		&:first-child {
-			margin-top: 0;
-		}
-
+.header {
+	.menu {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	
 		@media (min-width: 768px) {
-		  margin-top: 0;
-		}
-
-
-		a {
 			position: relative;
-			text-decoration: none;
-			font-size: 1.5em;
-			color: $main_color;
+			display: flex;
+			gap: 2em;
+			align-items: center;
+		}
+	
+		&-item {
+			margin-top: 0.75em;
+			position: relative;
+	
+			&:first-child {
+				margin-top: 0;
+			}
 			
 			@media (min-width: 768px) {
-				font-size: 1em;
-			}
-
-			&:after {
-				content: '';
-				position: absolute;
-				display: inline-block;
-				width: 0%;
-				left: 0;
-				bottom: -0.125em;
-				border-bottom: 0.125em solid;
-				border-color: inherit;
-
-				@media (min-width: 768px) {
-					transition: width 0.5s;
-					left: 50%;
-					transform: translateX(-50%);
-				}
-			}
-		}
-
-		@media (min-width: 768px) {
-			&:hover {
-				a {
-					color: $color_primary;
-		
-					&:after {
-						width: 100%;
-					}
-	
-				}
-			}
-		  
-			&:first-child {
-				a {
-					&:after {
-						left: 0;
-						transform: none
-					}
-
-					&:hover {
-					  &:after {
-						width: 75%;
-					  }
-					}
-				}
+				margin-top: 0;
 			}
 	
-			&:last-child {
-				a {
-					&:after {
-						left: auto;
-						right: 0;
-						transform: none;
-					}
-
-					&:hover {
-					  &:after {
-						width: 75%;
-					  }
-					}
-	
-				}
-			}
-	
-		}
-
-		&.current-menu-item {
 			a {
-				color: $color_primary;
-				&:after {
-					width: 75%;
-					@media (min-width: 768px) {
-						width: 100%;
-					}
+				position: relative;
+				font-family: $main_font_family;
+				font-weight: 400;
+				font-size: 1.5em;
+				color: $main_color;
+				text-decoration: none;
+				
+				@media (min-width: 768px) {
+					font-size: 1em;
 				}
 			}
-		}
-		@media (min-width: 768px) {
-			&:first-child,
-			&:last-child {
-				&.current-menu-item {
-					a {
+	
+			&:hover {
+			  > a {
+				color: $color_primary;
+			  }
+			}
+	
+			// Пункты с подменю
+			&.menu-item-has-children {
+	
+				> a {
+					position: relative;
+					
+					@media (min-width: 768px) {
+						padding-right: 1.5em;
+						
 						&:after {
-							width: 75%;
+							font-family: 'icon';
+							content: '\e911';
+							display: block;
+							position: absolute;
+							right: 0.75em;
+							top: 50%;
+							transform: translateY(-50%) scale(1);
+							font-size: 0.625em;
+							transition: transform 0.3s ease;
+							color: $color_primary;
+						}
+					}
+				}
+	
+				@media (min-width: 768px) {
+					&:hover > a:after {
+						transform: translateY(-50%) scale(-1)
+					}
+	
+				}
+			}
+	
+		}
+	
+		// Подменю (второй уровень)
+		.sub-menu {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+	
+			@media (max-width: 767px) {
+				display: none;
+			}
+	
+			@media (min-width: 768px) {
+				position: absolute;
+				z-index: 10;
+				top: calc(100% + 0.5em);
+				left: 0;
+				background: $main_bg;
+				border-radius: 0.25em;
+				box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+				padding: 0.5em 0;
+				opacity: 0;
+				visibility: hidden;
+				transform: translateY(0.625em);
+				transition: all 0.3s ease;
+				display: block !important;
+	
+				&:before {
+				  content: '';
+				  display: block;
+				  position: absolute;
+				  bottom: 100%;
+				  left: 0;
+				  width: 100%;
+				  height: 0.5em;
+				}
+			}
+	
+			.menu-item {
+				margin: 0;
+	
+				a {
+					display: inline-block;
+					width: 100%;
+					font-size: 0.9375em;
+					padding: 0.25em 0.75em;
+					text-transform: none;
+					transition: all 0.3s ease;
+					white-space: nowrap;
+	
+					@media (max-width: 767px) {
+						color: inherit;
+						padding: 0.5em;
+						text-transform: none;
+					}
+				}
+	
+				// Пункты с подменю во втором уровне
+				&.menu-item-has-children {
+					position: relative;
+	
+					> a {
+						position: relative;
+	
+						@media (max-width: 767px) {
+							margin-right: 2.5em;
+						}
+	
+						@media (min-width: 768px) {
+							padding-right: 1.5em;
+	
+							&:after {
+								transform: translateY(-50%) rotate(0);
+							}
+							
+						}
+					}
+					
+					@media (min-width: 768px) {
+						&:hover {
+							a {
+								&:after {
+									transform: translateY(-50%) rotate(-90deg);
+								}
+							}
+						}
+					}
+	
+					// Подменю третьего уровня
+					.sub-menu {
+						@media (min-width: 768px) {
+							top: -0.5em;
+							left: 105%;
+							transform: translateX(0.625em);
+						}
+	
+						@media (max-width: 767px) {
+							.menu-item a {
+								padding-left: 1.5em;
+								font-size: 0.875em;
+							}
+						}
+					}
+	
+					.menu-toggle {
+						@media (max-width: 767px) {
+							top: 0.4em;
 						}
 					}
 				}
 			}
-		  
 		}
-
-
-		
+	
+		// Показ подменю на десктопе
+		@media (min-width: 768px) {
+			.menu-item-has-children:hover > .sub-menu {
+				opacity: 1;
+				visibility: visible;
+				transform: translateY(0);
+			}
+	
+			.sub-menu .menu-item-has-children:hover > .sub-menu {
+				opacity: 1;
+				visibility: visible;
+				transform: translateX(0);
+			}
+		}
+	
+		// Активный пункт меню
+		.current-menu-item {
+			> a {
+				color: $color_primary;
+			}
+		}
 	}
-
-
+	
+	// Мобильные стили
+	@media (max-width: 767px) {
+		.menu-item-has-children {
+			position: relative;
+	
+			> a {
+				margin-right: 3em;
+			}
+		}
+	
+		.menu-toggle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 0;
+			border: 0;
+	
+			position: absolute;
+			right: 0;
+			top: 0.125em;
+			z-index: 5;
+	
+			background: transparent;
+			color: $color_danger;
+			font-size: 1.5em;
+			width: 1.5em;
+			height: 1em;
+			transition: 0.3s ease;
+			line-height: 1;
+	
+		}
+	
+		// Показываем подменю когда активно
+		.sub-menu.menu-open {
+			display: block !important;
+		}
+	}
 }
 
 .nav-open {
