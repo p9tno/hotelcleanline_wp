@@ -84,38 +84,7 @@ $(document).ready(function() {
     } else {
         console.warn('Media container not found');
     }
-    
-    // 3. Partners Swiper
-    const partnersContainer = document.querySelector('.partners');
-    if (partnersContainer) {
-        initSwiper('.partners_swiper_js', {
-            slidesPerView: 1,
-            spaceBetween: 6,
-            speed: speed,
-            loop: false,
-            autoplay: {
-                delay: delay,
-            },
-            navigation: {
-                nextEl: safeGetElement('.icon_arrow_right_sm', partnersContainer),
-                prevEl: safeGetElement('.icon_arrow_left_sm', partnersContainer),
-            },
-            pagination: {
-                el: safeGetElement('.swiper-pagination', partnersContainer),
-                clickable: true,
-            },
-            breakpoints: {
-                768: {
-                    spaceBetween: 40,
-                    slidesPerView: 2,
-                    simulateTouch: false,
-                },
-            }
-        });
-    } else {
-        console.warn('Partners container not found');
-    }
-    
+      
     // 4. Banner Swiper
     const bannerContainer = document.querySelector('.banner');
     if (bannerContainer) {

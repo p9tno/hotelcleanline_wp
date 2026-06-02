@@ -73,7 +73,6 @@ if( $rows ) { ?>
 
 get_template_part( 'template-parts/sections/section', 'firstscreen' );
 get_template_part( 'template-parts/sections/section', 'topCategories' );
-get_template_part( 'template-parts/sections/section', 'partners' );
 get_template_part( 'template-parts/sections/section', 'homeProducts' );
 get_template_part( 'template-parts/sections/section', 'media' );
 get_template_part( 'template-parts/sections/section', 'hscroll' );
