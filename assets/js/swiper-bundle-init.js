@@ -94,45 +94,4 @@ $(document).ready(function() {
         console.warn('Banner container not found');
     }
     
-    // 5. Hscroll Swiper (без родительского контейнера)
-    const hscrollContainer = document.querySelector('.hscroll_swiper_js');
-    if (hscrollContainer) {
-        initSwiper('.hscroll_swiper_js', {
-            slidesPerView: 1,
-            spaceBetween: 6,
-            speed: 40000,
-            loop: true,
-            autoplay: {
-                delay: 0,
-                disableOnInteraction: false,
-                waitForTransition: false,
-            },
-            allowTouchMove: false,
-            simulateTouch: false,
-            watchSlidesProgress: true,
-            updateOnWindowResize: true,
-            observer: true,
-            observeParents: true,
-            breakpoints: {
-                768: {
-                    spaceBetween: 16,
-                    slidesPerView: 1,
-                },
-            },
-            on: {
-                init: function() {
-                    console.log('Hscroll Swiper initialized');
-                    this.autoplay.start();
-                },
-                transitionEnd: function() {
-                    // Перезапускаем автоплей после завершения перехода
-                    this.autoplay.stop();
-                    this.autoplay.start();
-                },
-            }
-        });
-    } else {
-        console.warn('Hscroll Swiper container not found');
-    }
-    
 });
