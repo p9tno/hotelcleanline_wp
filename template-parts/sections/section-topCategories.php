@@ -26,7 +26,9 @@ if (!empty($parent_categories) && !is_wp_error($parent_categories)) : ?>
                     ?>
                         <a class="topCategories__item" href="<?php echo esc_url(get_term_link($category)); ?>">
                             <div class="topCategories__img img"><?php echo $image_html; ?></div>
-                            <div class="topCategories__title"><?php echo esc_html($category->name); ?></div>
+                            <div class="topCategories__content glass_card">
+                                <div class="topCategories__title"><?php echo esc_html($category->name); ?></div>
+                            </div>
                             <?php // if ($category->count > 0) : ?>
                                 <!-- <div class="topCategories__count"><?php // echo $category->count; ?> товаров</div> -->
                             <?php // endif; ?>

@@ -7,17 +7,27 @@
     &__grid {
         @media (min-width: 768px) {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             grid-gap: 1.25em;
         }
     }
 
     &__item {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: $aspect-ratio;
+        border-radius: 0.625em;
+
         display: flex;
         flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
         gap: 1em;
         text-decoration: none;
         margin-top: 1em;
+        padding: 1em;
+        cursor: pointer;
+
         &:first-child {
             margin-top: 0;
         }
@@ -25,6 +35,7 @@
         @media (min-width: 768px) {
             margin-top: 0;
             gap: 1.25em;
+            padding: 2.5em;
             &:hover {
                 .topCategories__img {
                     img {
@@ -36,17 +47,24 @@
     }
 
     &__img {
-        overflow: hidden;
-        aspect-ratio: $aspect-ratio;
-        border-radius: 0.625em;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
 
         @media (min-width: 768px) {
             img {
               transform: scale(1);
               transition: 0.5s;
-
-          }
+            }
         }
+    }
+
+    &__content {
+        position: relative;
+        padding: 1.5em 1.25em;
+        border-radius: 0.625em;
     }
 
     &__title {
@@ -56,7 +74,7 @@
         text-align: center;
         
         @media (min-width: 768px) {
-            font-size: 1.5em;
+            font-size: 1.75em;
         }
     }
 
