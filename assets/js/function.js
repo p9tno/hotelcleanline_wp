@@ -76,9 +76,7 @@ window.onload = function () {
 }
 
 $(document).ready(function() {
-    console.log('ready');
-
-    initSectionNavigation();
+    // console.log('ready');
 
     window.addEventListener('resize', () => {
         // Запрещаем выполнение скриптов при смене только высоты вьюпорта (фикс для скролла в IOS и Android >=v.5)
@@ -91,9 +89,9 @@ $(document).ready(function() {
 
     function checkOnResize() {
         if (isLgWidth()) {
-            console.log('isLgWidth');
+            // console.log('isLgWidth');
         } else {
-            console.log('isLgWidth else');
+            // console.log('isLgWidth else');
         }
     }
 
@@ -364,35 +362,6 @@ $(document).ready(function() {
         }
     }
 
-
-
-
-    // --------------------------------------------------------------------
-    // Деление чисел на разряды Например из строки 10000 получаем 10 000
-    // Использование: thousandSeparator(1000) или используем переменную.
-    // function thousandSeparator(str) {
-    //     var parts = (str + '').split('.'),
-    //         main = parts[0],
-    //         len = main.length,
-    //         output = '',
-    //         i = len - 1;
-    //
-    //     while(i >= 0) {
-    //         output = main.charAt(i) + output;
-    //         if ((len - i) % 3 === 0 && i > 0) {
-    //             output = ' ' + output;
-    //         }
-    //         --i;
-    //     }
-    //
-    //     if (parts.length > 1) {
-    //         output += '.' + parts[1];
-    //     }
-    //     return output;
-    // };
-    //
-    // console.log(thousandSeparator(700));
-    // --------------------------------------------------------------------
-
+    initSectionNavigation();
 })
 
