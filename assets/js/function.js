@@ -77,6 +77,9 @@ window.onload = function () {
 
 $(document).ready(function() {
     console.log('ready');
+
+    initSectionNavigation();
+
     window.addEventListener('resize', () => {
         // Запрещаем выполнение скриптов при смене только высоты вьюпорта (фикс для скролла в IOS и Android >=v.5)
         if (app.resized == screen.width) { return; }
@@ -87,16 +90,6 @@ $(document).ready(function() {
     });
 
     function checkOnResize() {
-        if (isLgWidth()) {
-            console.log('isLgWidth');
-        } else {
-            console.log('isLgWidth else');
-        }
-        // или создаем функцию
-        // test();
-    }
-
-    function test() {
         if (isLgWidth()) {
             console.log('isLgWidth');
         } else {
@@ -157,41 +150,7 @@ $(document).ready(function() {
     };
     openMobileNav();
 
-
-    function showMore(classItem, btn, start = 1, show = 1) {
-        let item = $(''+ classItem +'');
-        let count = item.length;
-
-        item.addClass('d-none');
-        $('' + classItem + ':lt(' + start + ')').removeClass('d-none');
-
-        if (start >= count) {
-            $(`${btn}`).parent().remove();
-        }
-
-        $(btn).click(function(e) {
-            e.preventDefault();
-            $(this).addClass('loading');
-
-            let load = $(this).data('load');
-            let more = $(this).data('more');
-
-            start = (start + show <= count) ? start + show : count;
-
-            $(this).text(load);
-
-            setTimeout(() => {
-                $(''+ classItem +':lt(' + start + ')').removeClass('d-none');
-                if ($(''+ classItem +':not(.d-none)').length == count) {
-                    $(this).parent().remove();
-                }
-                $(this).removeClass('loading');
-                $(this).text(more);
-            }, 500);
-        });
-    }
-    // showMore('.vacancies__item', '.show_more_v_js');
-
+    // для фильтрации
     function collapsed() {
         let toggle = $('[data-collapse]');
 
@@ -220,23 +179,6 @@ $(document).ready(function() {
     }
     collapsed();
 
-    // https://www.demo2s.com/javascript/jquery-not-this.html
-    // .collapse
-    //     .collapse__title
-    //     .collapse__body
-    function collapsedActiveOne() {
-        $('.collapse__title').on('click', function() {
-            let body = $(this).parent().find('.collapse__body');
-            $('.collapse__body').not(body).slideUp();
-            $(body).slideToggle();
-
-            let toggle = $(this).parent().find('.collapse__title');
-            $('.collapse__title').not(toggle).removeClass('open');
-            $(toggle).toggleClass('open');
-        })
-    }
-    // collapsedActiveOne();
-
     function doTabs () {
         $('.init-tabs').each(function() {
             let ths = $(this);
@@ -248,88 +190,6 @@ $(document).ready(function() {
         });
     }
     doTabs();
-
-    // function doDrop() {
-    //     $('.drop__toggle').on('click', function() {
-    //         // $('.drop__list').toggleClass('open');
-    //         $(this).toggleClass('active');
-    //         $(this).closest('.drop').find('.drop__list').toggleClass('open');
-    //     });
-    // };
-    // doDrop();
-
-    // function initSelect2 () {
-    //     function addIcon(icon) {
-    //         if (!icon.id) {
-    //             return icon.text;
-    //         }
-    //         let $icon = $(
-    //             '<span><span></span><i></i></span>'
-    //         );
-    //         $icon.find("span").text(icon.text);
-    //         $icon.find("i").attr("class", "icon_" + icon.element.value.toLowerCase());
-    //         return $icon;
-    //     }
-
-    //     $('.select').select2({
-    //         placeholder: $(this).data('placeholder'),
-    //         minimumResultsForSearch: Infinity,
-    //         // templateSelection: addIcon,
-    //     });
-
-    //     // $('.select').on('change',function() {
-    //     //     let val = $(this).val();
-    //     //     let form = $(this).closest('.form');
-    //     //     let phone = form.find('.form__row_phone_js');
-    //     //     let mail = form.find('.form__row_email_js');
-
-    //     //     if ( val == 'mail'){
-    //     //         mail.removeClass('form__row_hide');
-    //     //         mail.find('input').prop('required',true);
-
-    //     //         phone.addClass('form__row_hide');
-    //     //         phone.find('input').prop('required',false);
-
-    //     //     } else {
-    //     //         mail.addClass('form__row_hide');
-    //     //         mail.find('input').prop('required',false);
-
-    //     //         phone.removeClass('form__row_hide');
-    //     //         phone.find('input').prop('required',true);
-    //     //     }
-    //     // })
-    // }
-    // initSelect2();
-
-    // $(function(){
-    //     $(".tel").mask("+7 ( 9 9 9 ) - 9 9 9 - 9 9 - 9 9");
-    // });
-
-    // function initTwentytwenty () {
-    //     $(".twentytwenty-container").twentytwenty({
-    //         default_offset_pct: 0.42, // сколько показывать 'изображение до' в процентах (максимально 1) сразу после загрузки страницы
-    //         orientation: 'horizontal', // ориентация слайдера ('horizontal' или 'vertical')
-    //         before_label: 'До', // подпись 'до'
-    //         after_label: 'После', // подпись 'после'
-    //         no_overlay: true, // не показывать затемнение с надписями 'до' и 'после'
-    //         move_slider_on_hover: false, // двигать "бегунок" слайдера вместе с курсором мыши
-    //         move_with_handle_only: true, // двигать слайдер только за его "бегунок"
-    //         click_to_move: false // разрешить перемещение "бегунка" слайдера по клику на изображении
-    //     });
-    // }
-    // // initTwentytwenty(); добавить пример и стили
-
-
-
-    function addDataFancybox() {
-        let item = $('.itemForDataFancybox_js');
-        let num = 0;
-        item.each(function(index, el) {
-            $(this).find('a').attr('data-fancybox', num);
-            num++;
-        });
-    }
-    addDataFancybox();
 
     function stikyMenu() {
         let firstSection = $('main section:first');
@@ -366,38 +226,6 @@ $(document).ready(function() {
         }
     }
     stikyMenu();
-
-
-
-    function uploadYoutubeVideoForModal() {
-        if ( $( ".youtubeModal_js" ) ) {
-
-            $( '.youtubeModal_js' ).on( 'click', function () {
-                $('#modalVideo').modal('show');
-
-                let wrapp = $( this ).closest( '.youtubeModal_js' );
-                let videoId = wrapp.attr( 'id' );
-                let iframe_url = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&autohide=1";
-
-                // доп параметры для видоса
-                // if ( $( this ).data( 'params' ) ) iframe_url += '&' + $( this ).data( 'params' );
-
-                // Высота и ширина iframe должны быть такими же, как и у родительского блока
-                let iframe = $( '<iframe/>', {
-                    'frameborder': '0',
-                    'src': iframe_url,
-                    'allow': "autoplay"
-                } )
-                $(".modalVideo__wraper").append(iframe);
-
-                $("#modalVideo").on('hide.bs.modal', function () {
-                    $(".modalVideo__wraper").html('');
-                });
-
-            } );
-        }
-    };
-    // uploadYoutubeVideoForModal();
 
     function initAOS() {
         // Добавляем анимацию к заголовкам
@@ -476,40 +304,67 @@ $(document).ready(function() {
 
             let top = $(id).offset().top;
             $('body,html').animate({scrollTop: top}, 1500);
-            // $('.hamburger').removeClass('hamburger_open');
-            // $('.header__nav').removeClass('header__nav_open');
-            // $( 'body' ).removeClass( 'nav-open' );
         });
     };
     scroolTo();
 
-    function hideNav() {
-        $(".header__nav").on('mouseenter', function() {
-            // console.log('mouse on');
-        });
-
-        $(".header__nav").on('mouseleave', function() {
-            // $('.hamburger').removeClass('hamburger_open');
-            // $('.header__nav').removeClass('header__nav_open');
-            // $( 'body' ).removeClass( 'nav-open' );
-        });
-    }
-    hideNav();
-
-
-    // Scroll to ID
-    function menuScroll(menuItem) {
-        menuItem.find('a[href^="#"]').click(function () {
-            var scroll_el = $(this).attr('href'),
-                time = 500;
-            if ($(scroll_el).length != 0) {
-                $('html, body').animate({ scrollTop: $(scroll_el).offset().top }, time);
-                $(this).addClass('active');
+    function initSectionNavigation() {
+        let isHomepage = window.location.pathname === '/';
+        let homepageUrl = window.location.origin + '/';
+        
+        $('.menu-scroll a').on('click', function(e) {
+            e.preventDefault();
+            
+            let href = $(this).attr('href');
+            let hashPart = href.split('#')[1];
+            
+            if (hashPart) {
+                if (isHomepage) {
+                    $('.navbar').removeClass('navbar_open');
+                    $('.header__toggle').removeClass('header__toggle_open');
+                    $( 'body' ).removeClass( 'nav-open' );
+                    smoothScroll('#' + hashPart);
+                } else {
+                    window.location.href = homepageUrl + '?section=' + hashPart;
+                }
             }
-            return false;
         });
+        
+        let sectionParam = new URLSearchParams(window.location.search).get('section');
+        if (sectionParam) {
+            let target = '#' + sectionParam;
+            console.log(target);
+            
+            if ($(target).length) {
+         
+                smoothScroll(target);
+                
+            } else {
+                $(window).on('load', function() {
+                    smoothScroll(target);
+                });
+            }
+            
+            if (window.history.replaceState) {
+                window.history.replaceState(null, '', window.location.pathname);
+            }
+        }
+        
+        function smoothScroll(target) {
+            let $target = $(target);
+            
+            if ($target.length) {
+                let headerHeight = $('header').outerHeight() || 0;
+                let targetPosition = $target.offset().top - headerHeight - 30;
+                
+                $('html, body').animate({
+                    scrollTop: targetPosition
+                }, 1500);
+            }
+        }
     }
-    // menuScroll($('.js-scroll-to'));
+
+
 
 
     // --------------------------------------------------------------------
