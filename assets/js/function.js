@@ -66,9 +66,9 @@ window.onload = function () {
 
                 setTimeout( () => {
                     p.remove()
-                },1000);
+                },300);
 
-            },1000);
+            },600);
         });
     }
     preloader();
