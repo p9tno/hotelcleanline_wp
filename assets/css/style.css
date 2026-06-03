@@ -2105,6 +2105,11 @@ body {
     grid-gap: 1.25em;
   }
 }
+@media (min-width: 768px) {
+  .product__grid_mini {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 .product__header {
   position: relative;
   border-top-left-radius: 0.625em;
@@ -2690,6 +2695,65 @@ body {
   color: #9F5434;
   font-weight: 500;
   width: calc(50% - 0.5em);
+}
+
+.productMini {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1.5;
+  border-radius: 0.625em;
+  padding: 0.5em;
+}
+@media (min-width: 768px) {
+  .productMini {
+    padding: 1em;
+  }
+  .productMini:hover .productMini__img img {
+    transform: scale(1.1);
+  }
+}
+.productMini__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+@media (min-width: 768px) {
+  .productMini__img img {
+    transform: scale(1);
+    transition: 0.5s;
+  }
+}
+.productMini__content {
+  position: relative;
+  padding: 0.5em;
+  border-radius: 0.625em;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+@media (min-width: 768px) {
+  .productMini__content {
+    padding: 1.25em;
+  }
+}
+.productMini__title {
+  font-size: 0.625em;
+  font-weight: 400;
+  color: #9F5434;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .productMini__title {
+    font-size: 1.125em;
+  }
 }
 
 .cart__form {
